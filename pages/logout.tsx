@@ -1,29 +1,31 @@
 import Portal from '../components/graphics/portal';
 import {usePrivy} from '@privy-io/privy-react';
 import Head from 'next/head';
+import {useEffect} from 'react';
+import {useRouter} from 'next/router';
 
 export default function LoginPage() {
-  const {login} = usePrivy();
+  const {logout} = usePrivy();
+  const router = useRouter();
+
+  useEffect(() => {
+    logout().then(() => {
+      router.push('/');
+    });
+  }, [logout]);
 
   return (
     <>
       <Head>
-        <title>Login · Privy</title>
+        <title>Logout · Privy</title>
       </Head>
 
       <main className="flex min-h-screen min-w-full">
         <div className="flex bg-privy-light-blue flex-1 p-6 justify-center items-center">
           <div>
-            <div>
+            <div className="flex justify-center flex-col text-center">
               <Portal style={{maxWidth: '100%', height: 'auto'}} />
-            </div>
-            <div className="mt-6 flex justify-center text-center">
-              <button
-                className="bg-violet-600 hover:bg-violet-700 py-3 px-6 text-white rounded-lg"
-                onClick={login}
-              >
-                Log in
-              </button>
+              <p>Logging out...</p>
             </div>
           </div>
         </div>

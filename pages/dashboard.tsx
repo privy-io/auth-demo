@@ -1,18 +1,17 @@
 import {useRouter} from 'next/router';
 import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/privy-react';
-import {LoginModal} from '@privy-io/privy-react';
 import Head from 'next/head';
 
 export default function LoginPage() {
   const router = useRouter();
-  const {initialized, authenticated, user, logout, linkEmail, linkWallet} = usePrivy();
+  const {ready, authenticated, user, logout, linkEmail, linkWallet} = usePrivy();
 
   useEffect(() => {
-    if (initialized && !authenticated) {
+    if (ready && !authenticated) {
       router.push('/');
     }
-  }, [initialized, authenticated]);
+  }, [ready, authenticated]);
 
   return (
     <>
@@ -64,7 +63,6 @@ export default function LoginPage() {
           rows={20}
           disabled
         />
-        <LoginModal />
       </main>
     </>
   );
