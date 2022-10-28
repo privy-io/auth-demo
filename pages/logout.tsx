@@ -12,7 +12,7 @@ export default function LoginPage() {
     logout().then(() => {
       router.push('/');
     });
-  }, [logout]);
+  }, [logout, router]);
 
   return (
     <>

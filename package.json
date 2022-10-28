@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "format": "npx prettier --write \"{__tests__,components,pages,styles}/**/*.{ts,tsx,js,jsx}\"",
-    "lint": "next lint && npx prettier --check \"{__tests__,components,pages,styles}/**/*.{ts,tsx,js,jsx}\""
+    "lint": "next lint && npx prettier --check \"{__tests__,components,pages,styles}/**/*.{ts,tsx,js,jsx}\" && npx tsc --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
@@ -20,6 +20,7 @@
     "react": "18.2.0"
   },
   "devDependencies": {
+    "@tsconfig/node16-strictest-esm": "^1.0.3",
     "@types/node": "^17.0.35",
     "@types/react": "18.0.9",
     "autoprefixer": "^10.4.7",

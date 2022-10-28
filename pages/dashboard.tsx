@@ -11,7 +11,7 @@ export default function LoginPage() {
     if (ready && !authenticated) {
       router.push('/');
     }
-  }, [ready, authenticated]);
+  }, [ready, authenticated, router]);
 
   return (
     <>
