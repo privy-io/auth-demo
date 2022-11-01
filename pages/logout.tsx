@@ -1,5 +1,5 @@
 import Portal from '../components/graphics/portal';
-import {usePrivy} from '@privy-io/privy-react';
+import {usePrivy} from '@privy-io/auth-react';
 import Head from 'next/head';
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
