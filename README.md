@@ -12,7 +12,7 @@ These are the specific points of integration:
   - an (optional) `onSuccess` callback that redirects the user to the dashboard page upon login. 
 
 ### `pages/index.tsx`
-- This landing page includes a `button` that invokes Privy Auth's `login` hook when clicked. This prompts the user to sign-in with a wallet or their email address. 
+- This landing page includes a button that invokes Privy Auth's `login` hook when clicked. This prompts the user to sign-in with a wallet or their email address. 
 
 ### `pages/dashboard.tsx`
 - If a user is not `authenticated`, we redirect them back to our landing page. Note that we first check if `ready` is true before taking any actions based off of the `authenticated` hook. This ensures we do not take any actions based off of outdated authentication state that will soon be updated.
