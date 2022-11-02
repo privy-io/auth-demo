@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import React, {useEffect} from 'react';
-import {usePrivy} from '@privy-io/auth-react';
+import {usePrivy} from '@privy-io/react-auth';
 import Head from 'next/head';
 
 export default function LoginPage() {

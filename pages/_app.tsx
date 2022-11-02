@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import type {AppProps} from 'next/app';
 import Head from 'next/head';
-import {PrivyProvider} from '@privy-io/auth-react';
+import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
 
 function MyApp({Component, pageProps}: AppProps) {
