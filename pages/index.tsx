@@ -1,5 +1,5 @@
 import Portal from '../components/graphics/portal';
-import {usePrivy} from '@privy-io/auth-react';
+import {usePrivy} from '@privy-io/react-auth';
 import Head from 'next/head';
 
 export default function LoginPage() {

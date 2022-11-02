@@ -1,5 +1,5 @@
 import React from 'react';
-import {usePrivy} from '@privy-io/auth-react';
+import {usePrivy} from '@privy-io/react-auth';
 import Navbar from './navbar';
 import type {NavbarItem} from './navbar';
 
