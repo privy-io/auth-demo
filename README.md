@@ -3,7 +3,7 @@
 This is a simple browser and mobile optimized demo of Privy Auth. 
 
 ## Useful Code Snippets
-Here, we outline the specific integration points with Privy Auth in this demo app.
+These are the specific points of integration:
 
 ### `pages/_app.tsx`
 - The `PrivyProvider` is our top-level component in the hierarchy.
