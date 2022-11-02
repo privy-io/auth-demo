@@ -25,8 +25,8 @@ These are the specific points of integration:
 
 ```sh
 # Clone repo
-git clone git@github.com:privy-io/privy-auth-demo.git
-cd privy-auth-demo
+git clone git@github.com:privy-io/auth-demo.git
+cd auth-demo
 
 # Create .env.local file from example, filling in your Privy App ID.
 cp .env.example.local .env.local
