@@ -5,13 +5,17 @@ import Head from 'next/head';
 
 export default function LoginPage() {
   const router = useRouter();
-  const {ready, authenticated, user, logout, linkEmail, linkWallet} = usePrivy();
+  const {ready, authenticated, user, logout, linkEmail, linkWallet, unlinkEmail, unlinkWallet} =
+    usePrivy();
 
   useEffect(() => {
     if (ready && !authenticated) {
       router.push('/');
     }
   }, [ready, authenticated, router]);
+
+  const email = user?.email;
+  const wallet = user?.wallet;
 
   return (
     <>
@@ -30,10 +34,15 @@ export default function LoginPage() {
           </button>
         </div>
         <div className="mt-12 flex gap-4">
-          {user?.email ? (
-            <span className="text-sm bg-gray-200 py-2 px-4 rounded-md text-gray-900">
-              Email linked
-            </span>
+          {email ? (
+            <button
+              onClick={() => {
+                unlinkEmail(email.address);
+              }}
+              className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
+            >
+              Unlink email
+            </button>
           ) : (
             <button
               onClick={linkEmail}
@@ -42,10 +51,15 @@ export default function LoginPage() {
               Connect email
             </button>
           )}
-          {user?.wallet ? (
-            <span className="text-sm bg-gray-200 py-2 px-4 rounded-md text-gray-900">
-              Wallet linked
-            </span>
+          {wallet ? (
+            <button
+              onClick={() => {
+                unlinkWallet(wallet.address);
+              }}
+              className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
+            >
+              Unlink wallet
+            </button>
           ) : (
             <button
               onClick={linkWallet}
