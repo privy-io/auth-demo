@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
 import Navbar from './navbar';
 import type {NavbarItem} from './navbar';
+import {useRouter} from 'next/router';
 
 type Props = {
   children?: React.ReactNode;
@@ -11,12 +12,15 @@ type Props = {
 };
 
 export default function Layout({children, accountId, appName, navbarItems}: Props) {
-  const {authenticated, user} = usePrivy();
-  console.log('usePrivy().authenticated:', authenticated);
-  console.log('usePrivy().user:', user);
-  if (authenticated == null) {
-    return <>Please visit /login (we should automate this...)</>;
-  }
+  const {ready, authenticated} = usePrivy();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (ready && !authenticated) {
+      router.push('/');
+    }
+  }, [ready, authenticated, router]);
+
   return (
     <>
       <Navbar accountId={accountId} appName={appName} items={navbarItems} />

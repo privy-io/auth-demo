@@ -20,12 +20,12 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Mini Demo · Privy</title>
+        <title>Privy Auth Demo</title>
       </Head>
 
       <main className="flex flex-col min-h-screen px-4 sm:px-20 py-10 bg-privy-light-blue">
         <div className="flex flex-row justify-between">
-          <h1 className="text-2xl font-semibold">Privy Console</h1>
+          <h1 className="text-2xl font-semibold">Privy Auth Demo</h1>
           <button
             onClick={logout}
             className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
