@@ -42,7 +42,7 @@ export default function LoginPage() {
   const twitterSubject = user?.twitter?.subject || null;
   const discordSubject = user?.discord?.subject || null;
 
-  if (ready || !authenticated) {
+  if (!ready || !authenticated) {
     return <Loading />
   }
   return (

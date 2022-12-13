@@ -13,7 +13,7 @@ export default function LoginPage() {
 
       <main className="flex min-h-screen min-w-full bg-privy-light-blue justify-center">
         <div className="flex flex-col flex-1 p-6 justify-center items-center max-w-3xl">
-	    <h1 className="text-6xl font-bold text-gray-800">Privy Auth</h1>
+	    <h1 className="text-5xl font-bold text-gray-800">Privy Auth</h1>
 	    <p className="text-xl text-gray-700 px-10 pt-4">Privy Auth is a developer library that allows you to easily integrate progressive, user centric authentication into your web application.</p>
 	    <p className="text-xl text-gray-700 px-10 pt-4">Try it out!</p>
             <div>
