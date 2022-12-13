@@ -54,7 +54,11 @@ export default function LoginPage() {
       <main className="flex flex-col min-h-screen px-4 sm:px-20 py-6 sm:py-10 bg-privy-light-blue">
           <>
             <div className="flex flex-row justify-between">
-              <h1 className="text-2xl font-semibold">Privy Auth Demo</h1>
+	      <div>
+              <h1 className="text-3xl font-semibold text-gray-800">Privy Auth Demo</h1>
+		<p>You are now authenticated with Privy! You can see which accounts are currently linked to your user on the right.</p>
+		<p>Let&rsquo;s dive into how this works.</p>
+	      </div>
               <button
                 onClick={logout}
                 className="text-sm bg-violet-200 hover:text-violet-900 py-2 px-4 rounded-md text-violet-700"

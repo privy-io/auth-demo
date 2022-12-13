@@ -1,4 +1,4 @@
-import Portal from '../components/graphics/portal';
+import Portal from '../components/portal';
 import {usePrivy} from '@privy-io/react-auth';
 import Head from 'next/head';
 
