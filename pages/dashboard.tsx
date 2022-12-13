@@ -2,6 +2,7 @@ import {useRouter} from 'next/router';
 import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
 import Head from 'next/head';
+import Loading from '../components/loading';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,6 +42,9 @@ export default function LoginPage() {
   const twitterSubject = user?.twitter?.subject || null;
   const discordSubject = user?.discord?.subject || null;
 
+  if (ready || !authenticated) {
+    return <Loading />
+  }
   return (
     <>
       <Head>
@@ -48,7 +52,6 @@ export default function LoginPage() {
       </Head>
 
       <main className="flex flex-col min-h-screen px-4 sm:px-20 py-6 sm:py-10 bg-privy-light-blue">
-        {ready && authenticated ? (
           <>
             <div className="flex flex-row justify-between">
               <h1 className="text-2xl font-semibold">Privy Auth Demo</h1>
@@ -187,7 +190,6 @@ export default function LoginPage() {
               disabled
             />
           </>
-        ) : null}
       </main>
     </>
   );
