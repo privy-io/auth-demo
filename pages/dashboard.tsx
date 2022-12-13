@@ -3,6 +3,7 @@ import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
+import UserBox from '../components/user-box';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function LoginPage() {
   const twitterSubject = user?.twitter?.subject || null;
   const discordSubject = user?.discord?.subject || null;
 
-  if (!ready || !authenticated) {
+  if (!ready || !authenticated || !user) {
     return <Loading />
   }
   return (
@@ -66,6 +67,7 @@ export default function LoginPage() {
                 Logout
               </button>
             </div>
+	    <UserBox user={user} />
             <div className="mt-12 flex gap-4 flex-wrap">
               {googleSubject ? (
                 <button
