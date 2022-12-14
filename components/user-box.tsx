@@ -1,3 +1,4 @@
+import Image from 'next/image';
 const SUPPORTED_WALLET_TYPES = ['metamask', 'coinbase_wallet', 'wallet_connect'] as const;
 type WalletType = typeof SUPPORTED_WALLET_TYPES[number];
 
@@ -132,14 +133,17 @@ export type UserBoxProps = {
 };
 export default function UserBox({user}: UserBoxProps) {
   return (
-    <div className="p-2 rounded bg-gray-100">
-      <p>Current user:</p>
-      {user.wallet && <p>✅ has a wallet</p>}
-      {user.phone && <p>✅ has a phone</p>}
-      {user.email && <p>✅ has an email</p>}
-      {user.google && <p>✅ has linked google</p>}
-      {user.twitter && <p>✅ has linked twitter</p>}
-      {user.discord && <p>✅ has linked discord</p>}
+    <div className="flex gap-2">
+      <Image src="/arrow_right.png" width="201px" height="193px" alt="arrow right" />
+      <div className="p-2 rounded bg-gray-100 min-w-[300px]">
+        <p>Current authenticated user:</p>
+        {user.wallet && <p>✅ has a wallet</p>}
+        {user.phone && <p>✅ has a phone</p>}
+        {user.email && <p>✅ has an email</p>}
+        {user.google && <p>✅ has linked google</p>}
+        {user.twitter && <p>✅ has linked twitter</p>}
+        {user.discord && <p>✅ has linked discord</p>}
+      </div>
     </div>
   );
 }

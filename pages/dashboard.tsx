@@ -4,6 +4,14 @@ import {usePrivy} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
 import UserBox from '../components/user-box';
+import AuthLinker from '../components/auth-linker';
+
+const formatWallet = (address: string | undefined): string => {
+  if (!address) {
+    return '';
+  }
+  return address.slice(0, 7);
+};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,10 +67,13 @@ export default function LoginPage() {
             <div>
               <h1 className="text-3xl font-semibold text-gray-800">Privy Auth Demo</h1>
               <p>
-                You are now authenticated with Privy! You can see which accounts are currently
-                linked to your user on the right.
+                You are now authenticated with Privy! You can see the user object, and its linked
+                accounts, on the right.
               </p>
-              <p>Let&rsquo;s dive into how this works.</p>
+              <p>
+                Try linking and unlinking accounts below, and watch the user object dynamically
+                change.
+              </p>
             </div>
             <UserBox user={user} />
             <button
@@ -76,122 +87,91 @@ export default function LoginPage() {
 
         <div id="columns" className="grid grid-cols-2 mt-60 p-10">
           <div className="p-4 bg-gray-800 flex flex-col gap-4 flex-wrap bg-gray-100 items-center">
-            {googleSubject ? (
-              <button
-                onClick={() => {
-                  unlinkGoogle(googleSubject);
-                }}
-                className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                disabled={!canRemoveAccount}
-              >
-                Unlink Google
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  linkGoogle();
-                }}
-                className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-              >
-                Link Google
-              </button>
-            )}
+            <AuthLinker
+              unlinkedText="Collect their email to send them personalized notifications!"
+              linkedText={`This user has a valid email linked: ${email?.address}!`}
+              canRemove={canRemoveAccount}
+              isLink={!!email}
+              linkCta="Link an email"
+              unlinkCta={`Unlink ${email?.address}`}
+              unlinkAction={() => {
+                unlinkEmail(email?.address as string);
+              }}
+              linkAction={linkEmail}
+            />
 
-            {twitterSubject ? (
-              <button
-                onClick={() => {
-                  unlinkTwitter(twitterSubject);
-                }}
-                className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                disabled={!canRemoveAccount}
-              >
-                Unlink Twitter
-              </button>
-            ) : (
-              <button
-                className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                onClick={() => {
-                  linkTwitter();
-                }}
-              >
-                Link Twitter
-              </button>
-            )}
+            <AuthLinker
+              unlinkedText="Link their wallet to get their ENS, NFTs for profile pictures or any other web3 awesomeness!"
+              linkedText={`This user has a valid email linked: ${formatWallet(wallet?.address)}!`}
+              canRemove={canRemoveAccount}
+              isLink={!!wallet}
+              linkCta="Link a wallet"
+              unlinkCta={`Unlink ${formatWallet(wallet?.address)}`}
+              unlinkAction={() => {
+                unlinkWallet(wallet?.address as string);
+              }}
+              linkAction={linkWallet}
+            />
 
-            {discordSubject ? (
-              <button
-                onClick={() => {
-                  unlinkDiscord(discordSubject);
-                }}
-                className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                disabled={!canRemoveAccount}
-              >
-                Unlink Discord
-              </button>
-            ) : (
-              <button
-                className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                onClick={() => {
-                  linkDiscord();
-                }}
-              >
-                Link Discord
-              </button>
-            )}
+            <AuthLinker
+              unlinkedText="Link their phone to communicate with them via SMS and be a mobile first!"
+              linkedText={`This user has a valid phone linked: ${phone?.number}!`}
+              canRemove={canRemoveAccount}
+              isLink={!!phone}
+              linkCta="Link a phone"
+              unlinkCta={`Unlink ${phone?.number}`}
+              unlinkAction={() => {
+                unlinkPhone(phone?.number as string);
+              }}
+              linkAction={linkPhone}
+            />
+            <AuthLinker
+              unlinkedText="Wanna link google, guy?"
+              linkedText="Wow google is so fucking linked"
+              canRemove={canRemoveAccount}
+              isLink={!!googleSubject}
+              linkCta="Link google"
+              unlinkCta="Unlink google"
+              unlinkAction={() => {
+                unlinkGoogle(googleSubject as string);
+              }}
+              linkAction={() => {
+                linkGoogle();
+              }}
+            />
+            <AuthLinker
+              unlinkedText="Link their twitter to engage your community and encourage user follows"
+              linkedText="This user has linked their twitter account!"
+              canRemove={canRemoveAccount}
+              isLink={!!twitterSubject}
+              linkCta="Link twitter"
+              unlinkCta="Unlink twitter"
+              unlinkAction={() => {
+                unlinkTwitter(twitterSubject as string);
+              }}
+              linkAction={() => {
+                linkTwitter();
+              }}
+            />
+            <AuthLinker
+              unlinkedText="Collect their discord handle for group management"
+              linkedText="This user has linked their discord account!"
+              canRemove={canRemoveAccount}
+              isLink={!!discordSubject}
+              linkCta="Link Discord"
+              unlinkCta="Unlink Discord"
+              unlinkAction={() => {
+                unlinkDiscord(discordSubject as string);
+              }}
+              linkAction={() => {
+                linkDiscord();
+              }}
+            />
 
-            {email ? (
-              <button
-                onClick={() => {
-                  unlinkEmail(email.address);
-                }}
-                className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                disabled={!canRemoveAccount}
-              >
-                Unlink email
-              </button>
-            ) : (
-              <button
-                onClick={linkEmail}
-                className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-              >
-                Connect email
-              </button>
-            )}
-            {wallet ? (
-              <button
-                onClick={() => {
-                  unlinkWallet(wallet.address);
-                }}
-                className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                disabled={!canRemoveAccount}
-              >
-                Unlink wallet
-              </button>
-            ) : (
-              <button
-                onClick={linkWallet}
-                className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white border-none"
-              >
-                Connect wallet
-              </button>
-            )}
-            {phone ? (
-              <button
-                onClick={() => {
-                  unlinkPhone(phone.number);
-                }}
-                className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                disabled={!canRemoveAccount}
-              >
-                Unlink phone
-              </button>
-            ) : (
-              <button
-                onClick={linkPhone}
-                className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white border-none"
-              >
-                Connect phone
-              </button>
+            {canRemoveAccount ? null : (
+              <p className="text-gray-100 text-sm">
+                Note that if the user only has one account, you cannot unlink it.
+              </p>
             )}
           </div>
 
