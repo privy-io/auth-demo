@@ -19,6 +19,11 @@ module.exports = {
         sans: ['Adelle Sans', ...defaultTheme.fontFamily.sans],
       },
       colors: {
+        privurple: '#696FFD',
+        privurpleaccent: '#7075D2',
+        coral: '#FF8271',
+        lightgray: '#D1D5DB',
+        coralaccent: '#FB6956',
         'privy-navy': '#160B45',
         'privy-light-blue': '#EFF1FD',
         'privy-blueish': '#D4D9FC',

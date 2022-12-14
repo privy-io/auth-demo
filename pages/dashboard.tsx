@@ -66,31 +66,36 @@ export default function LoginPage() {
         <div id="header" className="min-w-full">
           <div className="flex flex-row justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-semibold text-slate-800">You&rsquo;re logged in!</h1>
+              <h1 className="text-3xl font-semibold text-privurple">You&rsquo;re logged in!</h1>
               <p className="max-w-4xl mt-2">
                 With just a few lines of code, you can easily prompt your users to link different
-                accounts, and safely take on credentials. If you want to get into specifics, check
-                out our{' '}
-                <a
-                  className="hover:cursor-pointer underline"
-                  href="https://docs.privy.io"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  our docs
-                </a>
-                .
+                accounts, and safely take on credentials.
                 <br />
                 The best part? You can customize Privy to match your brand (check out our{' '}
                 <Link href="/gallery">
-                  <span className="underline hover:cursor-pointer">gallery</span>
+                  <span className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer">
+                    gallery
+                  </span>
                 </Link>
                 ). Ready to get started?
               </p>
             </div>
-            <p className="underline hover:cursor-pointer" onClick={logout}>
-              Logout
-            </p>
+            <div className="flex gap-3 justify-center">
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
+                  Docs
+                </a>
+              </p>
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <Link href="/gallery">Gallery</Link>
+              </p>
+              <p
+                className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent"
+                onClick={logout}
+              >
+                Logout
+              </p>
+            </div>
           </div>
         </div>
 
@@ -212,7 +217,7 @@ export default function LoginPage() {
             <div className="grow mt-4">
               <textarea
                 value={JSON.stringify(user, null, 2)}
-                className="min-w-full min-h-full bg-white text-slate-700 font-mono text-xs sm:text-sm rounded-xl border-2 border-slate-800"
+                className="min-w-full min-h-full bg-white text-slate-700 font-mono text-xs sm:text-sm rounded-xl border-2 border-lightgray"
                 rows={20}
                 disabled
               />

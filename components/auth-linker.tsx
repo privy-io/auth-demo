@@ -20,14 +20,14 @@ export default function AuthLinker({
   unlinkAction,
 }: AuthLinkerProps) {
   return (
-    <div className="flex justify-between items-center p-4 min-w-full rounded-xl bg-white border-2 border-slate-800 gap-2">
+    <div className="flex justify-between items-center p-4 min-w-full rounded-xl bg-white border-2 border-lightgray gap-2">
       <p>{isLink ? linkedText : unlinkedText}</p>
       {isLink ? (
         <button
           onClick={() => {
             unlinkAction();
           }}
-          className="min-w-[150px] max-w-[150px] text-sm border border-slate-700 hover:border-black py-2 px-4 rounded-md text-slate-700 hover:text-black disabled:border-slate-500 disabled:text-slate-500 hover:disabled:text-slate-500"
+          className="min-w-[150px] max-w-[150px] text-sm border border-coral hover:border-coralaccent py-2 px-4 rounded-md text-coral hover:text-coralaccent disabled:border-slate-500 disabled:text-slate-500 hover:disabled:text-slate-500"
           disabled={!canRemove}
         >
           {unlinkCta}
@@ -37,7 +37,7 @@ export default function AuthLinker({
           onClick={() => {
             linkAction();
           }}
-          className="min-w-[150px] max-w-[150px] text-sm bg-slate-800 hover:bg-slate-900 py-2 px-4 rounded-md text-white"
+          className="min-w-[150px] max-w-[150px] text-sm bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
         >
           {linkCta}
         </button>
