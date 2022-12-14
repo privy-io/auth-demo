@@ -15,10 +15,12 @@ export default function LoginPage() {
         <div className="flex flex-col flex-1 p-6 justify-center items-center max-w-3xl">
           <h1 className="text-5xl font-bold text-slate-800">Privy Auth</h1>
           <p className="text-xl text-slate-700 px-10 pt-4">
-            Privy Auth is a developer library that allows you to easily integrate progressive, user
-            centric authentication into your web application.
+            Privy is a developer library for progressive authentication in web3.
+            <br />
+            <br />
+            Onboard your users in seconds, regardless of whether they have a wallet, across mobile
+            and desktop. Try it out below!
           </p>
-          <p className="text-xl text-slate-700 px-10 pt-4">Try it out!</p>
           <div>
             <Portal style={{maxWidth: '100%', height: 'auto'}} />
           </div>
