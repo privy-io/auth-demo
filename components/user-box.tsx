@@ -128,14 +128,18 @@ interface User {
 }
 
 export type UserBoxProps = {
-  user: User
-}
+  user: User;
+};
 export default function UserBox({user}: UserBoxProps) {
   return (
-    <div>
-      <p>This is a user box</p>
-      {user.wallet && (<p> we have a wallet</p>)}
-      {user.phone && (<p> we have a phone</p>)}
+    <div className="p-2 rounded bg-gray-100">
+      <p>Current user:</p>
+      {user.wallet && <p>✅ has a wallet</p>}
+      {user.phone && <p>✅ has a phone</p>}
+      {user.email && <p>✅ has an email</p>}
+      {user.google && <p>✅ has linked google</p>}
+      {user.twitter && <p>✅ has linked twitter</p>}
+      {user.discord && <p>✅ has linked discord</p>}
     </div>
   );
 }
