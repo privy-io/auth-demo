@@ -65,7 +65,7 @@ export default function LoginPage() {
         <div id="header" className="min-w-full">
           <div className="flex flex-row justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-semibold text-gray-800">Privy Auth Demo</h1>
+              <h1 className="text-3xl font-semibold text-slate-800">Privy Auth Demo</h1>
               <p className="mt-2 max-w-2xl">
                 You are now authenticated with Privy! You can see the user object, and its linked
                 accounts, to the right.
@@ -94,10 +94,10 @@ export default function LoginPage() {
 
         <div id="columns" className="grid grid-cols-2 mt-24 gap-14">
           <div>
-            <h2 className="font-bold uppercase text-lg text-gray-600">
+            <h2 className="font-bold uppercase text-lg text-slate-700">
               Progressive account linking
             </h2>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-slate-600">
               We build opinionated tooling so you can build delightful products. You decide when to
               engage users, we take care of the how. Try it out!
             </p>
@@ -187,15 +187,15 @@ export default function LoginPage() {
             </div>
 
             {canRemoveAccount ? null : (
-              <p className="text-gray-100 text-sm">
+              <p className="text-slate-400 text-sm mt-4 px-1">
                 Note that if the user only has one account, you cannot unlink it.
               </p>
             )}
           </div>
 
           <div className="flex flex-col grow">
-            <h2 className="font-bold uppercase text-lg text-gray-600">User object</h2>
-            <p className="text-sm text-gray-600">
+            <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
+            <p className="text-sm text-slate-600">
               This is the JSON object you receive when using the Privy Auth library. Watch as it
               dynamically populates as you link accounts on the left. Learn more in{' '}
               <a
@@ -211,7 +211,7 @@ export default function LoginPage() {
             <div className="grow mt-4">
               <textarea
                 value={JSON.stringify(user, null, 2)}
-                className="min-w-full min-h-full bg-white text-slate-700 font-mono text-xs sm:text-sm rounded-xl border-2 border-gray-800"
+                className="min-w-full min-h-full bg-white text-slate-700 font-mono text-xs sm:text-sm rounded-xl border-2 border-slate-800"
                 rows={20}
                 disabled
               />
@@ -220,7 +220,7 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-40">
-          <h1 className="text-3xl font-semibold text-gray-800">Gallery</h1>
+          <h1 className="text-3xl font-semibold text-slate-800">Gallery</h1>
           <div className="mt-6 flex gap-10">
             <p className="mt-4">
               You can customize the Privy Modal to fit your websites design and logo, making users

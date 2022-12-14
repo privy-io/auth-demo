@@ -6,7 +6,7 @@ export default function Loading() {
       <div className="animate-wiggle">
         <BlobbyIcon size={42} />
       </div>
-      <p className="text-gray-900">Loading...</p>
+      <p className="text-slate-900">Loading...</p>
     </div>
   );
 }
