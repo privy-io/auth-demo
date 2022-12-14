@@ -77,27 +77,18 @@ export default function LoginPage() {
                 column.
               </p>
             </div>
-            <UserBox user={user} />
             <p className="underline hover:cursor-pointer" onClick={logout}>
               Logout
             </p>
           </div>
         </div>
-        <div className="px-36 py-2">
-          <Image
-            src="/bunch_of_blobbies.png"
-            width="400px"
-            height="57px"
-            alt="a bunch of lovely blobbies"
-          />
-        </div>
 
-        <div id="columns" className="grid grid-cols-2 mt-24 gap-14">
+        <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
           <div>
             <h2 className="font-bold uppercase text-lg text-slate-700">
               Progressive account linking
             </h2>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-600 min-h-[70px]">
               We build opinionated tooling so you can build delightful products. You decide when to
               engage users, we take care of the how. Try it out!
             </p>
@@ -108,7 +99,7 @@ export default function LoginPage() {
                 canRemove={canRemoveAccount}
                 isLink={!!email}
                 linkCta="Link an email"
-                unlinkCta={`Unlink ${email?.address}`}
+                unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkEmail(email?.address as string);
                 }}
@@ -123,7 +114,7 @@ export default function LoginPage() {
                 canRemove={canRemoveAccount}
                 isLink={!!wallet}
                 linkCta="Link a wallet"
-                unlinkCta={`Unlink ${formatWallet(wallet?.address)}`}
+                unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkWallet(wallet?.address as string);
                 }}
@@ -136,7 +127,7 @@ export default function LoginPage() {
                 canRemove={canRemoveAccount}
                 isLink={!!phone}
                 linkCta="Link a phone"
-                unlinkCta={`Unlink ${phone?.number}`}
+                unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkPhone(phone?.number as string);
                 }}
@@ -148,7 +139,7 @@ export default function LoginPage() {
                 canRemove={canRemoveAccount}
                 isLink={!!googleSubject}
                 linkCta="Link google"
-                unlinkCta={`Unlink ${user?.google?.email}`}
+                unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkGoogle(googleSubject as string);
                 }}
@@ -162,7 +153,7 @@ export default function LoginPage() {
                 canRemove={canRemoveAccount}
                 isLink={!!twitterSubject}
                 linkCta="Link twitter"
-                unlinkCta={`Unlink ${user?.twitter?.username}'s twitter`}
+                unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkTwitter(twitterSubject as string);
                 }}
@@ -176,7 +167,7 @@ export default function LoginPage() {
                 canRemove={canRemoveAccount}
                 isLink={!!discordSubject}
                 linkCta="Link Discord"
-                unlinkCta={`Unlink ${user?.discord?.username}'s discord`}
+                unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkDiscord(discordSubject as string);
                 }}
@@ -195,7 +186,7 @@ export default function LoginPage() {
 
           <div className="flex flex-col grow">
             <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-600 min-h-[70px]">
               This is the JSON object you receive when using the Privy Auth library. Watch as it
               dynamically populates as you link accounts on the left. Learn more in{' '}
               <a
@@ -216,6 +207,14 @@ export default function LoginPage() {
                 disabled
               />
             </div>
+          </div>
+          <div className="flex flex-col items-center justify-start grow">
+            <h2 className="font-bold uppercase text-lg text-slate-700">
+              Current authenticated user
+            </h2>
+            <div className="min-h-[70px] mb-4"></div>
+            <UserBox user={user} />
+            <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
           </div>
         </div>
 

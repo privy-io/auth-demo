@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import BlobbyIcon from './blobby-icon';
+import BlobbyIconFull from './blobby-icon-full';
 
 const SUPPORTED_WALLET_TYPES = ['metamask', 'coinbase_wallet', 'wallet_connect'] as const;
 type WalletType = typeof SUPPORTED_WALLET_TYPES[number];
@@ -136,43 +136,71 @@ export type UserBoxProps = {
 export default function UserBox({user}: UserBoxProps) {
   return (
     <div className="flex gap-2">
-      <Image src="/arrow_right.png" width="201px" height="193px" alt="arrow right" />
-      <div className="p-2 rounded-xl bg-white min-w-[250px] border-2 border-slate-800">
-        <p className="pb-4">Current authenticated user</p>
-        {user.wallet && (
+      <div className="p-2 rounded-xl bg-white min-w-[250px] border-2 border-slate-800 animate-bounce-short">
+        {user.wallet ? (
           <div className="flex gap-2">
-            <BlobbyIcon size={20} />
+            <BlobbyIconFull size={20} />
             <p>has a wallet</p>
           </div>
-        )}
-        {user.phone && (
-          <div className="flex gap-2">
+        ) : (
+          <div className="flex gap-2 opacity-30">
             <BlobbyIcon size={20} />
+            <p>hasn&rsquo;t linked a wallet</p>
+          </div>
+        )}
+        {user.phone ? (
+          <div className="flex gap-2">
+            <BlobbyIconFull size={20} />
             <p>has a phone</p>
           </div>
-        )}
-        {user.email && (
-          <div className="flex gap-2">
+        ) : (
+          <div className="flex gap-2 opacity-30">
             <BlobbyIcon size={20} />
+            <p>hasn&rsquo;t linked a phone</p>
+          </div>
+        )}
+        {user.email ? (
+          <div className="flex gap-2">
+            <BlobbyIconFull size={20} />
             <p>has a email</p>
           </div>
-        )}
-        {user.google && (
-          <div className="flex gap-2">
+        ) : (
+          <div className="flex gap-2 opacity-30">
             <BlobbyIcon size={20} />
+            <p>hasn&rsquo;t linked an email</p>
+          </div>
+        )}
+        {user.google ? (
+          <div className="flex gap-2">
+            <BlobbyIconFull size={20} />
             <p>has linked google</p>
           </div>
-        )}
-        {user.twitter && (
-          <div className="flex gap-2">
+        ) : (
+          <div className="flex gap-2 opacity-30">
             <BlobbyIcon size={20} />
-            <p>has linked twitter</p>
+            <p>hasn&rsquo;t linked google</p>
           </div>
         )}
-        {user.discord && (
+        {user.twitter ? (
           <div className="flex gap-2">
+            <BlobbyIconFull size={20} />
+            <p>has linked twitter</p>
+          </div>
+        ) : (
+          <div className="flex gap-2 opacity-30">
             <BlobbyIcon size={20} />
+            <p>hasn&rsquo;t linked twitter</p>
+          </div>
+        )}
+        {user.discord ? (
+          <div className="flex gap-2">
+            <BlobbyIconFull size={20} />
             <p>has linked discord</p>
+          </div>
+        ) : (
+          <div className="flex gap-2 opacity-30">
+            <BlobbyIcon size={20} />
+            <p>hasn&rsquo;t linked discord</p>
           </div>
         )}
       </div>
