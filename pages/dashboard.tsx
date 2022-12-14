@@ -103,7 +103,7 @@ export default function LoginPage() {
             </p>
             <div className="flex flex-col gap-4 mt-4">
               <AuthLinker
-                unlinkedText="Collect their email to send them personalized notifications!"
+                unlinkedText="Collect their email to send them personalized notifications, and creating an engaging experience."
                 linkedText={`This user has a valid email linked. You can now communicate with them in a personalized way!`}
                 canRemove={canRemoveAccount}
                 isLink={!!email}
@@ -131,7 +131,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Link their phone to communicate with them via SMS for a mobile first experience!"
+                unlinkedText="Link their phone to communicate with them via SMS for a mobile first experience."
                 linkedText={`This user has a valid phone linked: ${phone?.number}!`}
                 canRemove={canRemoveAccount}
                 isLink={!!phone}
@@ -144,11 +144,11 @@ export default function LoginPage() {
               />
               <AuthLinker
                 unlinkedText="How about linking google OAuth and getting their name?"
-                linkedText={`Google auth is linked, and we now know your name: ${user?.google?.name}`}
+                linkedText={`Google auth is linked, and we can now personalize communications with you, ${user?.google?.name}.`}
                 canRemove={canRemoveAccount}
                 isLink={!!googleSubject}
                 linkCta="Link google"
-                unlinkCta="Unlink google"
+                unlinkCta={`Unlink ${user?.google?.email}`}
                 unlinkAction={() => {
                   unlinkGoogle(googleSubject as string);
                 }}
@@ -157,7 +157,7 @@ export default function LoginPage() {
                 }}
               />
               <AuthLinker
-                unlinkedText="Link their twitter to engage your community and encourage user follows"
+                unlinkedText="Link their twitter to engage your community and encourage user follows."
                 linkedText="This user has linked their twitter account!"
                 canRemove={canRemoveAccount}
                 isLink={!!twitterSubject}
@@ -236,9 +236,19 @@ export default function LoginPage() {
             />
           </div>
           <div className="flex justify-evenly gap-10 mt-10">
-            <Image src="/example1.png" height="630px" width="372px" alt="Decent.xyz example" />
-            <Image src="/example2.png" height="633px" width="373px" alt="Lightouse.world example" />
-            <Image src="/example3.png" height="647px" width="399px" alt="Privy console example" />
+            <Image src="/decent.png" height="620px" width="360px" alt="Decent.xyz example" />
+            <Image
+              src="/lighthouse.png"
+              height="619px"
+              width="359px"
+              alt="Lightouse.world example"
+            />
+            <Image
+              src="/privy-example.png"
+              height="620px"
+              width="360px"
+              alt="Privy console example"
+            />
           </div>
         </div>
       </main>
