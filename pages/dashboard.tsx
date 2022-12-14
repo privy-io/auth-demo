@@ -66,13 +66,15 @@ export default function LoginPage() {
           <div className="flex flex-row justify-between gap-4">
             <div>
               <h1 className="text-3xl font-semibold text-gray-800">Privy Auth Demo</h1>
-              <p className="mt-6">
+              <p className="mt-6 max-w-2xl">
                 You are now authenticated with Privy! You can see the user object, and its linked
-                accounts, on the right.
+                accounts, to the right.
               </p>
-              <p>
-                Try linking and unlinking accounts on the left below, and watch the user object
-                dynamically change on the right side.
+              <p className="max-w-2xl">
+                Below, you can interact with the library just as you would on any site that
+                integrates our SDK. Try linking and unlinking accounts in the left column, and
+                you&rsquo;ll see the available JSON user object dynamically change in the right
+                column.
               </p>
             </div>
             <UserBox user={user} />
