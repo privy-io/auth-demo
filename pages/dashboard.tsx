@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
@@ -66,7 +67,7 @@ export default function LoginPage() {
           <div className="flex flex-row justify-between gap-4">
             <div>
               <h1 className="text-3xl font-semibold text-slate-800">You&rsquo;re logged in!</h1>
-              <p className="max-w-2xl mt-2">
+              <p className="max-w-4xl mt-2">
                 With just a few lines of code, you can easily prompt your users to link different
                 accounts, and safely take on credentials. If you want to get into specifics, check
                 out our{' '}
@@ -79,6 +80,12 @@ export default function LoginPage() {
                   our docs
                 </a>
                 .
+                <br />
+                The best part? You can customize Privy to match your brand (check out our{' '}
+                <Link href="/gallery">
+                  <span className="underline hover:cursor-pointer">gallery</span>
+                </Link>
+                ). Ready to get started?
               </p>
             </div>
             <p className="underline hover:cursor-pointer" onClick={logout}>
@@ -92,7 +99,7 @@ export default function LoginPage() {
             <h2 className="font-bold uppercase text-lg text-slate-700">
               Progressive account linking
             </h2>
-            <p className="text-sm text-slate-600 min-h-[70px]">
+            <p className="text-sm text-slate-600 min-h-[60px]">
               We build opinionated tooling so you can build delightful products. You decide when to
               engage users, we take care of the how. Try it out!
             </p>
@@ -192,14 +199,14 @@ export default function LoginPage() {
             <h2 className="font-bold uppercase text-lg text-slate-700">
               Current authenticated user
             </h2>
-            <div className="min-h-[70px] mb-4"></div>
+            <div className="min-h-[60px] mb-4"></div>
             <UserBox user={user} />
             <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
           </div>
 
           <div className="flex flex-col grow">
             <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
-            <p className="text-sm text-slate-600 min-h-[70px]">
+            <p className="text-sm text-slate-600 min-h-[60px]">
               This is the JSON object you receive when using the Privy Auth library. Watch as it
               dynamically populates as you link accounts on the left. Learn more in{' '}
               <a
@@ -220,39 +227,6 @@ export default function LoginPage() {
                 disabled
               />
             </div>
-          </div>
-        </div>
-
-        <div className="mt-40">
-          <h1 className="text-3xl font-semibold text-slate-800">Gallery</h1>
-          <div className="mt-6 flex gap-10">
-            <p className="mt-4">
-              You can customize the Privy Modal to fit your websites design and logo, making users
-              feel right at home.
-              <br />
-              Check out examples below
-            </p>
-            <Image
-              src="/arrow-down-right.png"
-              width="235px"
-              height="106px"
-              alt="top down arrow, go check out the gallery!"
-            />
-          </div>
-          <div className="flex justify-evenly gap-10 mt-10">
-            <Image src="/decent.png" height="620px" width="360px" alt="Decent.xyz example" />
-            <Image
-              src="/lighthouse.png"
-              height="619px"
-              width="359px"
-              alt="Lightouse.world example"
-            />
-            <Image
-              src="/privy-example.png"
-              height="620px"
-              width="360px"
-              alt="Privy console example"
-            />
           </div>
         </div>
       </main>

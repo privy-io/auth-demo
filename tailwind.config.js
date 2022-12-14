@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       animation: {
         wiggle: 'wiggle 0.7s ease-in-out infinite',
-        'bounce-short': 'bounce 0.7s ease-in-out 2',
+        'bounce-short': 'bounce 0.8s ease-in-out 2.5',
       },
       keyframes: {
         wiggle: {
