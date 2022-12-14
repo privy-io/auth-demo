@@ -194,15 +194,6 @@ export default function LoginPage() {
             )}
           </div>
 
-          <div className="flex flex-col items-center justify-start grow">
-            <h2 className="font-bold uppercase text-lg text-slate-700">
-              Current authenticated user
-            </h2>
-            <div className="min-h-[60px] mb-4"></div>
-            <UserBox user={user} />
-            <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
-          </div>
-
           <div className="flex flex-col grow">
             <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
             <p className="text-sm text-slate-600 min-h-[60px]">
@@ -226,6 +217,15 @@ export default function LoginPage() {
                 disabled
               />
             </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-start grow">
+            <h2 className="font-bold uppercase text-lg text-slate-700">
+              Current authenticated user
+            </h2>
+            <div className="min-h-[60px] mb-4"></div>
+            <UserBox user={user} />
+            <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
           </div>
         </div>
       </main>
