@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {useRouter} from 'next/router';
 import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
@@ -60,113 +61,120 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      {/* add back bg-privy-blue later*/}
-      <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue">
-        <div id="header" className="fixed top-0 left-0 bg-red-300 p-10 min-w-full">
-          <div className="flex flex-row justify-between">
+      <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10">
+        <div id="header" className="min-w-full">
+          <div className="flex flex-row justify-between gap-4">
             <div>
               <h1 className="text-3xl font-semibold text-gray-800">Privy Auth Demo</h1>
-              <p>
+              <p className="mt-6">
                 You are now authenticated with Privy! You can see the user object, and its linked
                 accounts, on the right.
               </p>
               <p>
-                Try linking and unlinking accounts below, and watch the user object dynamically
-                change.
+                Try linking and unlinking accounts on the left below, and watch the user object
+                dynamically change on the right side.
               </p>
             </div>
             <UserBox user={user} />
-            <button
-              onClick={logout}
-              className="text-sm bg-violet-200 hover:text-violet-900 py-2 px-4 rounded-md text-violet-700"
-            >
+            <p className="underline hover:cursor-pointer" onClick={logout}>
               Logout
-            </button>
+            </p>
           </div>
         </div>
 
-        <div id="columns" className="grid grid-cols-2 mt-60 p-10">
-          <div className="p-4 bg-gray-800 flex flex-col gap-4 flex-wrap bg-gray-100 items-center">
-            <AuthLinker
-              unlinkedText="Collect their email to send them personalized notifications!"
-              linkedText={`This user has a valid email linked: ${email?.address}!`}
-              canRemove={canRemoveAccount}
-              isLink={!!email}
-              linkCta="Link an email"
-              unlinkCta={`Unlink ${email?.address}`}
-              unlinkAction={() => {
-                unlinkEmail(email?.address as string);
-              }}
-              linkAction={linkEmail}
-            />
+        <div id="columns" className="grid grid-cols-2 mt-16 gap-10">
+          <div>
+            <h2 className="font-bold uppercase text-lg text-gray-600">
+              Progressive account linking
+            </h2>
+            <p className="text-sm text-gray-600">
+              We build opinionated tooling so you can build delightful products. You decide when to
+              engage users, we take care of the how. Try it out!
+            </p>
+            <div className="flex flex-col gap-4 mt-4">
+              <AuthLinker
+                unlinkedText="Collect their email to send them personalized notifications!"
+                linkedText={`This user has a valid email linked. You can now communicate with them in a personalized way!`}
+                canRemove={canRemoveAccount}
+                isLink={!!email}
+                linkCta="Link an email"
+                unlinkCta={`Unlink ${email?.address}`}
+                unlinkAction={() => {
+                  unlinkEmail(email?.address as string);
+                }}
+                linkAction={linkEmail}
+              />
 
-            <AuthLinker
-              unlinkedText="Link their wallet to get their ENS, NFTs for profile pictures or any other web3 awesomeness!"
-              linkedText={`This user has a valid email linked: ${formatWallet(wallet?.address)}!`}
-              canRemove={canRemoveAccount}
-              isLink={!!wallet}
-              linkCta="Link a wallet"
-              unlinkCta={`Unlink ${formatWallet(wallet?.address)}`}
-              unlinkAction={() => {
-                unlinkWallet(wallet?.address as string);
-              }}
-              linkAction={linkWallet}
-            />
+              <AuthLinker
+                unlinkedText="Link their wallet to get their ENS, NFTs for profile pictures or any other web3 awesomeness!"
+                linkedText={`This user has linked an ethereum wallet: ${formatWallet(
+                  wallet?.address,
+                )}!`}
+                canRemove={canRemoveAccount}
+                isLink={!!wallet}
+                linkCta="Link a wallet"
+                unlinkCta={`Unlink ${formatWallet(wallet?.address)}`}
+                unlinkAction={() => {
+                  unlinkWallet(wallet?.address as string);
+                }}
+                linkAction={linkWallet}
+              />
 
-            <AuthLinker
-              unlinkedText="Link their phone to communicate with them via SMS and be a mobile first!"
-              linkedText={`This user has a valid phone linked: ${phone?.number}!`}
-              canRemove={canRemoveAccount}
-              isLink={!!phone}
-              linkCta="Link a phone"
-              unlinkCta={`Unlink ${phone?.number}`}
-              unlinkAction={() => {
-                unlinkPhone(phone?.number as string);
-              }}
-              linkAction={linkPhone}
-            />
-            <AuthLinker
-              unlinkedText="Wanna link google, guy?"
-              linkedText="Wow google is so fucking linked"
-              canRemove={canRemoveAccount}
-              isLink={!!googleSubject}
-              linkCta="Link google"
-              unlinkCta="Unlink google"
-              unlinkAction={() => {
-                unlinkGoogle(googleSubject as string);
-              }}
-              linkAction={() => {
-                linkGoogle();
-              }}
-            />
-            <AuthLinker
-              unlinkedText="Link their twitter to engage your community and encourage user follows"
-              linkedText="This user has linked their twitter account!"
-              canRemove={canRemoveAccount}
-              isLink={!!twitterSubject}
-              linkCta="Link twitter"
-              unlinkCta="Unlink twitter"
-              unlinkAction={() => {
-                unlinkTwitter(twitterSubject as string);
-              }}
-              linkAction={() => {
-                linkTwitter();
-              }}
-            />
-            <AuthLinker
-              unlinkedText="Collect their discord handle for group management"
-              linkedText="This user has linked their discord account!"
-              canRemove={canRemoveAccount}
-              isLink={!!discordSubject}
-              linkCta="Link Discord"
-              unlinkCta="Unlink Discord"
-              unlinkAction={() => {
-                unlinkDiscord(discordSubject as string);
-              }}
-              linkAction={() => {
-                linkDiscord();
-              }}
-            />
+              <AuthLinker
+                unlinkedText="Link their phone to communicate with them via SMS for a mobile first experience!"
+                linkedText={`This user has a valid phone linked: ${phone?.number}!`}
+                canRemove={canRemoveAccount}
+                isLink={!!phone}
+                linkCta="Link a phone"
+                unlinkCta={`Unlink ${phone?.number}`}
+                unlinkAction={() => {
+                  unlinkPhone(phone?.number as string);
+                }}
+                linkAction={linkPhone}
+              />
+              <AuthLinker
+                unlinkedText="How about linking google OAuth and getting their name?"
+                linkedText={`Google auth is linked, and we now know your name: ${user?.google?.name}`}
+                canRemove={canRemoveAccount}
+                isLink={!!googleSubject}
+                linkCta="Link google"
+                unlinkCta="Unlink google"
+                unlinkAction={() => {
+                  unlinkGoogle(googleSubject as string);
+                }}
+                linkAction={() => {
+                  linkGoogle();
+                }}
+              />
+              <AuthLinker
+                unlinkedText="Link their twitter to engage your community and encourage user follows"
+                linkedText="This user has linked their twitter account!"
+                canRemove={canRemoveAccount}
+                isLink={!!twitterSubject}
+                linkCta="Link twitter"
+                unlinkCta={`Unlink ${user?.twitter?.username}'s twitter`}
+                unlinkAction={() => {
+                  unlinkTwitter(twitterSubject as string);
+                }}
+                linkAction={() => {
+                  linkTwitter();
+                }}
+              />
+              <AuthLinker
+                unlinkedText="Collect their discord handle for group management"
+                linkedText={`Thanks for connecting discord, ${user?.discord?.username}`}
+                canRemove={canRemoveAccount}
+                isLink={!!discordSubject}
+                linkCta="Link Discord"
+                unlinkCta={`Unlink ${user?.discord?.username}'s discord`}
+                unlinkAction={() => {
+                  unlinkDiscord(discordSubject as string);
+                }}
+                linkAction={() => {
+                  linkDiscord();
+                }}
+              />
+            </div>
 
             {canRemoveAccount ? null : (
               <p className="text-gray-100 text-sm">
@@ -175,14 +183,52 @@ export default function LoginPage() {
             )}
           </div>
 
-          <div className="bg-black p-6">
-            <p className="font-bold uppercase text-sm text-gray-400">User object</p>
-            <textarea
-              value={JSON.stringify(user, null, 2)}
-              className="min-w-full bg-slate-700 text-slate-50 font-mono text-xs sm:text-sm rounded-md mt-2"
-              rows={20}
-              disabled
+          <div className="flex flex-col grow">
+            <h2 className="font-bold uppercase text-lg text-gray-600">User object</h2>
+            <p className="text-sm text-gray-600">
+              This is the JSON object you receive when using the Privy Auth library. Watch as it
+              dynamically populates as you link accounts on the left. Learn more in{' '}
+              <a
+                href="https://docs.privy.io"
+                target="_blank"
+                rel="noreferrer"
+                className="underline"
+              >
+                our docs
+              </a>
+              .
+            </p>
+            <div className="grow mt-4">
+              <textarea
+                value={JSON.stringify(user, null, 2)}
+                className="min-w-full min-h-full bg-white text-slate-700 font-mono text-xs sm:text-sm rounded-xl border-2 border-gray-800"
+                rows={20}
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-40">
+          <h1 className="text-3xl font-semibold text-gray-800">Gallery</h1>
+          <div className="mt-6 flex gap-10">
+            <p className="mt-4">
+              You can customize the Privy Modal to fit your websites design and logo, making users
+              feel right at home.
+              <br />
+              Check out examples below
+            </p>
+            <Image
+              src="/arrow-down-right.png"
+              width="235px"
+              height="106px"
+              alt="top down arrow, go check out the gallery!"
             />
+          </div>
+          <div className="flex justify-evenly gap-10 mt-10">
+            <Image src="/example1.png" height="630px" width="372px" alt="Decent.xyz example" />
+            <Image src="/example2.png" height="633px" width="373px" alt="Lightouse.world example" />
+            <Image src="/example3.png" height="647px" width="399px" alt="Privy console example" />
           </div>
         </div>
       </main>

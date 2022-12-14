@@ -135,7 +135,7 @@ export default function UserBox({user}: UserBoxProps) {
   return (
     <div className="flex gap-2">
       <Image src="/arrow_right.png" width="201px" height="193px" alt="arrow right" />
-      <div className="p-2 rounded bg-gray-100 min-w-[300px]">
+      <div className="p-2 rounded-xl bg-white min-w-[300px] border-2 border-gray-800">
         <p>Current authenticated user:</p>
         {user.wallet && <p>✅ has a wallet</p>}
         {user.phone && <p>✅ has a phone</p>}
