@@ -66,7 +66,7 @@ export default function LoginPage() {
           <div className="flex flex-row justify-between gap-4">
             <div>
               <h1 className="text-3xl font-semibold text-gray-800">Privy Auth Demo</h1>
-              <p className="mt-6 max-w-2xl">
+              <p className="mt-2 max-w-2xl">
                 You are now authenticated with Privy! You can see the user object, and its linked
                 accounts, to the right.
               </p>
@@ -83,8 +83,16 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
+        <div className="px-36 py-2">
+          <Image
+            src="/bunch_of_blobbies.png"
+            width="400px"
+            height="57px"
+            alt="a bunch of lovely blobbies"
+          />
+        </div>
 
-        <div id="columns" className="grid grid-cols-2 mt-36 gap-10">
+        <div id="columns" className="grid grid-cols-2 mt-24 gap-10">
           <div>
             <h2 className="font-bold uppercase text-lg text-gray-600">
               Progressive account linking
