@@ -92,7 +92,7 @@ export default function LoginPage() {
           />
         </div>
 
-        <div id="columns" className="grid grid-cols-2 mt-24 gap-10">
+        <div id="columns" className="grid grid-cols-2 mt-24 gap-14">
           <div>
             <h2 className="font-bold uppercase text-lg text-gray-600">
               Progressive account linking
