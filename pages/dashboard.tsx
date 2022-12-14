@@ -65,16 +65,20 @@ export default function LoginPage() {
         <div id="header" className="min-w-full">
           <div className="flex flex-row justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-semibold text-slate-800">Privy Auth Demo</h1>
-              <p className="mt-2 max-w-2xl">
-                You are now authenticated with Privy! You can see the user object, and its linked
-                accounts, to the right.
-              </p>
-              <p className="max-w-2xl">
-                Below, you can interact with the library just as you would on any site that
-                integrates our SDK. Try linking and unlinking accounts in the left column, and
-                you&rsquo;ll see the available JSON user object dynamically change in the right
-                column.
+              <h1 className="text-3xl font-semibold text-slate-800">You&rsquo;re logged in!</h1>
+              <p className="max-w-2xl mt-2">
+                With just a few lines of code, you can easily prompt your users to link different
+                accounts, and safely take on credentials. If you want to get into specifics, check
+                out our{' '}
+                <a
+                  className="hover:cursor-pointer underline"
+                  href="https://docs.privy.io"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  our docs
+                </a>
+                .
               </p>
             </div>
             <p className="underline hover:cursor-pointer" onClick={logout}>
@@ -184,6 +188,15 @@ export default function LoginPage() {
             )}
           </div>
 
+          <div className="flex flex-col items-center justify-start grow">
+            <h2 className="font-bold uppercase text-lg text-slate-700">
+              Current authenticated user
+            </h2>
+            <div className="min-h-[70px] mb-4"></div>
+            <UserBox user={user} />
+            <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
+          </div>
+
           <div className="flex flex-col grow">
             <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
             <p className="text-sm text-slate-600 min-h-[70px]">
@@ -207,14 +220,6 @@ export default function LoginPage() {
                 disabled
               />
             </div>
-          </div>
-          <div className="flex flex-col items-center justify-start grow">
-            <h2 className="font-bold uppercase text-lg text-slate-700">
-              Current authenticated user
-            </h2>
-            <div className="min-h-[70px] mb-4"></div>
-            <UserBox user={user} />
-            <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
           </div>
         </div>
 
