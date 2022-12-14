@@ -96,12 +96,11 @@ export default function LoginPage() {
 
         <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
           <div>
-            <h2 className="font-bold uppercase text-lg text-slate-700">
-              Progressive account linking
-            </h2>
+            <h2 className="font-bold uppercase text-lg text-slate-700">Engage your users</h2>
             <p className="text-sm text-slate-600 min-h-[60px]">
               We build opinionated tooling so you can build delightful products. You decide when to
-              engage users, we take care of the how. Try it out!
+              engage users, we take care of the how and keep your users in control of their data.
+              Try it out!
             </p>
             <div className="flex flex-col gap-4 mt-4">
               <AuthLinker
