@@ -53,7 +53,7 @@ export default function LoginPage() {
               onClick={login}
               className="mt-8 min-w-[200px] max-w-[200px] bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
             >
-              Try out Privy!
+              Try out Privy Auth!
             </button>
           </div>
 
