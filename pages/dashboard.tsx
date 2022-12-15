@@ -68,7 +68,7 @@ export default function LoginPage() {
             <div className="-sm:flex -sm:flex-col -sm:justify-center -sm:items-center">
               <h1 className="text-3xl font-semibold text-privurple">You&rsquo;re logged in!</h1>
               <p className="max-w-4xl mt-2">
-                You're logged in. With just a few lines of code, you can easily prompt your users to
+                With just a few lines of code, you can easily prompt your users to
                 link different accounts, and safely take on credentials.
                 <br />
                 <br></br>
