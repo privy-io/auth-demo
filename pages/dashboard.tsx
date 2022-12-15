@@ -67,11 +67,11 @@ export default function LoginPage() {
           <div className="flex flex-row justify-between gap-4 -sm:flex-col-reverse -sm:justify-start -sm:items-center">
             <div className="-sm:flex -sm:flex-col -sm:justify-center -sm:items-center">
               <h1 className="text-3xl font-semibold text-privurple">You&rsquo;re logged in!</h1>
-              <p className="max-w-4xl mt-2">
+              <p className="max-w-4xl pt-4">
                 With just a few lines of code, you can easily prompt your users to link different
                 accounts, and safely take on credentials.
-                <br />
-                <br></br>
+              </p>
+              <p className="pt-2">
                 The best part? You can customize Privy to match your brand (check out our{' '}
                 <Link href="/gallery">
                   <span className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer">
