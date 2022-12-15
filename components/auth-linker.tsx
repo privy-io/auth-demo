@@ -21,6 +21,7 @@ export default function AuthLinker({
 }: AuthLinkerProps) {
   return (
     <div className="flex -sm:flex-col justify-between items-center p-4 min-w-full rounded-xl bg-white border-2 border-lightgray gap-2">
+      <p>{isLink ? linkedText : unlinkedText}</p>
       {isLink ? (
         <button
           onClick={() => {
@@ -41,7 +42,7 @@ export default function AuthLinker({
           {linkCta}
         </button>
       )}
-      <p align="right">{isLink ? linkedText : unlinkedText}</p>
     </div>
   );
 }
+
