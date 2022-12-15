@@ -41,7 +41,7 @@ export default function LoginPage() {
         </div>
 
         <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
-          <div className="flex flex-col items-start justify-center">
+          <div className="flex flex-col items-start justify-center -sm:col-span-3">
             <p className="max-w-4xl mt-2">
               Privy Auth is a developer library that allows you to easily integrate progressive,
               user centric authentication into your web application.{' '}
@@ -59,9 +59,9 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <div className="flex flex-col items-center justify-center grow"></div>
+          <div className="flex flex-col items-center justify-center grow -sm:hidden"></div>
 
-          <div className="flex flex-col items-center justify-start grow">
+          <div className="flex flex-col items-center justify-start grow -sm:hidden">
             <div className="min-h-[60px] mb-4"></div>
           </div>
         </div>
