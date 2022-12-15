@@ -37,7 +37,7 @@ export default function LoginPage() {
             alt="top down arrow, go check out the gallery!"
           />
         </div>
-        <div className="flex justify-evenly gap-10 mt-10">
+        <div className="flex -sm:flex-col justify-evenly gap-10 mt-10">
           <Image src="/decent.png" height="620px" width="360px" alt="Decent.xyz example" />
           <Image src="/lighthouse.png" height="619px" width="359px" alt="Lightouse.world example" />
           <Image

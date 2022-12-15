@@ -136,7 +136,7 @@ export type UserBoxProps = {
 export default function UserBox({user}: UserBoxProps) {
   return (
     <div className="flex gap-2">
-      <div className="p-2 rounded-xl bg-white min-w-[250px] border-2 border-lightgray animate-bounce-short">
+      <div className="p-2 rounded-xl bg-white min-w-[250px] border-2 border-lightgray">
         {user.wallet ? (
           <div className="flex gap-2">
             <BlobbyIconFull size={20} />

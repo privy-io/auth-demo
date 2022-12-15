@@ -64,8 +64,8 @@ export default function LoginPage() {
 
       <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10">
         <div id="header" className="min-w-full">
-          <div className="flex flex-row justify-between gap-4">
-            <div>
+          <div className="flex flex-row justify-between gap-4 -sm:flex-col-reverse -sm:justify-start -sm:items-center">
+            <div className="-sm:flex -sm:flex-col -sm:justify-center -sm:items-center">
               <h1 className="text-3xl font-semibold text-privurple">You&rsquo;re logged in!</h1>
               <p className="max-w-4xl mt-2">
                 With just a few lines of code, you can easily prompt your users to link different
@@ -99,7 +99,11 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
+        <div className="flex flex-col items-center justify-center hidden -sm:flex mt-6">
+          <UserBox user={user} />
+        </div>
+
+        <div id="columns" className="grid grid-cols-3 mt-24 gap-10 -sm:grid-cols-1">
           <div>
             <h2 className="font-bold uppercase text-lg text-slate-700">Engage your users</h2>
             <p className="text-sm text-slate-600 min-h-[60px]">
@@ -224,12 +228,14 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-start grow">
+          <div className="flex flex-col items-center justify-start grow -sm:hidden">
             <h2 className="font-bold uppercase text-lg text-slate-700">
               Current authenticated user
             </h2>
             <div className="min-h-[60px] mb-4"></div>
-            <UserBox user={user} />
+            <div className="animate-bounce-short">
+              <UserBox user={user} />
+            </div>
             <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
           </div>
         </div>

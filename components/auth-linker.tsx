@@ -20,7 +20,7 @@ export default function AuthLinker({
   unlinkAction,
 }: AuthLinkerProps) {
   return (
-    <div className="flex justify-between items-center p-4 min-w-full rounded-xl bg-white border-2 border-lightgray gap-2">
+    <div className="flex -sm:flex-col justify-between items-center p-4 min-w-full rounded-xl bg-white border-2 border-lightgray gap-2">
       <p>{isLink ? linkedText : unlinkedText}</p>
       {isLink ? (
         <button
