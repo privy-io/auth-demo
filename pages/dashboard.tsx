@@ -12,7 +12,9 @@ const formatWallet = (address: string | undefined): string => {
   if (!address) {
     return '';
   }
-  return address.slice(0, 7);
+  const first = address.slice(0, 5);
+  const last = address.slice(address.length - 3, address.length);
+  return `${first}...${last}`;
 };
 
 export default function LoginPage() {
@@ -65,9 +67,9 @@ export default function LoginPage() {
       <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10">
         <div id="header" className="min-w-full">
           <div className="flex flex-row justify-between gap-4 -sm:flex-col-reverse -sm:justify-start -sm:items-center">
-            <div className="-sm:flex -sm:flex-col -sm:justify-center -sm:items-center">
+            <div className="flex flex-col -sm:justify-center -sm:items-center gap-6">
               <h1 className="text-3xl font-semibold text-privurple">You&rsquo;re logged in!</h1>
-              <p className="max-w-4xl pt-4">
+              <p className="max-w-[38rem] mt-2">
                 With just a few lines of code, you can easily prompt your users to link different
                 accounts, and safely take on credentials.
               </p>
@@ -100,18 +102,18 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center hidden -sm:flex mt-10">
+        <div className="flex-col items-center justify-center hidden -sm:flex mt-10">
           <UserBox user={user} />
         </div>
 
-        <div id="columns" className="grid grid-cols-3 mt-24 gap-10 -sm:grid-cols-1 -sm:mt-10">
+        <div id="columns" className="grid grid-cols-3 mt-16 gap-10 -sm:grid-cols-1 -sm:mt-10">
           <div>
-            <h2 className="font-bold uppercase text-lg text-slate-700">Engage your users</h2>
-            <p className="text-sm text-slate-600 min-h-[60px]">
+            <h2 className="font-bold text-privy-navy text-xl mb-2">Engage your users</h2>
+            <p className="text-sm opacity-75 min-h-[60px]">
               We build opinionated tooling so you can build delightful products. You decide when to
               engage users, we take care of the how and keep your users in control of their data.
             </p>
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-col gap-4 mt-5">
               <AuthLinker
                 unlinkedText="Associate an email to a user account to reengage your users."
                 linkedText={`This user has linked an email.`}
@@ -126,7 +128,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Connect one or more wallets to user ENS's, NFTs or take on-chain actions."
+                unlinkedText="Connect one or more wallets to view user ENS, NFTs, or take on-chain actions."
                 linkedText={`This user has linked an ethereum wallet: ${formatWallet(
                   wallet?.address,
                 )}!`}
@@ -157,7 +159,7 @@ export default function LoginPage() {
                 linkedText={`Google auth is linked, ${user?.google?.name}.`}
                 canRemove={canRemoveAccount}
                 isLink={!!googleSubject}
-                linkCta="Link google"
+                linkCta="Link Google"
                 unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkGoogle(googleSubject as string);
@@ -171,7 +173,7 @@ export default function LoginPage() {
                 linkedText={`This user has linked their twitter: @${user?.twitter?.username}.`}
                 canRemove={canRemoveAccount}
                 isLink={!!twitterSubject}
-                linkCta="Link twitter"
+                linkCta="Link Twitter"
                 unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkTwitter(twitterSubject as string);
@@ -204,8 +206,8 @@ export default function LoginPage() {
           </div>
 
           <div className="flex flex-col grow">
-            <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
-            <p className="text-sm text-slate-600 min-h-[60px]">
+            <h2 className="font-bold text-xl text-privy-navy mb-2">Build a rich user object</h2>
+            <p className="text-sm opacity-75 min-h-[60px]">
               Privy gives you modular components so you can customize your app as you engage your
               users. Below, the user object you receive in your front-end. Learn more in{' '}
               <a
@@ -218,25 +220,27 @@ export default function LoginPage() {
               </a>
               .
             </p>
-            <div className="grow mt-4">
+            <div className="grow mt-5">
               <textarea
                 value={JSON.stringify(user, null, 2)}
-                className="min-w-full min-h-full bg-white text-slate-700 font-mono text-xs sm:text-sm rounded-xl border-2 border-lightgray"
+                className="min-w-full min-h-full bg-white text-privy-navy font-mono text-xs sm:text-sm rounded-xl border border-lightgray"
                 rows={20}
                 disabled
               />
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-start grow -sm:hidden">
-            <h2 className="font-bold uppercase text-lg text-slate-700">
-              Current authenticated user
+          <div className="flex flex-col grow -sm:hidden">
+            <h2 className="font-bold text-xl text-privy-navy mb-2">
+              Build responsive UIs with ease
             </h2>
-            <div className="min-h-[60px] mb-4"></div>
-            <div className="animate-bounce-short">
-              <UserBox user={user} />
+            <p className="text-sm opacity-75 min-h-[60px]">View the end result!</p>
+            <div className="flex flex-col items-center justify-start grow">
+              <div className="animate-bounce-short mt-5">
+                <UserBox user={user} />
+              </div>
+              <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
             </div>
-            <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
           </div>
         </div>
       </main>
