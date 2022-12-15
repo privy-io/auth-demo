@@ -1,25 +1,28 @@
 # Privy Auth Demo
 
-This is a simple browser and mobile optimized demo of Privy Auth. 
+This is a simple browser and mobile optimized demo of Privy Auth.
 
 ## Useful Code Snippets
+
 These are the specific points of integration:
 
 ### `pages/_app.tsx`
+
 - The `PrivyProvider` is our top-level component in the hierarchy.
 - In the `PrivyProvider`, we also pass in:
   - our Privy `appId` (retrieved from the Privy Console)
-  - an (optional) `onSuccess` callback that redirects the user to the dashboard page upon login. 
+  - an (optional) `onSuccess` callback that redirects the user to the dashboard page upon login.
 
 ### `pages/index.tsx`
-- This landing page includes a button that invokes Privy Auth's `login` hook when clicked. This prompts the user to sign-in with a wallet or their email address. 
+
+- This landing page includes a button that invokes Privy Auth's `login` hook when clicked. This prompts the user to sign-in with a wallet or their email address.
 
 ### `pages/dashboard.tsx`
+
 - If a user is not `authenticated`, we redirect them back to our landing page. Note that we first check if `ready` is true before taking any actions based off of the `authenticated` hook. This ensures we do not take any actions based off of outdated authentication state that will soon be updated.
 - We use the `user` object to show the user's DID and linked accounts.
 - The `linkEmail` and `linkWallet` hooks to allow a user to link those accounts if they have not already connected them.
-- The `logout` hook to allow the user to logout. 
-
+- The `logout` hook to allow the user to logout.
 
 ## Installation
 

@@ -68,9 +68,10 @@ export default function LoginPage() {
             <div className="-sm:flex -sm:flex-col -sm:justify-center -sm:items-center">
               <h1 className="text-3xl font-semibold text-privurple">You&rsquo;re logged in!</h1>
               <p className="max-w-4xl mt-2">
-                You're logged in. With just a few lines of code, you can easily prompt your users to link different
-                accounts, and safely take on credentials.
+                You're logged in. With just a few lines of code, you can easily prompt your users to
+                link different accounts, and safely take on credentials.
                 <br />
+                <br></br>
                 The best part? You can customize Privy to match your brand (check out our{' '}
                 <Link href="/gallery">
                   <span className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer">
@@ -205,8 +206,8 @@ export default function LoginPage() {
           <div className="flex flex-col grow">
             <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
             <p className="text-sm text-slate-600 min-h-[60px]">
-              Privy gives you modular components so you can customize your app as you engage your users.
-              Below, the user object you receive in your front-end. Learn more in{' '}
+              Privy gives you modular components so you can customize your app as you engage your
+              users. Below, the user object you receive in your front-end. Learn more in{' '}
               <a
                 href="https://docs.privy.io"
                 target="_blank"
