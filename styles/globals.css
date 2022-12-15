@@ -5,8 +5,8 @@
 @layer base {
   /* normal */
   @font-face {
-    font-family: "Adelle Sans";
-    src: url("/fonts/AdelleSans-Regular.woff2") format("woff2");
+    font-family: 'Adelle Sans';
+    src: url('/fonts/AdelleSans-Regular.woff2') format('woff2');
     font-style: normal;
     font-display: swap;
     font-weight: 300;
@@ -14,8 +14,8 @@
 
   /* semibold */
   @font-face {
-    font-family: "Adelle Sans";
-    src: url("/fonts/AdelleSans-Semibold.woff2") format("woff2");
+    font-family: 'Adelle Sans';
+    src: url('/fonts/AdelleSans-Semibold.woff2') format('woff2');
     font-style: normal;
     font-display: swap;
     font-weight: 600;
