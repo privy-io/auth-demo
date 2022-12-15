@@ -12,7 +12,9 @@ const formatWallet = (address: string | undefined): string => {
   if (!address) {
     return '';
   }
-  return address.slice(0, 7);
+  const first = address.slice(0, 5);
+  const last = address.slice(address.length - 3, address.length);
+  return `${first}...${last}`;
 };
 
 export default function LoginPage() {
