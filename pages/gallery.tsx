@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
 
@@ -8,36 +9,43 @@ export default function LoginPage() {
         <title>Gallery · Privy Auth</title>
       </Head>
 
-      <main className="flex min-h-screen min-w-full bg-privy-light-blue justify-center p-10">
-        <div className="flex flex-col">
-          <h1 className="text-4xl font-semibold text-slate-800">Gallery</h1>
-          <div className="flex gap-10">
-            <p className="mt-4">
-              You can customize the Privy Modal to fit your websites design and logo, making users
-              feel right at home.
+      <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10">
+        <div className="flex flex-row justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-semibold text-privurple">Gallery</h1>
+          </div>
+          <div className="flex gap-3 items-center justify-center">
+            <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+              <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
+                Docs
+              </a>
             </p>
-            <Image
-              src="/arrow-down-right.png"
-              width="235px"
-              height="106px"
-              alt="top down arrow, go check out the gallery!"
-            />
+            <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+              <Link href="/">Home</Link>
+            </p>
           </div>
-          <div className="flex justify-evenly gap-10 mt-10">
-            <Image src="/decent.png" height="620px" width="360px" alt="Decent.xyz example" />
-            <Image
-              src="/lighthouse.png"
-              height="619px"
-              width="359px"
-              alt="Lightouse.world example"
-            />
-            <Image
-              src="/privy-example.png"
-              height="620px"
-              width="360px"
-              alt="Privy console example"
-            />
-          </div>
+        </div>
+        <div className="flex gap-10">
+          <p className="mt-4">
+            You can customize the Privy Modal to fit your websites design and logo, making users
+            feel right at home.
+          </p>
+          <Image
+            src="/arrow-down-right.png"
+            width="235px"
+            height="106px"
+            alt="top down arrow, go check out the gallery!"
+          />
+        </div>
+        <div className="flex justify-evenly gap-10 mt-10">
+          <Image src="/decent.png" height="620px" width="360px" alt="Decent.xyz example" />
+          <Image src="/lighthouse.png" height="619px" width="359px" alt="Lightouse.world example" />
+          <Image
+            src="/privy-example.png"
+            height="620px"
+            width="360px"
+            alt="Privy console example"
+          />
         </div>
       </main>
     </>

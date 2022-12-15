@@ -27,29 +27,21 @@ export default function LoginPage() {
             <div>
               <h1 className="text-3xl font-semibold text-privurple">Welcome!</h1>
             </div>
-            <div className="backdrop-blur-3xl p-8 rounded-xl">
-              <div className="flex gap-3 items-center justify-center">
-                <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
-                  <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
-                    Docs
-                  </a>
-                </p>
-                <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
-                  <Link href="/gallery">Gallery</Link>
-                </p>
-                <button
-                  onClick={login}
-                  className="min-w-[150px] max-w-[150px] text-sm bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
-                >
-                  Login
-                </button>
-              </div>
+            <div className="flex gap-3 items-center justify-center">
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
+                  Docs
+                </a>
+              </p>
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <Link href="/gallery">Gallery</Link>
+              </p>
             </div>
           </div>
         </div>
 
         <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-start justify-center">
             <p className="max-w-4xl mt-2">
               Privy Auth is a developer library that allows you to easily integrate progressive,
               user centric authentication into your web application.{' '}
@@ -59,7 +51,12 @@ export default function LoginPage() {
               and desktop.
               <p className="mt-2">Login to try it out!</p>
             </p>
-            <div className="flex flex-col gap-4 mt-4"></div>
+            <button
+              onClick={login}
+              className="mt-8 min-w-[200px] max-w-[200px] bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
+            >
+              Login
+            </button>
           </div>
 
           <div className="flex flex-col items-center justify-center grow"></div>
