@@ -72,8 +72,8 @@ export default function LoginPage() {
               <p className="max-w-[38rem] mt-2">
                 With just a few lines of code, you can easily prompt your users to link different
                 accounts, and safely take on credentials.
-                <br />
-                <br></br>
+              </p>
+              <p className="pt-2">
                 The best part? You can customize Privy to match your brand (check out our{' '}
                 <Link href="/gallery">
                   <span className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer">
