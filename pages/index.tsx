@@ -21,7 +21,7 @@ export default function LoginPage() {
         <title>Login · Privy Auth Demo</title>
       </Head>
 
-      <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10 bg-[url('/blobbies-surfing.svg')]">
+      <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10 bg-[url('/blobbies-surfing.svg')] bg-no-repeat">
         <div className="min-w-full">
           <div className="flex flex-row justify-between gap-4">
             <div>
