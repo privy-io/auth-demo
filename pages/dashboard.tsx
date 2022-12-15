@@ -128,7 +128,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Connect one or more wallets to user ENS's, NFTs or take on-chain actions."
+                unlinkedText="Connect one or more wallets to view user ENS, NFTs, or take on-chain actions."
                 linkedText={`This user has linked an ethereum wallet: ${formatWallet(
                   wallet?.address,
                 )}!`}
@@ -230,15 +230,17 @@ export default function LoginPage() {
             </div>
           </div>
 
-            <h2 className="font-bold uppercase text-lg text-slate-700">
-              Current authenticated user
           <div className="flex flex-col grow -sm:hidden">
+            <h2 className="font-bold text-xl text-privy-navy mb-2">
+              Build responsive UIs with ease
             </h2>
-            <div className="min-h-[60px] mb-4"></div>
-            <div className="animate-bounce-short">
-              <UserBox user={user} />
+            <p className="text-sm opacity-75 min-h-[60px]">View the end result!</p>
+            <div className="flex flex-col items-center justify-start grow">
+              <div className="animate-bounce-short mt-5">
+                <UserBox user={user} />
+              </div>
+              <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
             </div>
-            <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
           </div>
         </div>
       </main>
