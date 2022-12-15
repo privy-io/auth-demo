@@ -68,7 +68,7 @@ export default function LoginPage() {
             <div className="-sm:flex -sm:flex-col -sm:justify-center -sm:items-center">
               <h1 className="text-3xl font-semibold text-privurple">You&rsquo;re logged in!</h1>
               <p className="max-w-4xl mt-2">
-                With just a few lines of code, you can easily prompt your users to link different
+                You're logged in. With just a few lines of code, you can easily prompt your users to link different
                 accounts, and safely take on credentials.
                 <br />
                 The best part? You can customize Privy to match your brand (check out our{' '}
@@ -109,12 +109,11 @@ export default function LoginPage() {
             <p className="text-sm text-slate-600 min-h-[60px]">
               We build opinionated tooling so you can build delightful products. You decide when to
               engage users, we take care of the how and keep your users in control of their data.
-              Try it out!
             </p>
             <div className="flex flex-col gap-4 mt-4">
               <AuthLinker
-                unlinkedText="Collect their email to send them personalized notifications, and creating an engaging experience."
-                linkedText={`This user has a valid email linked. You can now communicate with them in a personalized way!`}
+                unlinkedText="Associate an email to a user account to reengage your users."
+                linkedText={`This user has linked an email.`}
                 canRemove={canRemoveAccount}
                 isLink={!!email}
                 linkCta="Link an email"
@@ -126,7 +125,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Link their wallet to get their ENS, NFTs for profile pictures or any other web3 awesomeness!"
+                unlinkedText="Connect one or more wallets to user ENS's, NFTs or take on-chain actions."
                 linkedText={`This user has linked an ethereum wallet: ${formatWallet(
                   wallet?.address,
                 )}!`}
@@ -141,7 +140,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Link their phone to communicate with them via SMS for a mobile first experience."
+                unlinkedText="Take on a user's phone number to engage them on mobile."
                 linkedText={`This user has a valid phone linked: ${phone?.number}!`}
                 canRemove={canRemoveAccount}
                 isLink={!!phone}
@@ -153,8 +152,8 @@ export default function LoginPage() {
                 linkAction={linkPhone}
               />
               <AuthLinker
-                unlinkedText="How about linking google OAuth and getting their name?"
-                linkedText={`Google auth is linked, and we can now personalize communications with you, ${user?.google?.name}.`}
+                unlinkedText="Use Google for one-click login."
+                linkedText={`Google auth is linked, ${user?.google?.name}.`}
                 canRemove={canRemoveAccount}
                 isLink={!!googleSubject}
                 linkCta="Link google"
@@ -167,8 +166,8 @@ export default function LoginPage() {
                 }}
               />
               <AuthLinker
-                unlinkedText="Link their twitter to engage your community and encourage user follows."
-                linkedText="This user has linked their twitter account!"
+                unlinkedText="Integrate with existing social accounts like Twitter."
+                linkedText={`This user has linked their twitter: @${user?.twitter?.username}.`}
                 canRemove={canRemoveAccount}
                 isLink={!!twitterSubject}
                 linkCta="Link twitter"
@@ -181,8 +180,8 @@ export default function LoginPage() {
                 }}
               />
               <AuthLinker
-                unlinkedText="Collect their discord handle for group management"
-                linkedText={`Thanks for connecting discord, ${user?.discord?.username}`}
+                unlinkedText="Engage your Discord community."
+                linkedText={`Thanks for connecting discord: ${user?.discord?.username}`}
                 canRemove={canRemoveAccount}
                 isLink={!!discordSubject}
                 linkCta="Link Discord"
@@ -206,8 +205,8 @@ export default function LoginPage() {
           <div className="flex flex-col grow">
             <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
             <p className="text-sm text-slate-600 min-h-[60px]">
-              This is the JSON object you receive when using the Privy Auth library. Watch as it
-              dynamically populates as you link accounts on the left. Learn more in{' '}
+              Privy gives you modular components so you can customize your app as you engage your users.
+              Below, the user object you receive in your front-end. Learn more in{' '}
               <a
                 href="https://docs.privy.io"
                 target="_blank"

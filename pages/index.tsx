@@ -43,19 +43,17 @@ export default function LoginPage() {
         <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
           <div className="flex flex-col items-start justify-center -sm:col-span-3">
             <p className="max-w-4xl mt-2">
-              Privy Auth is a developer library that allows you to easily integrate progressive,
-              user centric authentication into your web application.{' '}
+              Privy Auth is a simple library that allows you to easily onboard users into web3.{' '}
             </p>
             <p className="mt-2">
-              Onboard your users in seconds, regardless of whether they have a wallet, across mobile
+              Engage your users in seconds, regardless of whether they have a wallet, across mobile
               and desktop.
-              <p className="mt-2">Login to try it out!</p>
             </p>
             <button
               onClick={login}
               className="mt-8 min-w-[200px] max-w-[200px] bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
             >
-              Login
+              Try out Privy!
             </button>
           </div>
 
