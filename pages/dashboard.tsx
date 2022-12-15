@@ -99,11 +99,11 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center hidden -sm:flex mt-6">
+        <div className="flex flex-col items-center justify-center hidden -sm:flex mt-10">
           <UserBox user={user} />
         </div>
 
-        <div id="columns" className="grid grid-cols-3 mt-24 gap-10 -sm:grid-cols-1 -sm:mt-6">
+        <div id="columns" className="grid grid-cols-3 mt-24 gap-10 -sm:grid-cols-1 -sm:mt-10">
           <div>
             <h2 className="font-bold uppercase text-lg text-slate-700">Engage your users</h2>
             <p className="text-sm text-slate-600 min-h-[60px]">
