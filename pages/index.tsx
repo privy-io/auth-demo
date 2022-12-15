@@ -1,30 +1,68 @@
-import Portal from '../components/graphics/portal';
-import {usePrivy} from '@privy-io/react-auth';
+import {useRouter} from 'next/router';
+import Link from 'next/link';
 import Head from 'next/head';
+import {usePrivy} from '@privy-io/react-auth';
+import Loading from '../components/loading';
 
 export default function LoginPage() {
-  const {login} = usePrivy();
+  const router = useRouter();
+  const {ready, authenticated, login} = usePrivy();
+
+  if (!ready) {
+    return <Loading />;
+  } else if (ready && authenticated) {
+    router.push('/dashboard');
+    return <Loading />;
+  }
 
   return (
     <>
       <Head>
-        <title>Login · Privy</title>
+        <title>Login · Privy Auth Demo</title>
       </Head>
 
-      <main className="flex min-h-screen min-w-full">
-        <div className="flex bg-privy-light-blue flex-1 p-6 justify-center items-center">
-          <div>
+      <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10 bg-[url('/blobbies-surfing.svg')]">
+        <div className="min-w-full">
+          <div className="flex flex-row justify-between gap-4">
             <div>
-              <Portal style={{maxWidth: '100%', height: 'auto'}} />
+              <h1 className="text-3xl font-semibold text-privurple">Welcome!</h1>
             </div>
-            <div className="mt-6 flex justify-center text-center">
-              <button
-                className="bg-violet-600 hover:bg-violet-700 py-3 px-6 text-white rounded-lg"
-                onClick={login}
-              >
-                Log in
-              </button>
+            <div className="flex gap-3 items-center justify-center">
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
+                  Docs
+                </a>
+              </p>
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <Link href="/gallery">Gallery</Link>
+              </p>
             </div>
+          </div>
+        </div>
+
+        <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
+          <div className="flex flex-col items-start justify-center">
+            <p className="max-w-4xl mt-2">
+              Privy Auth is a developer library that allows you to easily integrate progressive,
+              user centric authentication into your web application.{' '}
+            </p>
+            <p className="mt-2">
+              Onboard your users in seconds, regardless of whether they have a wallet, across mobile
+              and desktop.
+              <p className="mt-2">Login to try it out!</p>
+            </p>
+            <button
+              onClick={login}
+              className="mt-8 min-w-[200px] max-w-[200px] bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
+            >
+              Login
+            </button>
+          </div>
+
+          <div className="flex flex-col items-center justify-center grow"></div>
+
+          <div className="flex flex-col items-center justify-start grow">
+            <div className="min-h-[60px] mb-4"></div>
           </div>
         </div>
       </main>

@@ -1,7 +1,19 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
 import Head from 'next/head';
+import Loading from '../components/loading';
+import UserBox from '../components/user-box';
+import AuthLinker from '../components/auth-linker';
+
+const formatWallet = (address: string | undefined): string => {
+  if (!address) {
+    return '';
+  }
+  return address.slice(0, 7);
+};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,153 +53,186 @@ export default function LoginPage() {
   const twitterSubject = user?.twitter?.subject || null;
   const discordSubject = user?.discord?.subject || null;
 
+  if (!ready || !authenticated || !user) {
+    return <Loading />;
+  }
   return (
     <>
       <Head>
         <title>Privy Auth Demo</title>
       </Head>
 
-      <main className="flex flex-col min-h-screen px-4 sm:px-20 py-6 sm:py-10 bg-privy-light-blue">
-        {ready && authenticated ? (
-          <>
-            <div className="flex flex-row justify-between">
-              <h1 className="text-2xl font-semibold">Privy Auth Demo</h1>
-              <button
+      <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10">
+        <div id="header" className="min-w-full">
+          <div className="flex flex-row justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-semibold text-privurple">You&rsquo;re logged in!</h1>
+              <p className="max-w-4xl mt-2">
+                With just a few lines of code, you can easily prompt your users to link different
+                accounts, and safely take on credentials.
+                <br />
+                The best part? You can customize Privy to match your brand (check out our{' '}
+                <Link href="/gallery">
+                  <span className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer">
+                    gallery
+                  </span>
+                </Link>
+                ). Ready to get started?
+              </p>
+            </div>
+            <div className="flex gap-3 justify-center">
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
+                  Docs
+                </a>
+              </p>
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <Link href="/gallery">Gallery</Link>
+              </p>
+              <p
+                className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent"
                 onClick={logout}
-                className="text-sm bg-violet-200 hover:text-violet-900 py-2 px-4 rounded-md text-violet-700"
               >
                 Logout
-              </button>
+              </p>
             </div>
-            <div className="mt-12 flex gap-4 flex-wrap">
-              {googleSubject ? (
-                <button
-                  onClick={() => {
-                    unlinkGoogle(googleSubject);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink Google
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    linkGoogle();
-                  }}
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                >
-                  Link Google
-                </button>
-              )}
+          </div>
+        </div>
 
-              {twitterSubject ? (
-                <button
-                  onClick={() => {
-                    unlinkTwitter(twitterSubject);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink Twitter
-                </button>
-              ) : (
-                <button
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                  onClick={() => {
-                    linkTwitter();
-                  }}
-                >
-                  Link Twitter
-                </button>
-              )}
+        <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
+          <div>
+            <h2 className="font-bold uppercase text-lg text-slate-700">Engage your users</h2>
+            <p className="text-sm text-slate-600 min-h-[60px]">
+              We build opinionated tooling so you can build delightful products. You decide when to
+              engage users, we take care of the how and keep your users in control of their data.
+              Try it out!
+            </p>
+            <div className="flex flex-col gap-4 mt-4">
+              <AuthLinker
+                unlinkedText="Collect their email to send them personalized notifications, and creating an engaging experience."
+                linkedText={`This user has a valid email linked. You can now communicate with them in a personalized way!`}
+                canRemove={canRemoveAccount}
+                isLink={!!email}
+                linkCta="Link an email"
+                unlinkCta="Unlink"
+                unlinkAction={() => {
+                  unlinkEmail(email?.address as string);
+                }}
+                linkAction={linkEmail}
+              />
 
-              {discordSubject ? (
-                <button
-                  onClick={() => {
-                    unlinkDiscord(discordSubject);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink Discord
-                </button>
-              ) : (
-                <button
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                  onClick={() => {
-                    linkDiscord();
-                  }}
-                >
-                  Link Discord
-                </button>
-              )}
+              <AuthLinker
+                unlinkedText="Link their wallet to get their ENS, NFTs for profile pictures or any other web3 awesomeness!"
+                linkedText={`This user has linked an ethereum wallet: ${formatWallet(
+                  wallet?.address,
+                )}!`}
+                canRemove={canRemoveAccount}
+                isLink={!!wallet}
+                linkCta="Link a wallet"
+                unlinkCta="Unlink"
+                unlinkAction={() => {
+                  unlinkWallet(wallet?.address as string);
+                }}
+                linkAction={linkWallet}
+              />
 
-              {email ? (
-                <button
-                  onClick={() => {
-                    unlinkEmail(email.address);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink email
-                </button>
-              ) : (
-                <button
-                  onClick={linkEmail}
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white"
-                >
-                  Connect email
-                </button>
-              )}
-              {wallet ? (
-                <button
-                  onClick={() => {
-                    unlinkWallet(wallet.address);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink wallet
-                </button>
-              ) : (
-                <button
-                  onClick={linkWallet}
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white border-none"
-                >
-                  Connect wallet
-                </button>
-              )}
-              {phone ? (
-                <button
-                  onClick={() => {
-                    unlinkPhone(phone.number);
-                  }}
-                  className="text-sm border border-violet-600 hover:border-violet-700 py-2 px-4 rounded-md text-violet-600 hover:text-violet-700 disabled:border-gray-500 disabled:text-gray-500 hover:disabled:text-gray-500"
-                  disabled={!canRemoveAccount}
-                >
-                  Unlink phone
-                </button>
-              ) : (
-                <button
-                  onClick={linkPhone}
-                  className="text-sm bg-violet-600 hover:bg-violet-700 py-2 px-4 rounded-md text-white border-none"
-                >
-                  Connect phone
-                </button>
-              )}
+              <AuthLinker
+                unlinkedText="Link their phone to communicate with them via SMS for a mobile first experience."
+                linkedText={`This user has a valid phone linked: ${phone?.number}!`}
+                canRemove={canRemoveAccount}
+                isLink={!!phone}
+                linkCta="Link a phone"
+                unlinkCta="Unlink"
+                unlinkAction={() => {
+                  unlinkPhone(phone?.number as string);
+                }}
+                linkAction={linkPhone}
+              />
+              <AuthLinker
+                unlinkedText="How about linking google OAuth and getting their name?"
+                linkedText={`Google auth is linked, and we can now personalize communications with you, ${user?.google?.name}.`}
+                canRemove={canRemoveAccount}
+                isLink={!!googleSubject}
+                linkCta="Link google"
+                unlinkCta="Unlink"
+                unlinkAction={() => {
+                  unlinkGoogle(googleSubject as string);
+                }}
+                linkAction={() => {
+                  linkGoogle();
+                }}
+              />
+              <AuthLinker
+                unlinkedText="Link their twitter to engage your community and encourage user follows."
+                linkedText="This user has linked their twitter account!"
+                canRemove={canRemoveAccount}
+                isLink={!!twitterSubject}
+                linkCta="Link twitter"
+                unlinkCta="Unlink"
+                unlinkAction={() => {
+                  unlinkTwitter(twitterSubject as string);
+                }}
+                linkAction={() => {
+                  linkTwitter();
+                }}
+              />
+              <AuthLinker
+                unlinkedText="Collect their discord handle for group management"
+                linkedText={`Thanks for connecting discord, ${user?.discord?.username}`}
+                canRemove={canRemoveAccount}
+                isLink={!!discordSubject}
+                linkCta="Link Discord"
+                unlinkCta="Unlink"
+                unlinkAction={() => {
+                  unlinkDiscord(discordSubject as string);
+                }}
+                linkAction={() => {
+                  linkDiscord();
+                }}
+              />
             </div>
 
-            <p className="mt-6 font-bold uppercase text-sm text-gray-600">User object</p>
-            <textarea
-              value={JSON.stringify(user, null, 2)}
-              className="max-w-4xl bg-slate-700 text-slate-50 font-mono p-4 text-xs sm:text-sm rounded-md mt-2"
-              rows={20}
-              disabled
-            />
-          </>
-        ) : null}
+            {canRemoveAccount ? null : (
+              <p className="text-slate-400 text-sm mt-4 px-1">
+                Note that if the user only has one account, you cannot unlink it.
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col grow">
+            <h2 className="font-bold uppercase text-lg text-slate-700">User object</h2>
+            <p className="text-sm text-slate-600 min-h-[60px]">
+              This is the JSON object you receive when using the Privy Auth library. Watch as it
+              dynamically populates as you link accounts on the left. Learn more in{' '}
+              <a
+                href="https://docs.privy.io"
+                target="_blank"
+                rel="noreferrer"
+                className="underline"
+              >
+                our docs
+              </a>
+              .
+            </p>
+            <div className="grow mt-4">
+              <textarea
+                value={JSON.stringify(user, null, 2)}
+                className="min-w-full min-h-full bg-white text-slate-700 font-mono text-xs sm:text-sm rounded-xl border-2 border-lightgray"
+                rows={20}
+                disabled
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-start grow">
+            <h2 className="font-bold uppercase text-lg text-slate-700">
+              Current authenticated user
+            </h2>
+            <div className="min-h-[60px] mb-4"></div>
+            <UserBox user={user} />
+            <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
+          </div>
+        </div>
       </main>
     </>
   );
