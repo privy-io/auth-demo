@@ -157,7 +157,7 @@ export default function LoginPage() {
                 linkedText={`Google auth is linked, ${user?.google?.name}.`}
                 canRemove={canRemoveAccount}
                 isLink={!!googleSubject}
-                linkCta="Link google"
+                linkCta="Link Google"
                 unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkGoogle(googleSubject as string);
@@ -171,7 +171,7 @@ export default function LoginPage() {
                 linkedText={`This user has linked their twitter: @${user?.twitter?.username}.`}
                 canRemove={canRemoveAccount}
                 isLink={!!twitterSubject}
-                linkCta="Link twitter"
+                linkCta="Link Twitter"
                 unlinkCta="Unlink"
                 unlinkAction={() => {
                   unlinkTwitter(twitterSubject as string);

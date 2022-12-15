@@ -173,34 +173,34 @@ export default function UserBox({user}: UserBoxProps) {
         {user.google ? (
           <div className="flex gap-2 items-center">
             <BlobbyIconFull size={20} />
-            <p>has linked google</p>
+            <p>has linked Google</p>
           </div>
         ) : (
           <div className="flex gap-2 items-center opacity-30">
             <BlobbyIcon size={20} />
-            <p>hasn&rsquo;t linked google</p>
+            <p>hasn&rsquo;t linked Google</p>
           </div>
         )}
         {user.twitter ? (
           <div className="flex gap-2 items-center">
             <BlobbyIconFull size={20} />
-            <p>has linked twitter</p>
+            <p>has linked Twitter</p>
           </div>
         ) : (
           <div className="flex gap-2 items-center opacity-30">
             <BlobbyIcon size={20} />
-            <p>hasn&rsquo;t linked twitter</p>
+            <p>hasn&rsquo;t linked Twitter</p>
           </div>
         )}
         {user.discord ? (
           <div className="flex gap-2 items-center">
             <BlobbyIconFull size={20} />
-            <p>has linked discord</p>
+            <p>has linked Discord</p>
           </div>
         ) : (
           <div className="flex gap-2 items-center opacity-30">
             <BlobbyIcon size={20} />
-            <p>hasn&rsquo;t linked discord</p>
+            <p>hasn&rsquo;t linked Discord</p>
           </div>
         )}
       </div>
