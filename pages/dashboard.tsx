@@ -80,7 +80,16 @@ export default function LoginPage() {
                     gallery
                   </span>
                 </Link>
-                ). Ready to get started?
+                ). Ready to{' '}
+                <a
+                  href="https://docs.privy.io/guide/setup"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer"
+                >
+                  get started
+                </a>
+                ?
               </p>
             </div>
             <div className="flex gap-3 justify-center">
@@ -211,7 +220,7 @@ export default function LoginPage() {
               Privy gives you modular components so you can customize your app as you engage your
               users. Below, the user object you receive in your front-end. Learn more in{' '}
               <a
-                href="https://docs.privy.io"
+                href="https://docs.privy.io/guide/users/object"
                 target="_blank"
                 rel="noreferrer"
                 className="underline"
