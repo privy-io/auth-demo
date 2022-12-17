@@ -25,19 +25,21 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
-        <div className="flex gap-10">
+        <div className="flex gap-10 pr-10">
           <p className="mt-4">
             You can customize the Privy Modal to fit your websites design and logo, making users
             feel right at home.
           </p>
-          <Image
-            src="/arrow-down-right.png"
-            alt="top down arrow, go check out the gallery!"
-          />
+          <div className="-sm:hidden">
+            <Image
+              src="/arrow-down-right.png"
               width="152px"
               height="106px"
+              alt="top down arrow, go check out the gallery!"
+            />
+          </div>
         </div>
-        <div className="flex -sm:flex-col justify-evenly gap-10 mt-10">
+        <div className="flex -sm:flex-col justify-evenly gap-10 mt-10 -sm:max-w-[360px] max-w-full -sm:mx-auto mx-0">
           <Image src="/decent.png" height="620px" width="360px" alt="Decent.xyz example" />
           <Image src="/lighthouse.png" height="619px" width="359px" alt="Lightouse.world example" />
           <Image
