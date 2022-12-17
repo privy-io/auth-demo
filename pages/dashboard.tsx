@@ -248,7 +248,7 @@ export default function LoginPage() {
               <div className="animate-bounce-short mt-5">
                 <UserBox user={user} />
               </div>
-              <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
+              <Image src="/arrow-up.png" height="171px" width="175px" alt="arrow up" />
             </div>
           </div>
         </div>

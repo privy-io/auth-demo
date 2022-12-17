@@ -32,10 +32,10 @@ export default function LoginPage() {
           </p>
           <Image
             src="/arrow-down-right.png"
-            width="235px"
-            height="106px"
             alt="top down arrow, go check out the gallery!"
           />
+              width="152px"
+              height="106px"
         </div>
         <div className="flex -sm:flex-col justify-evenly gap-10 mt-10">
           <Image src="/decent.png" height="620px" width="360px" alt="Decent.xyz example" />
