@@ -25,10 +25,12 @@ export default function LoginPage() {
         <div className="min-w-full">
           <div className="flex flex-row justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-semibold text-privurple">Welcome to the Privy Auth demo!</h1>
+              <h1 className="text-3xl font-semibold text-privurple">
+                Welcome to the Privy Auth demo!
+              </h1>
             </div>
             <div className="flex gap-3 items-center justify-center">
-            <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
                 <a href="https://privy.io" rel="noreferrer">
                   Home
                 </a>
