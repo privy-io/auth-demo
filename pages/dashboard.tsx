@@ -245,10 +245,10 @@ export default function LoginPage() {
             </h2>
             <p className="text-sm opacity-75 min-h-[60px]">View the end result!</p>
             <div className="flex flex-col items-center justify-start grow">
-              <div className="animate-bounce-short mt-5">
+              <div className="animate-bounce-short mt-5 mb-2">
                 <UserBox user={user} />
               </div>
-              <Image src="/arrow_up.png" height="201px" width="193px" alt="arrow up" />
+              <Image src="/arrow-up.png" height="171px" width="175px" alt="arrow up" />
             </div>
           </div>
         </div>
