@@ -32,7 +32,7 @@ export default function LoginPage() {
             <div className="flex gap-3 items-center justify-center">
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
                 <a href="https://privy.io" rel="noreferrer">
-                  Home
+                  privy.io
                 </a>
               </p>
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
