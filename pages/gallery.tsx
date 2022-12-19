@@ -38,13 +38,18 @@ export default function LoginPage() {
           />
         </div>
         <div className="flex -sm:flex-col justify-evenly gap-10 mt-10">
-          <Image src="/decent.png" height="620px" width="360px" alt="Decent.xyz example" />
-          <Image src="/lighthouse.png" height="619px" width="359px" alt="Lightouse.world example" />
           <Image
-            src="/privy-example.png"
+            src="/gallery_dollhouse.png"
             height="620px"
             width="360px"
-            alt="Privy console example"
+            alt="Dollhouse example"
+          />
+          <Image src="/gallery_abbey.png" height="619px" width="359px" alt="Abbey Road example" />
+          <Image
+            src="/gallery_submarine.png"
+            height="620px"
+            width="360px"
+            alt="Yellow Submarine example"
           />
         </div>
       </main>
