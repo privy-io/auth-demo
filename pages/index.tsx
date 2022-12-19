@@ -18,16 +18,23 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Login · Privy Auth Demo</title>
+        <title>Privy Auth Demo</title>
       </Head>
 
       <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10 bg-[url('/blobbies-surfing.svg')] bg-no-repeat">
         <div className="min-w-full">
           <div className="flex flex-row justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-semibold text-privurple">Welcome!</h1>
+              <h1 className="text-3xl font-semibold text-privurple">
+                Welcome to the Privy Auth demo!
+              </h1>
             </div>
             <div className="flex gap-3 items-center justify-center">
+              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+                <a href="https://privy.io" target="_blank" rel="noreferrer">
+                  Privy
+                </a>
+              </p>
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
                 <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
                   Docs
