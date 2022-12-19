@@ -3,6 +3,7 @@ import type {AppProps} from 'next/app';
 import Head from 'next/head';
 import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
+import PlausibleProvider from 'next-plausible';
 
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
@@ -23,12 +24,14 @@ function MyApp({Component, pageProps}: AppProps) {
         <title>Privy Auth Demo</title>
         <meta name="description" content="Log in to Privy Auth Demo" />
       </Head>
-      <PrivyProvider
-        appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
-        onSuccess={() => router.push('/dashboard')}
-      >
-        <Component {...pageProps} />
-      </PrivyProvider>
+      <PlausibleProvider domain="demo.privy.io">
+        <PrivyProvider
+          appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
+          onSuccess={() => router.push('/dashboard')}
+        >
+          <Component {...pageProps} />
+        </PrivyProvider>
+      </PlausibleProvider>
     </>
   );
 }
