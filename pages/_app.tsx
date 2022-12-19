@@ -22,7 +22,7 @@ function MyApp({Component, pageProps}: AppProps) {
         <link rel="manifest" href="/favicons/manifest.json" />
 
         <title>Privy Auth Demo</title>
-        <meta name="description" content="Log in to Privy Auth Demo" />
+        <meta name="description" content="Privy Auth Demo" />
       </Head>
       <PlausibleProvider domain="demo.privy.io">
         <PrivyProvider
