@@ -21,19 +21,21 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10 bg-[url('/blobbies-surfing.svg')] bg-no-repeat">
-        <div className="min-w-full">
-          <div className="flex flex-row justify-between gap-4">
+      <main className="min-h-screen relative min-w-screen overflow-hidden bg-privy-light-blue p-8 sm:p-10">
+        <div className="bg-[url('/blobbies-surfing.svg')] bg-no-repeat h-full w-full absolute top-[110px] left-[100px] z-1w"></div>
+
+        <div className="sm:hidden z-100">
+          <h1 className="text-3xl">Privy Auth Demo</h1>
+        </div>
+
+        <div className="hidden sm:block z-100">
+          <div className="flex flex-row justify-between items-center">
             <div>
-              <h1 className="text-3xl font-semibold text-privurple">
-                Welcome to the Privy Auth demo!
-              </h1>
+              <h1 className="text-3xl">Privy Auth Demo</h1>
             </div>
-            <div className="flex gap-3 items-center justify-center">
+            <div className="flex gap-4 items-center justify-center">
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
-                <a href="https://privy.io" target="_blank" rel="noreferrer">
-                  Privy
-                </a>
+                <Link href="/gallery">Gallery</Link>
               </p>
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
                 <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
@@ -41,33 +43,57 @@ export default function LoginPage() {
                 </a>
               </p>
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
-                <Link href="/gallery">Gallery</Link>
+                <a href="https://docs.privy.io/guide/setup" target="_blank" rel="noreferrer">
+                  Get started now
+                </a>
               </p>
+              <button
+                onClick={login}
+                className="bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white lg:hidden"
+              >
+                Log in
+              </button>
+              <button
+                onClick={login}
+                className="bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white hidden lg:block"
+              >
+                Log in to try it out
+              </button>
             </div>
           </div>
         </div>
 
-        <div id="columns" className="grid grid-cols-3 mt-24 gap-10">
-          <div className="flex flex-col items-start justify-center -sm:col-span-3">
-            <p className="max-w-4xl mt-2">
-              Privy Auth is a simple library that allows you to easily onboard users into web3.{' '}
+        <div className="relative mt-12 sm:mt-24 z-[100]">
+          <div>
+            <p className="mt-6 text-xl max-w-md">
+              Privy Auth is a simple toolkit for progressive authentication in web3.
             </p>
-            <p className="mt-2">
-              Engage your users in seconds, regardless of whether they have a wallet, across mobile
-              and desktop.
+            <p className="mt-6 text-xl max-w-md">
+              Engage your users in web3 within seconds, whether they start with wallet, email or
+              social, on desktop and mobile.
+            </p>
+            <p className="mt-6 text-md hidden sm:block">
+              <a
+                href="https://lighthouse.mirror.xyz/zq6Tb_YD__KIhvCLhT5M8bOnA43W3peUJa9LYnviiwY"
+                className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Learn how we partnered with Lighthouse!
+              </a>
             </p>
             <button
               onClick={login}
-              className="mt-8 min-w-[200px] max-w-[200px] bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
+              className="mt-10 bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white sm:hidden"
             >
-              Try out Privy Auth!
+              Log in to try it out
             </button>
-          </div>
-
-          <div className="flex flex-col items-center justify-center grow -sm:hidden"></div>
-
-          <div className="flex flex-col items-center justify-start grow -sm:hidden">
-            <div className="min-h-[60px] mb-4"></div>
+            <button
+              onClick={login}
+              className="mt-16 bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white hidden sm:block"
+            >
+              Try it out
+            </button>
           </div>
         </div>
       </main>

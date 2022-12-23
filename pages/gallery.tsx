@@ -12,7 +12,7 @@ export default function LoginPage() {
       <main className="flex flex-col min-h-screen relative min-w-screen bg-privy-light-blue p-10">
         <div className="flex flex-row justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-semibold text-privurple">Gallery</h1>
+            <h1 className="text-3xl font-semibold">Gallery</h1>
           </div>
           <div className="flex gap-3 items-center justify-center">
             <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
