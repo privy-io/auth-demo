@@ -29,7 +29,7 @@ export default function LoginPage() {
         </div>
 
         <div className="hidden sm:block z-100">
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between items-center">
             <div>
               <h1 className="text-3xl">Privy Auth Demo</h1>
             </div>
