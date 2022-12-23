@@ -79,8 +79,7 @@ export default function LoginPage() {
               <h1 className="text-2xl">Privy Auth Demo</h1>
             </div>
             <div>
-              <a
-                href="/"
+              <button
                 onClick={(e) => {
                   e.preventDefault();
                   logout();
@@ -88,7 +87,7 @@ export default function LoginPage() {
                 className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent"
               >
                 Log out
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -133,6 +132,7 @@ export default function LoginPage() {
             <div className="flex flex-col gap-2 mt-5">
               {wallets.map((wallet) => (
                 <AuthLinker
+                  key={wallet.address}
                   isLink
                   linkedText={formatWallet(wallet.address)}
                   canUnlink={canRemoveAccount}
