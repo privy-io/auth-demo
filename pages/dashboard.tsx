@@ -2,7 +2,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
-import type {WalletWithMetadata, User} from '@privy-io/react-auth';
+import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Image from 'next/image';
 import Loading from '../components/loading';
@@ -92,14 +92,7 @@ export default function LoginPage() {
         <div className="sm:hidden">
           <div className="flex flex-row justify-between items-center">
             <div>
-              <div>
-                <Image
-                  src="/logos/privy-demo.png"
-                  height="50px"
-                  width="206px"
-                  alt="Privy Auth Demo"
-                />
-              </div>
+              <h1 className="text-2xl">Privy Auth Demo</h1>
             </div>
             <div>
               <button
@@ -118,12 +111,7 @@ export default function LoginPage() {
         <div className="hidden sm:block">
           <div className="flex flex-row justify-between items-center">
             <div>
-              <Image
-                src="/logos/privy-demo.png"
-                height="50px"
-                width="206px"
-                alt="Privy Auth Demo"
-              />
+              <h1 className="text-3xl">Privy Auth Demo</h1>
             </div>
             <div className="flex gap-4 items-center justify-center">
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
@@ -258,7 +246,7 @@ export default function LoginPage() {
               Privy gives you modular components so you can customize your product for your users.
               Learn more in{' '}
               <a
-                href="https://docs.privy.io/guide/frontend/users/object"
+                href="https://docs.privy.io/guide/users/object"
                 target="_blank"
                 rel="noreferrer"
                 className="underline text-privurple hover:text-privurpleaccent"
@@ -279,9 +267,7 @@ export default function LoginPage() {
           </div>
 
           <div className="hidden lg:block">
-            <h2 className="font-bold text-2xl text-privy-navy text-xl md:text-2xl">
-              Work with responsive UI
-            </h2>
+            <h2 className="font-bold text-privy-navy">Work with responsive UI</h2>
             <p className="text-sm min-h-[60px] mt-4">
               You decide when to engage users, we take care of the how. Connect within seconds,
               seriously.
@@ -291,7 +277,7 @@ export default function LoginPage() {
               <UserBox user={user} />
               {wallets &&
                 wallets.map((wallet) => {
-                  return isActiveWallet(wallet.address, user) ? (
+                  return wallet.address === user.wallet?.address ? (
                     <p className="my-2 py-2" key={wallet.address}>
                       {formatWallet(wallet.address)} (active)
                     </p>
