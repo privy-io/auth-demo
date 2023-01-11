@@ -2,7 +2,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
-import type {WalletWithMetadata} from '@privy-io/react-auth';
+import type {WalletWithMetadata, User} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Image from 'next/image';
 import Loading from '../components/loading';
@@ -37,6 +37,7 @@ export default function LoginPage() {
     linkTwitter,
     unlinkTwitter,
     linkDiscord,
+    setActiveWallet,
     unlinkDiscord,
     linkGithub,
     unlinkGithub,
@@ -70,6 +71,13 @@ export default function LoginPage() {
 
   const githubSubject = user?.github?.subject;
   const githubUsername = user?.github?.username;
+
+  const isActiveWallet = (wallet: string, user: User): boolean => {
+    if (user.wallet?.address === wallet) {
+      return true;
+    }
+    return false;
+  };
 
   if (!ready || !authenticated || !user) {
     return <Loading />;
@@ -281,6 +289,26 @@ export default function LoginPage() {
             <h3 className="font-bold text-privy-navy text-lg">Authenticated accounts</h3>
             <div className="mt-5">
               <UserBox user={user} />
+              {wallets &&
+                wallets.map((wallet) => {
+                  return isActiveWallet(wallet.address, user) ? (
+                    <p className="my-2 py-2" key={wallet.address}>
+                      {formatWallet(wallet.address)} (active)
+                    </p>
+                  ) : (
+                    <p key={wallet.address}>
+                      {formatWallet(wallet.address)}
+                      <button
+                        className="bg-coral hover:bg-coralaccent m-2 py-2 px-4 rounded-md text-white"
+                        onClick={() => {
+                          setActiveWallet(wallet.address);
+                        }}
+                      >
+                        make active
+                      </button>
+                    </p>
+                  );
+                })}
             </div>
           </div>
         </div>
