@@ -233,7 +233,7 @@ export default function LoginPage() {
               <textarea
                 value={JSON.stringify(user, null, 2)}
                 className="min-w-full min-h-full p-5 bg-white text-privy-navy font-mono text-xs rounded-xl border-0"
-                rows={25}
+                rows={JSON.stringify(user, null, 2).split('\n').length}
                 disabled
               />
             </div>
