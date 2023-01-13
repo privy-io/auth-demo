@@ -229,7 +229,7 @@ export default function LoginPage() {
               .
             </p>
             <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-0">JSON</h3>
-            <div className="mt-5 min-h-full">
+            <div className="mt-5">
               <textarea
                 value={JSON.stringify(user, null, 2)}
                 className="min-w-full min-h-full p-5 bg-white text-privy-navy font-mono text-xs rounded-xl border-0"
