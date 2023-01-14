@@ -240,7 +240,9 @@ export default function LoginPage() {
           </div>
 
           <div className="hidden lg:block">
-            <h2 className="font-bold text-2xl text-privy-navy text-xl md:text-2xl">Work with responsive UI</h2>
+            <h2 className="font-bold text-2xl text-privy-navy text-xl md:text-2xl">
+              Work with responsive UI
+            </h2>
             <p className="text-sm min-h-[60px] mt-4">
               You decide when to engage users, we take care of the how. Connect within seconds,
               seriously.
