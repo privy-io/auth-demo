@@ -219,7 +219,7 @@ export default function LoginPage() {
               Privy gives you modular components so you can customize your product for your users.
               Learn more in{' '}
               <a
-                href="https://docs.privy.io/guide/users/object"
+                href="https://docs.privy.io/guide/frontend/users/object"
                 target="_blank"
                 rel="noreferrer"
                 className="underline text-privurple hover:text-privurpleaccent"
