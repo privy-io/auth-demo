@@ -36,6 +36,8 @@ export default function LoginPage() {
     unlinkTwitter,
     linkDiscord,
     unlinkDiscord,
+    linkGithub,
+    unlinkGithub,
   } = usePrivy();
 
   useEffect(() => {
@@ -62,6 +64,9 @@ export default function LoginPage() {
 
   const discordSubject = user?.discord?.subject;
   const discordUsername = user?.discord?.username;
+
+  const githubSubject = user?.github?.subject;
+  const githubUsername = user?.github?.username;
 
   if (!ready || !authenticated || !user) {
     return <Loading />;
@@ -201,6 +206,17 @@ export default function LoginPage() {
                   unlinkDiscord(discordSubject as string);
                 }}
                 linkAction={linkDiscord}
+              />
+
+              <AuthLinker
+                unlinkedText="Link a github account"
+                linkedText={`Github user ${githubUsername}`}
+                canUnlink={canRemoveAccount}
+                isLink={!!githubSubject}
+                unlinkAction={() => {
+                  unlinkGithub(githubSubject as string);
+                }}
+                linkAction={linkGithub}
               />
             </div>
 
