@@ -81,6 +81,17 @@ export default function UserBox({user}: UserBoxProps) {
             <p>hasn&rsquo;t linked Discord</p>
           </div>
         )}
+        {user.github ? (
+          <div className="flex gap-2 items-center">
+            <BlobbyIconFull size={20} />
+            <p>has linked Github</p>
+          </div>
+        ) : (
+          <div className="flex gap-2 items-center opacity-30">
+            <BlobbyIcon size={20} />
+            <p>hasn&rsquo;t linked Github</p>
+          </div>
+        )}
       </div>
     </div>
   );
