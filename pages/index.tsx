@@ -1,12 +1,12 @@
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
-import {usePrivy} from '@privy-io/react-auth';
+import { usePrivy } from '@privy-io/react-auth';
 import Loading from '../components/loading';
 
 export default function LoginPage() {
   const router = useRouter();
-  const {ready, authenticated, login} = usePrivy();
+  const { ready, authenticated, login } = usePrivy();
 
   if (!ready) {
     return <Loading />;
@@ -21,7 +21,7 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      <main className="min-h-screen relative min-w-screen overflow-hidden bg-privy-light-blue p-8 sm:p-10">
+      <main className="overflow-hidden relative p-8 min-h-screen sm:p-10 min-w-screen bg-privy-light-blue">
         <div className="bg-[url('/blobbies-surfing.svg')] bg-no-repeat h-full w-full absolute top-[110px] left-[100px] z-1w"></div>
 
         <div className="sm:hidden z-100">
@@ -33,7 +33,7 @@ export default function LoginPage() {
             <div>
               <h1 className="text-3xl">Privy Auth Demo</h1>
             </div>
-            <div className="flex gap-4 items-center justify-center">
+            <div className="flex gap-4 justify-center items-center">
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
                 <Link href="/gallery">Gallery</Link>
               </p>
@@ -49,13 +49,13 @@ export default function LoginPage() {
               </p>
               <button
                 onClick={login}
-                className="bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white lg:hidden"
+                className="py-2 px-4 text-white rounded-md lg:hidden bg-coral hover:bg-coralaccent"
               >
                 Log in
               </button>
               <button
                 onClick={login}
-                className="bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white hidden lg:block"
+                className="hidden py-2 px-4 text-white rounded-md lg:block bg-coral hover:bg-coralaccent"
               >
                 Log in to try it out
               </button>
@@ -65,17 +65,17 @@ export default function LoginPage() {
 
         <div className="relative mt-12 sm:mt-24 z-[100]">
           <div>
-            <p className="mt-6 text-xl max-w-md">
+            <p className="mt-6 max-w-md text-xl">
               Privy Auth is a simple toolkit for progressive authentication in web3.
             </p>
-            <p className="mt-6 text-xl max-w-md">
+            <p className="mt-6 max-w-md text-xl">
               Engage your users in web3 within seconds, whether they start with wallet, email or
               social, on desktop and mobile.
             </p>
-            <p className="mt-6 text-md hidden sm:block">
+            <p className="hidden mt-6 sm:block text-md">
               <a
                 href="https://lighthouse.mirror.xyz/zq6Tb_YD__KIhvCLhT5M8bOnA43W3peUJa9LYnviiwY"
-                className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer"
+                className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -84,13 +84,13 @@ export default function LoginPage() {
             </p>
             <button
               onClick={login}
-              className="mt-10 bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white sm:hidden"
+              className="py-2 px-4 mt-10 text-white rounded-md sm:hidden bg-coral hover:bg-coralaccent"
             >
               Log in to try it out
             </button>
             <button
               onClick={login}
-              className="mt-16 bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white hidden sm:block"
+              className="hidden py-2 px-4 mt-16 text-white rounded-md sm:block bg-coral hover:bg-coralaccent"
             >
               Try it out
             </button>
