@@ -21,7 +21,7 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      <main className="overflow-hidden relative p-8 min-h-screen sm:p-10 min-w-screen bg-privy-light-blue">
+      <main className="min-h-screen relative min-w-screen overflow-hidden bg-privy-light-blue p-8 sm:p-10">
         <div className="bg-[url('/blobbies-surfing.svg')] bg-no-repeat h-full w-full absolute top-[110px] left-[100px] z-1w"></div>
 
         <div className="sm:hidden z-100">
@@ -33,7 +33,7 @@ export default function LoginPage() {
             <div>
               <h1 className="text-3xl">Privy Auth Demo</h1>
             </div>
-            <div className="flex gap-4 justify-center items-center">
+            <div className="flex gap-4 items-center justify-center">
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
                 <Link href="/gallery">Gallery</Link>
               </p>
@@ -49,13 +49,13 @@ export default function LoginPage() {
               </p>
               <button
                 onClick={login}
-                className="py-2 px-4 text-white rounded-md lg:hidden bg-coral hover:bg-coralaccent"
+                className="bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white lg:hidden"
               >
                 Log in
               </button>
               <button
                 onClick={login}
-                className="hidden py-2 px-4 text-white rounded-md lg:block bg-coral hover:bg-coralaccent"
+                className="bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white hidden lg:block"
               >
                 Log in to try it out
               </button>
@@ -65,17 +65,17 @@ export default function LoginPage() {
 
         <div className="relative mt-12 sm:mt-24 z-[100]">
           <div>
-            <p className="mt-6 max-w-md text-xl">
+            <p className="mt-6 text-xl max-w-md">
               Privy Auth is a simple toolkit for progressive authentication in web3.
             </p>
-            <p className="mt-6 max-w-md text-xl">
+            <p className="mt-6 text-xl max-w-md">
               Engage your users in web3 within seconds, whether they start with wallet, email or
               social, on desktop and mobile.
             </p>
-            <p className="hidden mt-6 sm:block text-md">
+            <p className="mt-6 text-md hidden sm:block">
               <a
                 href="https://lighthouse.mirror.xyz/zq6Tb_YD__KIhvCLhT5M8bOnA43W3peUJa9LYnviiwY"
-                className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent"
+                className="text-privurple hover:text-privurpleaccent underline hover:cursor-pointer"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -84,13 +84,13 @@ export default function LoginPage() {
             </p>
             <button
               onClick={login}
-              className="py-2 px-4 mt-10 text-white rounded-md sm:hidden bg-coral hover:bg-coralaccent"
+              className="mt-10 bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white sm:hidden"
             >
               Log in to try it out
             </button>
             <button
               onClick={login}
-              className="hidden py-2 px-4 mt-16 text-white rounded-md sm:block bg-coral hover:bg-coralaccent"
+              className="mt-16 bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white hidden sm:block"
             >
               Try it out
             </button>
