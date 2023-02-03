@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
-import { usePrivy } from '@privy-io/react-auth';
+import {usePrivy} from '@privy-io/react-auth';
 import Loading from '../components/loading';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { ready, authenticated, login } = usePrivy();
+  const {ready, authenticated, login} = usePrivy();
 
   if (!ready) {
     return <Loading />;
