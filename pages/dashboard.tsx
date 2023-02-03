@@ -77,7 +77,14 @@ export default function LoginPage() {
         <div className="sm:hidden">
           <div className="flex flex-row justify-between items-center">
             <div>
-              <h1 className="text-2xl">Privy Auth Demo</h1>
+              <div>
+                <Image
+                  src="/logos/privy-demo.png"
+                  height="50px"
+                  width="206px"
+                  alt="Privy Auth Demo"
+                />
+              </div>
             </div>
             <div>
               <button

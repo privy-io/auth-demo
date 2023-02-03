@@ -26,7 +26,9 @@ export default function LoginPage() {
         <div className="bg-[url('/blobbies-surfing.svg')] bg-no-repeat h-full w-full absolute top-[110px] left-[100px] z-1w"></div>
 
         <div className="sm:hidden z-100">
-          <h1 className="text-3xl">Privy Auth Demo</h1>
+          <div>
+            <Image src="/logos/privy-demo.png" height="50px" width="206px" alt="Privy Auth Demo" />
+          </div>
         </div>
 
         <div className="hidden sm:block z-100">
