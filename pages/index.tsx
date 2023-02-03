@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import {usePrivy} from '@privy-io/react-auth';
 import Loading from '../components/loading';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function LoginPage() {
         <div className="hidden sm:block z-100">
           <div className="flex flex-row justify-between items-center">
             <div>
-              <h1 className="text-3xl">Privy Auth Demo</h1>
+              <Image src="logos/privy_demo.png" height="50px" width="100%" alt="Privy Auth Demo" />
             </div>
             <div className="flex gap-4 items-center justify-center">
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">

@@ -4,6 +4,7 @@ import React, {useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
 import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
+import Image from 'next/image';
 import Loading from '../components/loading';
 import UserBox from '../components/user-box';
 import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
@@ -95,7 +96,7 @@ export default function LoginPage() {
         <div className="hidden sm:block">
           <div className="flex flex-row justify-between items-center">
             <div>
-              <h1 className="text-3xl">Privy Auth Demo</h1>
+              <Image src="logos/privy_demo.png" height="50px" width="100%" alt="Privy Auth Demo" />
             </div>
             <div className="flex gap-4 items-center justify-center">
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
