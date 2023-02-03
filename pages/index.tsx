@@ -32,7 +32,12 @@ export default function LoginPage() {
         <div className="hidden sm:block z-100">
           <div className="flex flex-row justify-between items-center">
             <div>
-              <Image src="logos/privy_demo.png" height="50px" width="100%" alt="Privy Auth Demo" />
+              <Image
+                src="/logos/privy-demo.png"
+                height="50px"
+                width="206px"
+                alt="Privy Auth Demo"
+              />
             </div>
             <div className="flex gap-4 items-center justify-center">
               <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
