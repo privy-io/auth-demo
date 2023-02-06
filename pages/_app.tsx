@@ -4,6 +4,7 @@ import Head from 'next/head';
 import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
+import {setDatadogUser} from '../lib/datadog';
 
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
@@ -27,7 +28,10 @@ function MyApp({Component, pageProps}: AppProps) {
       <PlausibleProvider domain="demo.privy.io">
         <PrivyProvider
           appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
-          onSuccess={() => router.push('/dashboard')}
+          onSuccess={(user) => {
+            setDatadogUser(user);
+            router.push('/dashboard');
+          }}
         >
           <Component {...pageProps} />
         </PrivyProvider>

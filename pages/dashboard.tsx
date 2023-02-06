@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Loading from '../components/loading';
 import UserBox from '../components/user-box';
 import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
+import {clearDatadogUser} from '../lib/datadog';
 
 const formatWallet = (address: string | undefined): string => {
   if (!address) {
@@ -43,6 +44,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (ready && !authenticated) {
+      clearDatadogUser();
       router.push('/');
     }
   }, [ready, authenticated, router]);
