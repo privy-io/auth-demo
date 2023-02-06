@@ -4,10 +4,13 @@ import Head from 'next/head';
 import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
-import {setDatadogUser} from '../lib/datadog';
+import {initializeDatadog, setDatadogUser} from '../lib/datadog';
+import {useMemo} from 'react';
 
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
+
+  useMemo(initializeDatadog, []);
 
   return (
     <>
