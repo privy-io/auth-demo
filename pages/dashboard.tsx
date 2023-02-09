@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
 import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
@@ -21,6 +21,9 @@ const formatWallet = (address: string | undefined): string => {
 
 export default function LoginPage() {
   const router = useRouter();
+  const [signLoading, setSignLoading] = useState(false);
+  const [signSuccess, setSignSuccess] = useState(false);
+
   const {
     ready,
     authenticated,
@@ -39,6 +42,7 @@ export default function LoginPage() {
     linkDiscord,
     setActiveWallet,
     unlinkDiscord,
+    walletConnectors,
     linkGithub,
     unlinkGithub,
   } = usePrivy();
@@ -53,6 +57,10 @@ export default function LoginPage() {
   const linkedAccounts = user?.linkedAccounts || [];
 
   const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
+
+  const activeWallet = (
+    linkedAccounts.find((a) => a.type === 'wallet') as WalletWithMetadata | undefined
+  )?.address;
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
@@ -277,6 +285,40 @@ export default function LoginPage() {
             <h3 className="font-bold text-privy-navy text-lg">Authenticated accounts</h3>
             <div className="mt-5">
               <UserBox user={user} />
+              {signSuccess && (
+                <p>
+                  Signature was successful!{' '}
+                  <span
+                    className="hover:cursor-pointer underline"
+                    onClick={() => setSignSuccess(false)}
+                  >
+                    dismiss
+                  </span>
+                  .
+                </p>
+              )}
+              {signLoading ? (
+                <p>Waiting for signature...</p>
+              ) : (
+                <button
+                  className="bg-coral hover:bg-coralaccent m-2 py-2 px-4 rounded-md text-white"
+                  onClick={() => {
+                    setSignSuccess(false);
+                    setSignLoading(true);
+                    walletConnectors
+                      ?.activeWalletSign(
+                        'Signing with the active wallet' +
+                          walletConnectors?.activeWalletConnector?.address,
+                      )
+                      .then(() => {
+                        setSignSuccess(true);
+                        setSignLoading(false);
+                      });
+                  }}
+                >
+                  Sign with active wallet ({formatWallet(activeWallet)})
+                </button>
+              )}
               {wallets &&
                 wallets.map((wallet) => {
                   return wallet.address === user.wallet?.address ? (
