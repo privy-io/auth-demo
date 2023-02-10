@@ -4,7 +4,6 @@ import React, {useState, useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
 import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
-import Image from 'next/image';
 import Loading from '../components/loading';
 import UserBox from '../components/user-box';
 import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
@@ -19,11 +18,23 @@ const formatWallet = (address: string | undefined): string => {
   return `${first}...${last}`;
 };
 
+const DismissableInfo = ({message, onClick_}: {message: string; onClick_?: () => void | null}) => {
+  return (
+    <div className="bg-green-200 px-4 py-2 my-2 rounded flex min-w-full justify-between">
+      <p>{message}</p>
+      {onClick_ && (
+        <p className="hover:cursor-pointer underline" onClick={onClick_}>
+          dismiss
+        </p>
+      )}
+    </div>
+  );
+};
+
 export default function LoginPage() {
   const router = useRouter();
   const [signLoading, setSignLoading] = useState(false);
   const [signSuccess, setSignSuccess] = useState(false);
-  const [active, setActive] = useState('');
 
   const {
     ready,
@@ -55,19 +66,6 @@ export default function LoginPage() {
     }
   }, [ready, authenticated, router]);
 
-  useEffect(() => {
-    if (ready && authenticated) {
-      const linkedAccounts = user?.linkedAccounts || [];
-      const activeWallet = (
-        linkedAccounts.find((a) => a.type === 'wallet') as WalletWithMetadata | undefined
-      )?.address;
-
-      if (activeWallet) {
-        setActive(activeWallet);
-      }
-    }
-  }, [ready, authenticated, user]);
-
   const linkedAccounts = user?.linkedAccounts || [];
 
   const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
@@ -89,13 +87,6 @@ export default function LoginPage() {
 
   const githubSubject = user?.github?.subject;
   const githubUsername = user?.github?.username;
-
-  const isActiveWallet = (wallet: string, user: User): boolean => {
-    if (user.wallet?.address === wallet) {
-      return true;
-    }
-    return false;
-  };
 
   if (!ready || !authenticated || !user) {
     return <Loading />;
@@ -306,18 +297,13 @@ export default function LoginPage() {
             </p>
 
             {signSuccess && (
-              <p className="bg-green-200 px-4 py-2 my-2 rounded">
-                Signature was successful!{' '}
-                <span
-                  className="hover:cursor-pointer underline"
-                  onClick={() => setSignSuccess(false)}
-                >
-                  dismiss
-                </span>
-              </p>
+              <DismissableInfo
+                message="Signature was successful"
+                onClick_={() => setSignSuccess(false)}
+              />
             )}
             {signLoading ? (
-              <p>Waiting for signature...</p>
+              <DismissableInfo message="Waiting for signature" />
             ) : (
               <div className="flex justify-between items-center min-w-full px-4 py-2 rounded-xl bg-white my-4">
                 {user.wallet && (
