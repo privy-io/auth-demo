@@ -23,6 +23,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [signLoading, setSignLoading] = useState(false);
   const [signSuccess, setSignSuccess] = useState(false);
+  const [active, setActive] = useState('');
 
   const {
     ready,
@@ -54,13 +55,22 @@ export default function LoginPage() {
     }
   }, [ready, authenticated, router]);
 
+  useEffect(() => {
+    if (ready && authenticated) {
+      const linkedAccounts = user?.linkedAccounts || [];
+      const activeWallet = (
+        linkedAccounts.find((a) => a.type === 'wallet') as WalletWithMetadata | undefined
+      )?.address;
+
+      if (activeWallet) {
+        setActive(activeWallet);
+      }
+    }
+  }, [ready, authenticated, user]);
+
   const linkedAccounts = user?.linkedAccounts || [];
 
   const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
-
-  const activeWallet = (
-    linkedAccounts.find((a) => a.type === 'wallet') as WalletWithMetadata | undefined
-  )?.address;
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
@@ -285,21 +295,37 @@ export default function LoginPage() {
             <h3 className="font-bold text-privy-navy text-lg">Authenticated accounts</h3>
             <div className="mt-5">
               <UserBox user={user} />
-              {signSuccess && (
-                <p>
-                  Signature was successful!{' '}
-                  <span
-                    className="hover:cursor-pointer underline"
-                    onClick={() => setSignSuccess(false)}
-                  >
-                    dismiss
-                  </span>
-                  .
-                </p>
-              )}
-              {signLoading ? (
-                <p>Waiting for signature...</p>
-              ) : (
+            </div>
+
+            <h3 className="mt-10 font-bold text-privy-navy text-lg">Active wallet</h3>
+            <p>
+              If your user has at least one wallet linked, then they have an active wallet.
+              <br />
+              You can use the active wallet to perform on-chain actions like signing or
+              transactions.
+            </p>
+
+            {signSuccess && (
+              <p className="bg-green-200 px-4 py-2 my-2 rounded">
+                Signature was successful!{' '}
+                <span
+                  className="hover:cursor-pointer underline"
+                  onClick={() => setSignSuccess(false)}
+                >
+                  dismiss
+                </span>
+              </p>
+            )}
+            {signLoading ? (
+              <p>Waiting for signature...</p>
+            ) : (
+              <div className="flex justify-between items-center min-w-full px-4 py-2 rounded-xl bg-white my-4">
+                {user.wallet && (
+                  <p>
+                    <span className="font-bold">Active wallet:</span>{' '}
+                    {formatWallet(user.wallet.address)}
+                  </p>
+                )}
                 <button
                   className="bg-coral hover:bg-coralaccent m-2 py-2 px-4 rounded-md text-white"
                   onClick={() => {
@@ -307,7 +333,7 @@ export default function LoginPage() {
                     setSignLoading(true);
                     walletConnectors
                       ?.activeWalletSign(
-                        'Signing with the active wallet' +
+                        'Signing with the active wallet in Privy: ' +
                           walletConnectors?.activeWalletConnector?.address,
                       )
                       .then(() => {
@@ -316,16 +342,16 @@ export default function LoginPage() {
                       });
                   }}
                 >
-                  Sign with active wallet ({formatWallet(activeWallet)})
+                  Sign
                 </button>
-              )}
-              {wallets &&
-                wallets.map((wallet) => {
-                  return wallet.address === user.wallet?.address ? (
-                    <p className="my-2 py-2" key={wallet.address}>
-                      {formatWallet(wallet.address)} (active)
-                    </p>
-                  ) : (
+              </div>
+            )}
+            {wallets &&
+              wallets.map((wallet) => {
+                if (wallet.address == user?.wallet?.address) {
+                  return <div key={wallet.address}></div>;
+                } else {
+                  return (
                     <p key={wallet.address}>
                       {formatWallet(wallet.address)}
                       <button
@@ -338,8 +364,8 @@ export default function LoginPage() {
                       </button>
                     </p>
                   );
-                })}
-            </div>
+                }
+              })}
           </div>
         </div>
       </main>
