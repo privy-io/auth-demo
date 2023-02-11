@@ -332,18 +332,19 @@ export default function LoginPage() {
                 </button>
               </div>
             )}
-            {wallets &&
-              wallets.map((wallet) => {
-                if (wallet.address == user?.wallet?.address) {
-                  return <div key={wallet.address}></div>;
+            {walletConnectors?.walletConnectors &&
+              walletConnectors.walletConnectors.map((walletConnector) => {
+                const addr = walletConnector.address as string;
+                if (addr == user?.wallet?.address) {
+                  return <div key={addr}></div>;
                 } else {
                   return (
-                    <p key={wallet.address}>
-                      {formatWallet(wallet.address)}
+                    <p key={addr}>
+                      {formatWallet(addr)}
                       <button
                         className="bg-coral hover:bg-coralaccent m-2 py-2 px-4 rounded-md text-white"
                         onClick={() => {
-                          setActiveWallet(wallet.address);
+                          setActiveWallet(addr);
                         }}
                       >
                         make active
