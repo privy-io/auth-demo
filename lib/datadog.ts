@@ -3,7 +3,7 @@ import type {User} from '@privy-io/react-auth';
 
 export const initializeDatadog = () => {
   if (!process.env.NEXT_PUBLIC_DATADOG_APP_ID || !process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN) {
-    console.warn('Missing Datadog configuration - will not report');
+    console.log('Missing Datadog configuration - will not report');
     return;
   }
 
