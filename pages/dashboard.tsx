@@ -196,7 +196,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Link a google account"
+                unlinkedText="Link a Google account"
                 linkedText={`Google user ${googleName}`}
                 canUnlink={canRemoveAccount}
                 isLink={!!googleSubject}
@@ -207,7 +207,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Link a twitter account"
+                unlinkedText="Link a Twitter account"
                 linkedText={`Twitter user ${twitterUsername}`}
                 canUnlink={canRemoveAccount}
                 isLink={!!twitterSubject}
@@ -218,7 +218,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Link a discord account"
+                unlinkedText="Link a Discord account"
                 linkedText={`Discord user ${discordUsername}`}
                 canUnlink={canRemoveAccount}
                 isLink={!!discordSubject}
@@ -229,7 +229,7 @@ export default function LoginPage() {
               />
 
               <AuthLinker
-                unlinkedText="Link a github account"
+                unlinkedText="Link a Github account"
                 linkedText={`Github user ${githubUsername}`}
                 canUnlink={canRemoveAccount}
                 isLink={!!githubSubject}
