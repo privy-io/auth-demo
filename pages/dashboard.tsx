@@ -153,7 +153,7 @@ export default function LoginPage() {
               With just a few lines of code, you can easily prompt your users to link different
               accounts and safely take on credentials.
             </p>
-            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-0">Wallets</h3>
+            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-1">Wallets</h3>
             <div className="flex flex-col gap-2 mt-5">
               {wallets.map((wallet) => (
                 <AuthLinker
@@ -264,7 +264,7 @@ export default function LoginPage() {
               </a>
               .
             </p>
-            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-0">JSON</h3>
+            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-1">JSON</h3>
             <div className="mt-5">
               <textarea
                 value={JSON.stringify(user, null, 2)}
@@ -283,7 +283,9 @@ export default function LoginPage() {
               You decide when to engage users, we take care of the how. Connect within seconds,
               seriously.
             </p>
-            <h3 className="font-bold text-privy-navy text-lg">Authenticated accounts</h3>
+            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-1">
+              Authenticated accounts
+            </h3>
             <div className="mt-5">
               <UserBox user={user} />
             </div>
