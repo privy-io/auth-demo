@@ -271,7 +271,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="hidden lg:block">
+          <div>
             <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
               Work with responsive UI
             </h2>
@@ -279,85 +279,89 @@ export default function LoginPage() {
               You decide when to engage users, we take care of the how. Connect within seconds,
               seriously.
             </p>
-            <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">
-              Authenticated accounts
-            </h3>
-            <div className="mt-5">
-              <UserBox user={user} />
-            </div>
-
-            <h3 className="mt-10 text-lg font-bold text-privy-navy">Actions</h3>
-            <div className="mt-4 flex flex-col gap-1 text-sm sm:min-h-[60px]">
-              <p>
-                If your user has at least one wallet linked, you can initiate actions. You can use
-                the active wallet to perform on-chain actions like signing or transactions.
-              </p>
-            </div>
-
-            {signSuccess && (
-              <DismissableSuccess message="Success!" clickHandler={() => setSignSuccess(false)} />
-            )}
-            {signError && (
-              <DismissableError
-                message="Signature failed"
-                clickHandler={() => setSignError(false)}
-              />
-            )}
-            {signLoading ? (
-              <DismissableInfo message="Waiting for signature" />
-            ) : (
-              <div className="my-4 flex min-w-full items-center justify-between rounded-xl bg-white px-4 py-2">
-                {user.wallet && (
-                  <p>
-                    <span className="font-bold">Active wallet:</span>{' '}
-                    {formatWallet(user.wallet.address)}
-                  </p>
-                )}
-                <button
-                  className="m-2 rounded-md bg-coral py-2 px-4 text-white hover:bg-coralaccent"
-                  onClick={() => {
-                    setSignSuccess(false);
-                    setSignLoading(true);
-                    walletConnectors
-                      ?.activeWalletSign(
-                        'Signing with the active wallet in Privy: ' +
-                          walletConnectors?.activeWalletConnector?.address,
-                      )
-                      .then(() => {
-                        setSignSuccess(true);
-                        setSignLoading(false);
-                      })
-                      .catch(() => {
-                        setSignError(true);
-                        setSignLoading(false);
-                      });
-                  }}
-                >
-                  Sign
-                </button>
+            <section className="hidden lg:block">
+              <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">
+                Authenticated accounts
+              </h3>
+              <div className="mt-5">
+                <UserBox user={user} />
               </div>
-            )}
-            {walletConnectors?.walletConnectors &&
-              walletConnectors.walletConnectors.map((walletConnector) => {
-                const addr = walletConnector.address as string;
-                if (addr == user?.wallet?.address) {
-                  return <div key={addr}></div>;
-                } else {
-                  return (
-                    <p key={addr}>
-                      {formatWallet(addr)}
-                      <button
-                        className="m-2 rounded-md bg-coral py-2 px-4 text-white hover:bg-coralaccent"
-                        onClick={() => {
-                          setActiveWallet(addr);
-                        }}
-                      >
-                        make active
-                      </button>
+            </section>
+
+            <section>
+              <h3 className="mt-10 text-lg font-bold text-privy-navy">Wallet actions</h3>
+              <div className="mt-4 flex flex-col gap-1 text-sm sm:min-h-[60px]">
+                <p>
+                  If your user has at least one wallet linked, you can initiate actions. You can use
+                  the active wallet to perform on-chain actions like signing or transactions.
+                </p>
+              </div>
+
+              {signSuccess && (
+                <DismissableSuccess message="Success!" clickHandler={() => setSignSuccess(false)} />
+              )}
+              {signError && (
+                <DismissableError
+                  message="Signature failed"
+                  clickHandler={() => setSignError(false)}
+                />
+              )}
+              {signLoading ? (
+                <DismissableInfo message="Waiting for signature" />
+              ) : (
+                <div className="my-4 flex min-w-full items-center justify-between rounded-xl bg-white px-4 py-2">
+                  {user.wallet && (
+                    <p>
+                      <span className="font-bold">Active wallet:</span>{' '}
+                      {formatWallet(user.wallet.address)}
                     </p>
-                  );
-                }
-              })}
+                  )}
+                  <button
+                    className="m-2 rounded-md bg-privurple py-2 px-4 text-white hover:bg-privurpleaccent"
+                    onClick={() => {
+                      setSignSuccess(false);
+                      setSignLoading(true);
+                      walletConnectors
+                        ?.activeWalletSign(
+                          'Signing with the active wallet in Privy: ' +
+                            walletConnectors?.activeWalletConnector?.address,
+                        )
+                        .then(() => {
+                          setSignSuccess(true);
+                          setSignLoading(false);
+                        })
+                        .catch(() => {
+                          setSignError(true);
+                          setSignLoading(false);
+                        });
+                    }}
+                  >
+                    Sign
+                  </button>
+                </div>
+              )}
+              {walletConnectors?.walletConnectors &&
+                walletConnectors.walletConnectors.map((walletConnector) => {
+                  const addr = walletConnector.address as string;
+                  if (addr == user?.wallet?.address) {
+                    return <div key={addr}></div>;
+                  } else {
+                    return (
+                      <p key={addr}>
+                        {formatWallet(addr)}
+                        <button
+                          className="m-2 rounded-md bg-privurple py-2 px-4 text-white hover:bg-privurpleaccent"
+                          onClick={() => {
+                            setActiveWallet(addr);
+                          }}
+                        >
+                          make active
+                        </button>
+                      </p>
+                    );
+                  }
+                })}
+            </section>
           </div>
         </div>
       </main>
