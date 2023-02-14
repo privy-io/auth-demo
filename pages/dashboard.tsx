@@ -1,4 +1,3 @@
-import {CheckCircleIcon} from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect} from 'react';
@@ -9,6 +8,7 @@ import Loading from '../components/loading';
 import UserBox from '../components/user-box';
 import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
 import {clearDatadogUser} from '../lib/datadog';
+import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
 
 const formatWallet = (address: string | undefined): string => {
   if (!address) {
@@ -19,37 +19,11 @@ const formatWallet = (address: string | undefined): string => {
   return `${first}...${last}`;
 };
 
-const DismissableInfo = ({
-  message,
-  clickHandler,
-}: {
-  message: string;
-  clickHandler?: () => void | null;
-}) => {
-  return (
-    <div className="my-2 flex min-w-full justify-between rounded bg-green-50 px-4 py-2 text-green-800">
-      <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
-      <p>{message}</p>
-      {clickHandler && (
-        // <p className="underline hover:cursor-pointer" onClick={clickHandler}>
-        //   dismiss
-        // </p>
-        <button
-          type="button"
-          onClick={clickHandler}
-          className="ml-3 rounded-md bg-green-50 px-2 py-1.5 text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50"
-        >
-          Dismiss
-        </button>
-      )}
-    </div>
-  );
-};
-
 export default function LoginPage() {
   const router = useRouter();
   const [signLoading, setSignLoading] = useState(false);
   const [signSuccess, setSignSuccess] = useState(false);
+  const [signError, setSignError] = useState(false);
 
   const {
     ready,
@@ -321,9 +295,12 @@ export default function LoginPage() {
             </div>
 
             {signSuccess && (
-              <DismissableInfo
-                message="Signature was successful"
-                clickHandler={() => setSignSuccess(false)}
+              <DismissableSuccess message="Success!" clickHandler={() => setSignSuccess(false)} />
+            )}
+            {signError && (
+              <DismissableError
+                message="Signature failed"
+                clickHandler={() => setSignError(false)}
               />
             )}
             {signLoading ? (
@@ -348,6 +325,10 @@ export default function LoginPage() {
                       )
                       .then(() => {
                         setSignSuccess(true);
+                        setSignLoading(false);
+                      })
+                      .catch(() => {
+                        setSignError(true);
                         setSignLoading(false);
                       });
                   }}
