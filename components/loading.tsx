@@ -2,7 +2,7 @@ import BlobbyIcon from './blobby-icon';
 
 export default function Loading() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-xl bg-privy-light-blue">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-privy-light-blue text-xl">
       <div className="animate-wiggle">
         <BlobbyIcon size={42} />
       </div>
