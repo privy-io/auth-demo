@@ -1,3 +1,4 @@
+import {CheckCircleIcon} from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect} from 'react';
@@ -18,14 +19,28 @@ const formatWallet = (address: string | undefined): string => {
   return `${first}...${last}`;
 };
 
-const DismissableInfo = ({message, onClick_}: {message: string; onClick_?: () => void | null}) => {
+const DismissableInfo = ({
+  message,
+  clickHandler,
+}: {
+  message: string;
+  clickHandler?: () => void | null;
+}) => {
   return (
-    <div className="bg-green-200 px-4 py-2 my-2 rounded flex min-w-full justify-between">
+    <div className="my-2 flex min-w-full justify-between rounded bg-green-50 px-4 py-2 text-green-800">
+      <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
       <p>{message}</p>
-      {onClick_ && (
-        <p className="hover:cursor-pointer underline" onClick={onClick_}>
-          dismiss
-        </p>
+      {clickHandler && (
+        // <p className="underline hover:cursor-pointer" onClick={clickHandler}>
+        //   dismiss
+        // </p>
+        <button
+          type="button"
+          onClick={clickHandler}
+          className="ml-3 rounded-md bg-green-50 px-2 py-1.5 text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50"
+        >
+          Dismiss
+        </button>
       )}
     </div>
   );
@@ -97,9 +112,9 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      <main className="min-h-screen relative min-w-screen overflow-hidden bg-privy-light-blue p-8 sm:p-10">
+      <main className="min-w-screen relative min-h-screen overflow-hidden bg-privy-light-blue p-8 sm:p-10">
         <div className="sm:hidden">
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row items-center justify-between">
             <div>
               <h1 className="text-2xl">Privy Auth Demo</h1>
             </div>
@@ -109,7 +124,7 @@ export default function LoginPage() {
                   e.preventDefault();
                   logout();
                 }}
-                className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent"
+                className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent"
               >
                 Log out
               </button>
@@ -118,27 +133,27 @@ export default function LoginPage() {
         </div>
 
         <div className="hidden sm:block">
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row items-center justify-between">
             <div>
               <h1 className="text-3xl">Privy Auth Demo</h1>
             </div>
-            <div className="flex gap-4 items-center justify-center">
-              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+            <div className="flex items-center justify-center gap-4">
+              <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
                 <Link href="/gallery">Gallery</Link>
               </p>
-              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+              <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
                 <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
                   Docs
                 </a>
               </p>
-              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
+              <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
                 <a href="https://docs.privy.io/guide/setup" target="_blank" rel="noreferrer">
                   Get started now
                 </a>
               </p>
               <button
                 onClick={logout}
-                className="bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
+                className="rounded-md border border-privurple border-opacity-90 py-2 px-4 text-privurple transition-all hover:border-opacity-100 "
               >
                 Log out
               </button>
@@ -146,15 +161,15 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 mt-16 gap-10 -sm:grid-cols-1 -sm:mt-10">
+        <div className="mt-16 grid grid-cols-3 gap-10 -sm:mt-10 -sm:grid-cols-1">
           <div>
-            <h2 className="font-bold text-privy-navy text-xl md:text-2xl">Engage your users</h2>
-            <p className="text-sm min-h-[60px] mt-4">
+            <h2 className="text-xl font-bold text-privy-navy md:text-2xl">Engage your users</h2>
+            <p className="mt-4 text-sm sm:min-h-[60px]">
               With just a few lines of code, you can easily prompt your users to link different
               accounts and safely take on credentials.
             </p>
-            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-1">Wallets</h3>
-            <div className="flex flex-col gap-2 mt-5">
+            <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">Wallets</h3>
+            <div className="mt-5 flex flex-col gap-2">
               {wallets.map((wallet) => (
                 <AuthLinker
                   key={wallet.address}
@@ -167,7 +182,7 @@ export default function LoginPage() {
                   linkAction={linkWallet}
                   additionalInfo={
                     wallet.address === user?.wallet?.address ? (
-                      <span className="text-xs bg-slate-100 px-2 py-1 rounded-md flex items-center gap-1">
+                      <span className="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-xs">
                         active
                       </span>
                     ) : null
@@ -177,9 +192,9 @@ export default function LoginPage() {
               <AuthSection text="Link a wallet" action={<LinkButton onClick={linkWallet} />} />
             </div>
 
-            <h3 className="font-bold text-privy-navy text-lg mt-8">Email / SMS / Social</h3>
+            <h3 className="mt-8 text-lg font-bold text-privy-navy">Email / SMS / Social</h3>
 
-            <div className="flex flex-col gap-2 mt-5">
+            <div className="mt-5 flex flex-col gap-2">
               <AuthLinker
                 unlinkedText="Link an email account"
                 linkedText={`Email ${emailAddress}`}
@@ -248,34 +263,34 @@ export default function LoginPage() {
             </div>
 
             {canRemoveAccount ? null : (
-              <p className="text-slate-400 text-sm mt-4 px-1">
+              <p className="mt-4 px-1 text-sm text-slate-400">
                 Note that if the user only has one account, you cannot unlink it.
               </p>
             )}
           </div>
 
           <div>
-            <h2 className="font-bold text-privy-navy text-xl md:text-2xl">
+            <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
               Build a rich user object
             </h2>
-            <p className="text-sm min-h-[60px] mt-4">
+            <p className="mt-4 text-sm sm:min-h-[60px]">
               Privy gives you modular components so you can customize your product for your users.
               Learn more in{' '}
               <a
                 href="https://docs.privy.io/guide/users/object"
                 target="_blank"
                 rel="noreferrer"
-                className="underline text-privurple hover:text-privurpleaccent"
+                className="text-privurple underline hover:text-privurpleaccent"
               >
                 our docs
               </a>
               .
             </p>
-            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-1">JSON</h3>
+            <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">JSON</h3>
             <div className="mt-5">
               <textarea
                 value={JSON.stringify(user, null, 2)}
-                className="min-w-full p-5 bg-white text-privy-navy font-mono text-xs rounded-xl border-0"
+                className="min-w-full rounded-xl border-0 bg-white p-5 font-mono text-xs text-privy-navy"
                 rows={JSON.stringify(user, null, 2).split('\n').length}
                 disabled
               />
@@ -283,38 +298,38 @@ export default function LoginPage() {
           </div>
 
           <div className="hidden lg:block">
-            <h2 className="font-bold text-xl md:text-2xl text-privy-navy">
+            <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
               Work with responsive UI
             </h2>
-            <p className="text-sm min-h-[60px] mt-4">
+            <p className="mt-4 text-sm sm:min-h-[60px]">
               You decide when to engage users, we take care of the how. Connect within seconds,
               seriously.
             </p>
-            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-1">
+            <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">
               Authenticated accounts
             </h3>
             <div className="mt-5">
               <UserBox user={user} />
             </div>
 
-            <h3 className="mt-10 font-bold text-privy-navy text-lg">Active wallet</h3>
-            <p>
-              If your user has at least one wallet linked, then they have an active wallet.
-              <br />
-              You can use the active wallet to perform on-chain actions like signing or
-              transactions.
-            </p>
+            <h3 className="mt-10 text-lg font-bold text-privy-navy">Actions</h3>
+            <div className="mt-4 flex flex-col gap-1 text-sm sm:min-h-[60px]">
+              <p>
+                If your user has at least one wallet linked, you can initiate actions. You can use
+                the active wallet to perform on-chain actions like signing or transactions.
+              </p>
+            </div>
 
             {signSuccess && (
               <DismissableInfo
                 message="Signature was successful"
-                onClick_={() => setSignSuccess(false)}
+                clickHandler={() => setSignSuccess(false)}
               />
             )}
             {signLoading ? (
               <DismissableInfo message="Waiting for signature" />
             ) : (
-              <div className="flex justify-between items-center min-w-full px-4 py-2 rounded-xl bg-white my-4">
+              <div className="my-4 flex min-w-full items-center justify-between rounded-xl bg-white px-4 py-2">
                 {user.wallet && (
                   <p>
                     <span className="font-bold">Active wallet:</span>{' '}
@@ -322,7 +337,7 @@ export default function LoginPage() {
                   </p>
                 )}
                 <button
-                  className="bg-coral hover:bg-coralaccent m-2 py-2 px-4 rounded-md text-white"
+                  className="m-2 rounded-md bg-coral py-2 px-4 text-white hover:bg-coralaccent"
                   onClick={() => {
                     setSignSuccess(false);
                     setSignLoading(true);
@@ -351,7 +366,7 @@ export default function LoginPage() {
                     <p key={addr}>
                       {formatWallet(addr)}
                       <button
-                        className="bg-coral hover:bg-coralaccent m-2 py-2 px-4 rounded-md text-white"
+                        className="m-2 rounded-md bg-coral py-2 px-4 text-white hover:bg-coralaccent"
                         onClick={() => {
                           setActiveWallet(addr);
                         }}

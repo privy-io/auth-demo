@@ -14,7 +14,7 @@ export type AuthLinkerProps = {
 export function LinkButton(props: {onClick: () => void}) {
   return (
     <button
-      className="min-w-[80px] max-w-[80px] text-sm bg-privurple bg-opacity-90 hover:bg-opacity-100 py-2 px-4 rounded-md text-white transition-all ml-3"
+      className="min-w-[60px] max-w-[60px] rounded-md bg-privurple py-1 px-2 text-sm text-white transition-all hover:bg-privurpleaccent"
       onClick={props.onClick}
     >
       Link
@@ -25,7 +25,7 @@ export function LinkButton(props: {onClick: () => void}) {
 function UnlinkButton(props: {disabled?: boolean; onClick: () => void}) {
   return (
     <button
-      className="min-w-[80px] max-w-[80px] text-sm border border-privurple hover:border-privurpleaccent py-2 px-4 rounded-md text-privurple hover:text-privurpleaccent disabled:border-slate-500 disabled:text-slate-500 hover:disabled:text-slate-500 disabled:cursor-not-allowed transition-all ml-3"
+      className="min-w-[60px] max-w-[60px] rounded-md border border-privurple border-opacity-0 py-1 px-2 text-sm text-privurple transition-all hover:border-privurpleaccent hover:border-opacity-100 hover:text-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-500 disabled:text-slate-500 hover:disabled:text-slate-500"
       onClick={props.onClick}
       disabled={props.disabled}
     >
@@ -40,8 +40,8 @@ export function AuthSection(props: {
   additionalInfo?: React.ReactNode;
 }) {
   return (
-    <div className="flex justify-between items-center gap-10 min-w-full px-3 py-3 rounded-xl bg-white">
-      <div className="flex items-center text-sm gap-3">
+    <div className="flex min-w-full items-center justify-between gap-10 rounded-xl bg-white px-3 py-3">
+      <div className="flex items-center gap-3 text-sm">
         <p>{props.text}</p>
         {props.additionalInfo}
       </div>

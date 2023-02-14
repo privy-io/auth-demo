@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        '-sm': {max: '1000px'},
+        '-sm': {max: '1024px'},
       },
       animation: {
         wiggle: 'wiggle 0.7s ease-in-out infinite',
@@ -23,7 +23,7 @@ module.exports = {
       },
       colors: {
         privurple: '#696FFD',
-        privurpleaccent: '#7075D2',
+        privurpleaccent: '#4f56ea',
         coral: '#FF8271',
         lightgray: '#D1D5DB',
         coralaccent: '#FB6956',
