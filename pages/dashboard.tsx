@@ -12,6 +12,8 @@ import UserBox from '../components/user-box';
 import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
 import {clearDatadogUser} from '../lib/datadog';
 import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
+import ActiveWalletDropdown from '../components/wallet-dropdown';
+import {getHumanReadableWalletType} from '../lib/wallets';
 
 const formatWallet = (address: string | undefined): string => {
   if (!address) {
@@ -290,22 +292,12 @@ export default function LoginPage() {
               </div>
             </section>
 
-            <section>
+            <section className="flex flex-col gap-4">
               <h3 className="mt-10 text-lg font-bold text-privy-navy">Wallet actions</h3>
-              <div className="mt-4 flex flex-col gap-1 text-sm sm:min-h-[60px]">
+              <div className="flex flex-col gap-1 text-sm">
                 <p>
                   With at least one linked wallet, you can use the active wallet to perform on-chain
-                  actions like signing or transactions. As a developer, you can programmatically
-                  update the user&rsquo;s active wallet based on the available options in the
-                  browser session. Learn more in{' '}
-                  <a
-                    href="https://docs.privy.io/guide/frontend/wallets/multiwallet"
-                    target="_blank"
-                    className="text-privurple underline hover:text-privurpleaccent"
-                  >
-                    our docs
-                  </a>
-                  .
+                  actions like signing or transactions.
                 </p>
               </div>
 
@@ -318,61 +310,83 @@ export default function LoginPage() {
                   clickHandler={() => setSignError(false)}
                 />
               )}
-              {signLoading ? (
-                <DismissableInfo message="Waiting for signature" />
-              ) : (
-                <div className="my-4 flex min-w-full items-center justify-between rounded-xl bg-white px-4 py-2">
-                  {user.wallet && (
-                    <p>
-                      <span className="font-bold">Active wallet:</span>{' '}
-                      {formatWallet(user.wallet.address)}
-                    </p>
-                  )}
-                  <button
-                    className="m-2 rounded-md bg-privurple py-2 px-4 text-white hover:bg-privurpleaccent"
-                    onClick={() => {
-                      setSignSuccess(false);
-                      setSignLoading(true);
-                      walletConnectors
-                        ?.activeWalletSign(
-                          'Signing with the active wallet in Privy: ' +
-                            walletConnectors?.activeWalletConnector?.address,
-                        )
-                        .then(() => {
-                          setSignSuccess(true);
-                          setSignLoading(false);
-                        })
-                        .catch(() => {
-                          setSignError(true);
-                          setSignLoading(false);
-                        });
-                    }}
+              {signLoading && <DismissableInfo message="Waiting for signature" />}
+
+              <div className="flex">
+                <button
+                  disabled={signLoading || !walletConnectors?.walletConnectors?.length}
+                  className="mx-auto rounded-md bg-privurple py-2 px-4 text-white hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                  onClick={() => {
+                    setSignError(false);
+                    setSignSuccess(false);
+                    setSignLoading(true);
+                    walletConnectors
+                      ?.activeWalletSign(
+                        'Signing with the active wallet in Privy: ' +
+                          walletConnectors?.activeWalletConnector?.address,
+                      )
+                      .then(() => {
+                        setSignSuccess(true);
+                        setSignLoading(false);
+                      })
+                      .catch(() => {
+                        setSignError(true);
+                        setSignLoading(false);
+                      });
+                  }}
+                >
+                  Sign a message
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-1 text-sm">
+                <p>
+                  As a developer, you can programmatically update the user&rsquo;s active wallet
+                  based on the available options in the browser session. Learn more in{' '}
+                  <a
+                    href="https://docs.privy.io/guide/frontend/wallets/multiwallet"
+                    target="_blank"
+                    className="text-privurple underline hover:text-privurpleaccent"
                   >
-                    Sign
-                  </button>
-                </div>
+                    our docs
+                  </a>
+                  .
+                </p>
+              </div>
+
+              <div className="flex">
+                <ActiveWalletDropdown
+                  disabled={!walletConnectors?.walletConnectors?.length}
+                  options={walletConnectors?.walletConnectors
+                    .filter((walletConnector) => {
+                      const addr = walletConnector.address as string;
+                      return user.linkedAccounts.some(
+                        (a) => a.type === 'wallet' && a.address === addr,
+                      );
+                    })
+                    .map((walletConnector) => {
+                      const addr = walletConnector.address as string;
+                      return {
+                        title: formatWallet(addr),
+                        description: getHumanReadableWalletType(walletConnector.walletType),
+                        onClick: () => setActiveWallet(addr),
+                        selected: addr == user?.wallet?.address,
+                      };
+                    })}
+                />
+              </div>
+
+              {!walletConnectors?.walletConnectors?.length && user.wallet && (
+                <p className="text-sm italic">
+                  Previously linked wallets cannot be restored at this time. We&rsquo;re working
+                  hard to fix this!
+                </p>
               )}
-              {walletConnectors?.walletConnectors &&
-                walletConnectors.walletConnectors.map((walletConnector) => {
-                  const addr = walletConnector.address as string;
-                  if (addr == user?.wallet?.address) {
-                    return <div key={addr}></div>;
-                  } else {
-                    return (
-                      <p key={addr}>
-                        {formatWallet(addr)}
-                        <button
-                          className="m-2 rounded-md bg-privurple py-2 px-4 text-white hover:bg-privurpleaccent"
-                          onClick={() => {
-                            setActiveWallet(addr);
-                          }}
-                        >
-                          make active
-                        </button>
-                      </p>
-                    );
-                  }
-                })}
+              {!walletConnectors?.walletConnectors?.length && !user.wallet && (
+                <p className="text-sm italic">
+                  You haven&rsquo;t linked any wallets yet. Try linking and then come back!
+                </p>
+              )}
             </section>
           </div>
         </div>
