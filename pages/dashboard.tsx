@@ -395,16 +395,6 @@ export default function LoginPage() {
             </div>
           </div>
         </main>
-        <footer className="mt-4 flex h-8 items-center justify-center gap-1 p-8">
-          <span>Start building today with</span>
-          <a
-            href="https://docs.privy.io/guide/setup"
-            target="_blank"
-            className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent"
-          >
-            Privy
-          </a>
-        </footer>
       </div>
     </>
   );
