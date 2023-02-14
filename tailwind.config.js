@@ -5,9 +5,6 @@ module.exports = {
   content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      screens: {
-        '-sm': {max: '1024px'},
-      },
       animation: {
         wiggle: 'wiggle 0.7s ease-in-out infinite',
         'bounce-short': 'bounce 0.8s ease-in-out 2.5',

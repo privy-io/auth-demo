@@ -138,10 +138,10 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-3 gap-10 -sm:mt-10 -sm:grid-cols-1">
+        <div className="mt-10 grid grid-cols-1 gap-10 lg:mt-16 lg:grid-cols-3">
           <div>
             <h2 className="text-xl font-bold text-privy-navy md:text-2xl">Engage your users</h2>
-            <p className="mt-4 text-sm sm:min-h-[60px]">
+            <p className="mt-4 text-sm lg:min-h-[60px]">
               With just a few lines of code, you can easily prompt your users to link different
               accounts and safely take on credentials.
             </p>
@@ -250,7 +250,7 @@ export default function LoginPage() {
             <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
               Build a rich user object
             </h2>
-            <p className="mt-4 text-sm sm:min-h-[60px]">
+            <p className="mt-4 text-sm lg:min-h-[60px]">
               Privy gives you modular components so you can customize your product for your users.
               Learn more in{' '}
               <a
@@ -277,7 +277,7 @@ export default function LoginPage() {
             <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
               Work with responsive UI
             </h2>
-            <p className="mt-4 text-sm sm:min-h-[60px]">
+            <p className="mt-4 text-sm lg:min-h-[60px]">
               You decide when to engage users, we take care of the how. Connect within seconds,
               seriously.
             </p>
