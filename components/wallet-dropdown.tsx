@@ -13,15 +13,12 @@ export default function ActiveWalletDropdown(props: {
 }) {
   const selected = props.options?.find((o) => o.selected);
 
-  console.log('asdf', props.disabled);
-
   return (
     <Listbox
       value={selected}
       disabled={props.disabled}
       as="div"
-      // Divs can't be "disabled", so we do this to use the `group-[.disabled]`
-      // selector syntax
+      // Divs can't be "disabled", so we do this to use `group-[.disabled]`
       className={classNames('group m-auto', props.disabled ? 'disabled' : '')}
     >
       {({open}) => (

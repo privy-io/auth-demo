@@ -13,7 +13,7 @@ import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
 import {clearDatadogUser} from '../lib/datadog';
 import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
 import ActiveWalletDropdown from '../components/wallet-dropdown';
-import {getHumanReadableWalletType} from '../lib/wallets';
+import {getHumanReadableWalletType} from '../lib/utils';
 
 const formatWallet = (address: string | undefined): string => {
   if (!address) {
