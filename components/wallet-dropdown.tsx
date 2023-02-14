@@ -1,6 +1,5 @@
 // Modified from https://tailwindui.com/components/application-ui/forms/select-menus
 
-import {Fragment} from 'react';
 import {Listbox, Transition} from '@headlessui/react';
 import {WalletIcon, ChevronDownIcon, CheckIcon} from '@heroicons/react/20/solid';
 
