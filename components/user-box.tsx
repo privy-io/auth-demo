@@ -40,7 +40,7 @@ export default function UserBox({user}: UserBoxProps) {
         {user.email ? (
           <div className="flex items-center gap-2">
             <BlobbyIconFull size={20} />
-            <p>has a email</p>
+            <p>has an email</p>
           </div>
         ) : (
           <div className="flex items-center gap-2 opacity-30">

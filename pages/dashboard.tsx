@@ -1,3 +1,6 @@
+// We trust all links we're sending to, so keep referrers for tracking
+/* eslint-disable react/jsx-no-target-blank */
+
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect} from 'react';
@@ -116,12 +119,12 @@ export default function LoginPage() {
                 <Link href="/gallery">Gallery</Link>
               </p>
               <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
-                <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
+                <a href="https://docs.privy.io" target="_blank">
                   Docs
                 </a>
               </p>
               <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
-                <a href="https://docs.privy.io/guide/setup" target="_blank" rel="noreferrer">
+                <a href="https://docs.privy.io/guide/setup" target="_blank">
                   Get started now
                 </a>
               </p>
@@ -251,9 +254,8 @@ export default function LoginPage() {
               Privy gives you modular components so you can customize your product for your users.
               Learn more in{' '}
               <a
-                href="https://docs.privy.io/guide/users/object"
+                href="https://docs.privy.io/guide/frontend/users/object"
                 target="_blank"
-                rel="noreferrer"
                 className="text-privurple underline hover:text-privurpleaccent"
               >
                 our docs
@@ -292,8 +294,18 @@ export default function LoginPage() {
               <h3 className="mt-10 text-lg font-bold text-privy-navy">Wallet actions</h3>
               <div className="mt-4 flex flex-col gap-1 text-sm sm:min-h-[60px]">
                 <p>
-                  If your user has at least one wallet linked, you can initiate actions. You can use
-                  the active wallet to perform on-chain actions like signing or transactions.
+                  With at least one linked wallet, you can use the active wallet to perform on-chain
+                  actions like signing or transactions. As a developer, you can programmatically
+                  update the user&rsquo;s active wallet based on the available options in the
+                  browser session. Learn more in{' '}
+                  <a
+                    href="https://docs.privy.io/guide/frontend/wallets/multiwallet"
+                    target="_blank"
+                    className="text-privurple underline hover:text-privurpleaccent"
+                  >
+                    our docs
+                  </a>
+                  .
                 </p>
               </div>
 
