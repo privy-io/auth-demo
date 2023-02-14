@@ -47,14 +47,14 @@ export default function ActiveWalletDropdown(props: {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute right-0 z-10 mt-2 w-full origin-top-right divide-y divide-gray-200 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Listbox.Options className="absolute z-10 mt-2 w-full origin-top-right divide-y divide-gray-200 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 {props.options?.map((option) => (
                   <Listbox.Option
                     key={option.title}
                     className={({active}) =>
                       classNames(
-                        active ? 'bg-privurple text-white' : 'text-gray-900',
-                        'cursor-pointer select-none p-4 text-sm',
+                        active ? 'bg-privurple text-white' : 'text-privy-navy',
+                        'cursor-pointer select-none p-3 text-sm',
                       )
                     }
                     value={option}
@@ -75,7 +75,7 @@ export default function ActiveWalletDropdown(props: {
                         <p
                           className={classNames(
                             active ? 'text-indigo-200' : 'text-gray-500',
-                            'mt-2',
+                            'mt-1',
                           )}
                         >
                           {option.description}

@@ -15,7 +15,8 @@ export default function UserBox({user}: UserBoxProps) {
   return (
     <div className="text-sm">
       <div className="flex flex-col gap-3 rounded-xl bg-white p-5">
-        {user.wallet ? (
+        {/* TODO: Once user.wallet is fixed, use that again */}
+        {walletCount ? (
           <div className="flex items-center gap-2">
             <BlobbyIconFull size={20} />
             <p>{walletCount === 1 ? 'has a wallet' : `has ${walletCount} wallets`}</p>
