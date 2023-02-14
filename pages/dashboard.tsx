@@ -165,6 +165,13 @@ export default function LoginPage() {
                     unlinkWallet(wallet.address);
                   }}
                   linkAction={linkWallet}
+                  additionalInfo={
+                    wallet.address === user?.wallet?.address ? (
+                      <span className="text-xs bg-slate-100 px-2 py-1 rounded-md flex items-center gap-1">
+                        active
+                      </span>
+                    ) : null
+                  }
                 />
               ))}
               <AuthSection text="Link a wallet" action={<LinkButton onClick={linkWallet} />} />

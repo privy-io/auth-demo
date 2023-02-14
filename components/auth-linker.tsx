@@ -7,12 +7,14 @@ export type AuthLinkerProps = {
   unlinkAction: () => void;
   isLink: boolean;
   canUnlink: boolean;
+  // Optional content placed aligned left, to the right of the main text
+  additionalInfo?: React.ReactNode;
 };
 
 export function LinkButton(props: {onClick: () => void}) {
   return (
     <button
-      className="min-w-[80px] max-w-[80px] text-sm bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
+      className="min-w-[80px] max-w-[80px] text-sm bg-privurple bg-opacity-90 hover:bg-opacity-100 py-2 px-4 rounded-md text-white transition-all ml-3"
       onClick={props.onClick}
     >
       Link
@@ -23,7 +25,7 @@ export function LinkButton(props: {onClick: () => void}) {
 function UnlinkButton(props: {disabled?: boolean; onClick: () => void}) {
   return (
     <button
-      className="min-w-[80px] max-w-[80px] text-sm border border-coral hover:border-coralaccent py-2 px-4 rounded-md text-coral hover:text-coralaccent disabled:border-slate-500 disabled:text-slate-500 hover:disabled:text-slate-500 disabled:cursor-not-allowed"
+      className="min-w-[80px] max-w-[80px] text-sm border border-privurple hover:border-privurpleaccent py-2 px-4 rounded-md text-privurple hover:text-privurpleaccent disabled:border-slate-500 disabled:text-slate-500 hover:disabled:text-slate-500 disabled:cursor-not-allowed transition-all ml-3"
       onClick={props.onClick}
       disabled={props.disabled}
     >
@@ -32,13 +34,18 @@ function UnlinkButton(props: {disabled?: boolean; onClick: () => void}) {
   );
 }
 
-export function AuthSection(props: {text: string; action: React.ReactNode}) {
+export function AuthSection(props: {
+  text: string;
+  action: React.ReactNode;
+  additionalInfo?: React.ReactNode;
+}) {
   return (
-    <div className="flex justify-between items-center gap-10 min-w-full p-4 rounded-xl bg-white">
-      <div className="h-[48px] max-h-[50px] flex items-center text-sm">
+    <div className="flex justify-between items-center gap-10 min-w-full px-3 py-3 rounded-xl bg-white">
+      <div className="flex items-center text-sm gap-3">
         <p>{props.text}</p>
+        {props.additionalInfo}
       </div>
-      {props.action}
+      <div className="flex flex-row items-center">{props.action}</div>
     </div>
   );
 }
@@ -50,6 +57,7 @@ export default function AuthLinker({
   canUnlink,
   isLink,
   unlinkAction,
+  additionalInfo,
 }: AuthLinkerProps) {
   return (
     <AuthSection
@@ -61,6 +69,7 @@ export default function AuthLinker({
           <LinkButton onClick={linkAction} />
         )
       }
+      additionalInfo={additionalInfo}
     />
   );
 }
