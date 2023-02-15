@@ -360,23 +360,20 @@ export default function LoginPage() {
 
                 <div className="flex">
                   <ActiveWalletDropdown
-                    disabled={!walletConnectors?.walletConnectors?.length}
-                    options={walletConnectors?.walletConnectors
-                      .filter((walletConnector) => {
-                        const addr = walletConnector.address as string;
-                        return user.linkedAccounts.some(
-                          (a) => a.type === 'wallet' && a.address === addr,
-                        );
-                      })
-                      .map((walletConnector) => {
-                        const addr = walletConnector.address as string;
-                        return {
-                          title: formatWallet(addr),
-                          description: getHumanReadableWalletType(walletConnector.walletType),
-                          onClick: () => setActiveWallet(addr),
-                          selected: addr == user?.wallet?.address,
-                        };
-                      })}
+                    disabled={!wallets.length}
+                    options={wallets.map((wallet) => {
+                      const connector = walletConnectors?.walletConnectors.find(
+                        (wc) => wc.address === wallet.address,
+                      );
+                      return {
+                        title: formatWallet(wallet.address),
+                        description: `${getHumanReadableWalletType(
+                          connector?.walletType || wallet.walletType,
+                        )} · ${connector ? 'connected' : 'disconnected'}`,
+                        onClick: () => setActiveWallet(wallet.address),
+                        selected: wallet.address == user?.wallet?.address,
+                      };
+                    })}
                   />
                 </div>
 
