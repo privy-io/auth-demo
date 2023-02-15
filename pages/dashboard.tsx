@@ -1,6 +1,7 @@
 // We trust all links we're sending to, so keep referrers for tracking
 /* eslint-disable react/jsx-no-target-blank */
 
+import axios from 'axios';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect} from 'react';
@@ -52,6 +53,7 @@ export default function LoginPage() {
     walletConnectors,
     linkGithub,
     unlinkGithub,
+    getAccessToken,
   } = usePrivy();
 
   useEffect(() => {
@@ -86,6 +88,21 @@ export default function LoginPage() {
   if (!ready || !authenticated || !user) {
     return <Loading />;
   }
+
+  async function deleteUser() {
+    const authToken = await getAccessToken();
+    try {
+      await axios.delete('/api/users/me', {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    logout();
+  }
+
   return (
     <>
       <Head>
@@ -288,6 +305,14 @@ export default function LoginPage() {
                   disabled
                 />
               </div>
+              <div className="mt-5">
+                <button
+                  onClick={deleteUser}
+                  className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                >
+                  Delete my data
+                </button>
+              </div>
             </div>
 
             <div>
@@ -390,7 +415,6 @@ export default function LoginPage() {
                     })}
                   />
                 </div>
-
                 {!walletConnectors?.walletConnectors?.length && user.wallet && (
                   <p className="text-sm italic">
                     Previously linked wallets cannot be restored at this time. We&rsquo;re working
