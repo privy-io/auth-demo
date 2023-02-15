@@ -319,7 +319,7 @@ export default function LoginPage() {
                 <div className="flex">
                   <button
                     disabled={signLoading || !walletConnectors?.walletConnectors?.length}
-                    className="mx-auto rounded-md bg-privurple py-2 px-4 text-white hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                    className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
                     onClick={() => {
                       setSignError(false);
                       setSignSuccess(false);

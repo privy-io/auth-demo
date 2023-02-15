@@ -25,15 +25,13 @@ export default function ActiveWalletDropdown(props: {
         <>
           <div className="relative min-w-[300px] max-w-[300px]">
             <div className="inline-flex w-full divide-x divide-slate-200 rounded-md shadow-sm">
-              <div className="inline-flex w-full divide-x divide-slate-200 rounded-md shadow-sm">
-                <div className="inline-flex w-full items-center rounded-l-md border border-transparent bg-white py-2 pl-3 pr-4 text-privurple shadow-sm group-[.disabled]:text-slate-400">
-                  <WalletIcon className="h-5 w-5" aria-hidden="true" />
-                  <p className="ml-2.5 text-sm font-medium">Active Wallet: {selected?.title}</p>
-                </div>
-                <Listbox.Button className="inline-flex items-center rounded-l-none rounded-r-md bg-white p-2 text-sm font-medium text-privurple hover:bg-privurpleaccent hover:text-white focus:outline-none focus:ring-2 focus:ring-privurple focus:ring-offset-2 focus:ring-offset-gray-50 group-[.disabled]:text-slate-400 group-[.disabled]:hover:bg-white">
-                  <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-                </Listbox.Button>
+              <div className="inline-flex w-full items-center rounded-l-md border border-transparent bg-white py-2 pl-3 pr-4 text-privurple group-[.disabled]:text-slate-400">
+                <WalletIcon className="h-5 w-5" aria-hidden="true" />
+                <p className="ml-2.5 text-sm font-medium">Active Wallet: {selected?.title}</p>
               </div>
+              <Listbox.Button className="inline-flex items-center rounded-l-none rounded-r-md bg-white p-2 text-sm font-medium text-privurple hover:bg-privurpleaccent hover:text-white focus:outline-none focus:ring-2 focus:ring-privurple focus:ring-offset-2 focus:ring-offset-gray-50 group-[.disabled]:text-slate-400 group-[.disabled]:hover:bg-white">
+                <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+              </Listbox.Button>
             </div>
 
             <Transition
