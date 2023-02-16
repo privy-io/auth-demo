@@ -14,6 +14,7 @@ import {clearDatadogUser} from '../lib/datadog';
 import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
 import ActiveWalletDropdown from '../components/wallet-dropdown';
 import {getHumanReadableWalletType} from '../lib/utils';
+import Image from 'next/image';
 
 const formatWallet = (address: string | undefined): string => {
   if (!address) {
@@ -96,7 +97,12 @@ export default function LoginPage() {
           <div className="sm:hidden">
             <div className="flex flex-row items-center justify-between">
               <div>
-                <h1 className="text-2xl">Privy Auth Demo</h1>
+                <Image
+                  src="/logos/privy-demo.png"
+                  height="50px"
+                  width="206px"
+                  alt="Privy Auth Demo"
+                />
               </div>
               <div>
                 <button
@@ -115,7 +121,12 @@ export default function LoginPage() {
           <div className="hidden sm:block">
             <div className="flex flex-row items-center justify-between">
               <div>
-                <h1 className="text-3xl">Privy Auth Demo</h1>
+                <Image
+                  src="/logos/privy-demo.png"
+                  height="50px"
+                  width="206px"
+                  alt="Privy Auth Demo"
+                />
               </div>
               <div className="flex items-center justify-center gap-4">
                 <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
