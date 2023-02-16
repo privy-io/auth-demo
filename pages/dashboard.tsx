@@ -172,7 +172,10 @@ export default function LoginPage() {
                     }}
                     linkAction={linkWallet}
                     additionalInfo={
-                      wallet.address === user?.wallet?.address ? (
+                      wallet.address === user?.wallet?.address &&
+                      walletConnectors?.walletConnectors.find(
+                        (wc) => wc.address === wallet.address,
+                      ) ? (
                         <span className="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-xs">
                           active
                         </span>
