@@ -1,6 +1,6 @@
 # Privy Auth Demo
 
-This is a simple browser and mobile optimized demo of Privy Auth.
+This is a browser and mobile optimized demo of Privy Auth.
 
 ## Useful Code Snippets
 
