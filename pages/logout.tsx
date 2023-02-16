@@ -23,9 +23,9 @@ export default function LoginPage() {
       </Head>
 
       <main className="flex min-h-screen min-w-full">
-        <div className="flex bg-privy-light-blue flex-1 p-6 justify-center items-center">
+        <div className="flex flex-1 items-center justify-center bg-privy-light-blue p-6">
           <div>
-            <div className="flex justify-center flex-col text-center">
+            <div className="flex flex-col justify-center text-center">
               <Portal style={{maxWidth: '100%', height: 'auto'}} />
               <p>Logging out...</p>
             </div>

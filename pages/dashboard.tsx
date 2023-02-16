@@ -1,14 +1,19 @@
+// We trust all links we're sending to, so keep referrers for tracking
+/* eslint-disable react/jsx-no-target-blank */
+
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {usePrivy} from '@privy-io/react-auth';
 import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
-import Image from 'next/image';
 import Loading from '../components/loading';
 import UserBox from '../components/user-box';
 import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
 import {clearDatadogUser} from '../lib/datadog';
+import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
+import ActiveWalletDropdown from '../components/wallet-dropdown';
+import {getHumanReadableWalletType} from '../lib/utils';
 
 const formatWallet = (address: string | undefined): string => {
   if (!address) {
@@ -21,6 +26,10 @@ const formatWallet = (address: string | undefined): string => {
 
 export default function LoginPage() {
   const router = useRouter();
+  const [signLoading, setSignLoading] = useState(false);
+  const [signSuccess, setSignSuccess] = useState(false);
+  const [signError, setSignError] = useState(false);
+
   const {
     ready,
     authenticated,
@@ -37,7 +46,9 @@ export default function LoginPage() {
     linkTwitter,
     unlinkTwitter,
     linkDiscord,
+    setActiveWallet,
     unlinkDiscord,
+    walletConnectors,
     linkGithub,
     unlinkGithub,
   } = usePrivy();
@@ -80,211 +91,308 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      <main className="min-h-screen relative min-w-screen overflow-hidden bg-privy-light-blue p-8 sm:p-10">
-        <div className="sm:hidden">
-          <div className="flex flex-row justify-between items-center">
-            <div>
+      <div className="min-w-screen relative flex min-h-screen flex-col bg-privy-light-blue">
+        <main className="flex flex-grow flex-col p-8 sm:p-10">
+          <div className="sm:hidden">
+            <div className="flex flex-row items-center justify-between">
               <div>
-                <Image
-                  src="/logos/privy-demo.png"
-                  height="50px"
-                  width="206px"
-                  alt="Privy Auth Demo"
+                <h1 className="text-2xl">Privy Auth Demo</h1>
+              </div>
+              <div>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    logout();
+                  }}
+                  className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent"
+                >
+                  Log out
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden sm:block">
+            <div className="flex flex-row items-center justify-between">
+              <div>
+                <h1 className="text-3xl">Privy Auth Demo</h1>
+              </div>
+              <div className="flex items-center justify-center gap-4">
+                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
+                  <Link href="/gallery">Gallery</Link>
+                </p>
+                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
+                  <a href="https://docs.privy.io" target="_blank">
+                    Docs
+                  </a>
+                </p>
+                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
+                  <a href="https://docs.privy.io/guide/setup" target="_blank">
+                    Get started now
+                  </a>
+                </p>
+                <button
+                  onClick={logout}
+                  className="rounded-md border border-privurple border-opacity-90 py-2 px-4 text-privurple transition-all hover:border-opacity-100 "
+                >
+                  Log out
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-10 lg:mt-16 lg:grid-cols-3">
+            <div>
+              <h2 className="text-xl font-bold text-privy-navy md:text-2xl">Engage your users</h2>
+              <p className="mt-4 text-sm lg:min-h-[60px]">
+                With just a few lines of code, you can easily prompt your users to link different
+                accounts and safely take on credentials.
+              </p>
+              <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">Wallets</h3>
+              <div className="mt-5 flex flex-col gap-2">
+                {wallets.map((wallet) => (
+                  <AuthLinker
+                    key={wallet.address}
+                    isLink
+                    linkedText={formatWallet(wallet.address)}
+                    canUnlink={canRemoveAccount}
+                    unlinkAction={() => {
+                      unlinkWallet(wallet.address);
+                    }}
+                    linkAction={linkWallet}
+                    additionalInfo={
+                      wallet.address === user?.wallet?.address ? (
+                        <span className="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-xs">
+                          active
+                        </span>
+                      ) : null
+                    }
+                  />
+                ))}
+                <AuthSection text="Link a wallet" action={<LinkButton onClick={linkWallet} />} />
+              </div>
+
+              <h3 className="mt-8 text-lg font-bold text-privy-navy">Email / SMS / Social</h3>
+
+              <div className="mt-5 flex flex-col gap-2">
+                <AuthLinker
+                  unlinkedText="Link an email account"
+                  linkedText={`Email ${emailAddress}`}
+                  canUnlink={canRemoveAccount}
+                  isLink={!!emailAddress}
+                  unlinkAction={() => {
+                    unlinkEmail(emailAddress as string);
+                  }}
+                  linkAction={linkEmail}
+                />
+
+                <AuthLinker
+                  unlinkedText="Link a phone number"
+                  linkedText={`Phone number ${phoneNumber}`}
+                  canUnlink={canRemoveAccount}
+                  isLink={!!phoneNumber}
+                  unlinkAction={() => {
+                    unlinkPhone(phoneNumber as string);
+                  }}
+                  linkAction={linkPhone}
+                />
+
+                <AuthLinker
+                  unlinkedText="Link a Google account"
+                  linkedText={`Google user ${googleName}`}
+                  canUnlink={canRemoveAccount}
+                  isLink={!!googleSubject}
+                  unlinkAction={() => {
+                    unlinkGoogle(googleSubject as string);
+                  }}
+                  linkAction={linkGoogle}
+                />
+
+                <AuthLinker
+                  unlinkedText="Link a Twitter account"
+                  linkedText={`Twitter user ${twitterUsername}`}
+                  canUnlink={canRemoveAccount}
+                  isLink={!!twitterSubject}
+                  unlinkAction={() => {
+                    unlinkTwitter(twitterSubject as string);
+                  }}
+                  linkAction={linkTwitter}
+                />
+
+                <AuthLinker
+                  unlinkedText="Link a Discord account"
+                  linkedText={`Discord user ${discordUsername}`}
+                  canUnlink={canRemoveAccount}
+                  isLink={!!discordSubject}
+                  unlinkAction={() => {
+                    unlinkDiscord(discordSubject as string);
+                  }}
+                  linkAction={linkDiscord}
+                />
+
+                <AuthLinker
+                  unlinkedText="Link a Github account"
+                  linkedText={`Github user ${githubUsername}`}
+                  canUnlink={canRemoveAccount}
+                  isLink={!!githubSubject}
+                  unlinkAction={() => {
+                    unlinkGithub(githubSubject as string);
+                  }}
+                  linkAction={linkGithub}
+                />
+              </div>
+
+              {canRemoveAccount ? null : (
+                <p className="mt-4 px-1 text-sm text-slate-400">
+                  Note that if the user only has one account, you cannot unlink it.
+                </p>
+              )}
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
+                Build a rich user object
+              </h2>
+              <p className="mt-4 text-sm lg:min-h-[60px]">
+                Privy gives you modular components so you can customize your product for your users.
+                Learn more in{' '}
+                <a
+                  href="https://docs.privy.io/guide/frontend/users/object"
+                  target="_blank"
+                  className="text-privurple underline hover:text-privurpleaccent"
+                >
+                  our docs
+                </a>
+                .
+              </p>
+              <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">JSON</h3>
+              <div className="mt-5">
+                <textarea
+                  value={JSON.stringify(user, null, 2)}
+                  className="min-w-full rounded-xl border-0 bg-white p-5 font-mono text-xs text-privy-navy"
+                  rows={JSON.stringify(user, null, 2).split('\n').length}
+                  disabled
                 />
               </div>
             </div>
+
             <div>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  logout();
-                }}
-                className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent"
-              >
-                Log out
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="hidden sm:block">
-          <div className="flex flex-row justify-between items-center">
-            <div>
-              <Image
-                src="/logos/privy-demo.png"
-                height="50px"
-                width="206px"
-                alt="Privy Auth Demo"
-              />
-            </div>
-            <div className="flex gap-4 items-center justify-center">
-              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
-                <Link href="/gallery">Gallery</Link>
+              <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
+                Work with responsive UI
+              </h2>
+              <p className="mt-4 text-sm lg:min-h-[60px]">
+                You decide when to engage users, we take care of the how. Connect within seconds,
+                seriously.
               </p>
-              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
-                <a href="https://docs.privy.io" target="_blank" rel="noreferrer">
-                  Docs
-                </a>
-              </p>
-              <p className="underline hover:cursor-pointer text-privurple hover:text-privurpleaccent">
-                <a href="https://docs.privy.io/guide/setup" target="_blank" rel="noreferrer">
-                  Get started now
-                </a>
-              </p>
-              <button
-                onClick={logout}
-                className="bg-coral hover:bg-coralaccent py-2 px-4 rounded-md text-white"
-              >
-                Log out
-              </button>
+              <section className="hidden lg:block">
+                <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">
+                  Authenticated accounts
+                </h3>
+                <div className="mt-5">
+                  <UserBox user={user} />
+                </div>
+              </section>
+
+              <section className="flex flex-col gap-4">
+                <h3 className="mt-10 text-lg font-bold text-privy-navy">Wallet actions</h3>
+                <div className="flex flex-col gap-1 text-sm">
+                  <p>
+                    With at least one linked wallet, you can use the active wallet to perform
+                    on-chain actions like signing or transactions.
+                  </p>
+                </div>
+
+                {signSuccess && (
+                  <DismissableSuccess
+                    message="Success!"
+                    clickHandler={() => setSignSuccess(false)}
+                  />
+                )}
+                {signError && (
+                  <DismissableError
+                    message="Signature failed"
+                    clickHandler={() => setSignError(false)}
+                  />
+                )}
+                {signLoading && <DismissableInfo message="Waiting for signature" />}
+
+                <div className="flex">
+                  <button
+                    disabled={signLoading || !walletConnectors?.walletConnectors?.length}
+                    className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                    onClick={() => {
+                      setSignError(false);
+                      setSignSuccess(false);
+                      setSignLoading(true);
+                      walletConnectors
+                        ?.activeWalletSign(
+                          'Signing with the active wallet in Privy: ' +
+                            walletConnectors?.activeWalletConnector?.address,
+                        )
+                        .then(() => {
+                          setSignSuccess(true);
+                          setSignLoading(false);
+                        })
+                        .catch(() => {
+                          setSignError(true);
+                          setSignLoading(false);
+                        });
+                    }}
+                  >
+                    Sign a message
+                  </button>
+                </div>
+
+                <div className="flex flex-col gap-1 text-sm">
+                  <p>
+                    As a developer, you can programmatically update the user&rsquo;s active wallet
+                    based on the available options in the browser session. Learn more in{' '}
+                    <a
+                      href="https://docs.privy.io/guide/frontend/wallets/multiwallet"
+                      target="_blank"
+                      className="text-privurple underline hover:text-privurpleaccent"
+                    >
+                      our docs
+                    </a>
+                    .
+                  </p>
+                </div>
+
+                <div className="flex">
+                  <ActiveWalletDropdown
+                    disabled={!wallets.length}
+                    options={wallets.map((wallet) => {
+                      const connector = walletConnectors?.walletConnectors.find(
+                        (wc) => wc.address === wallet.address,
+                      );
+                      return {
+                        title: formatWallet(wallet.address),
+                        description: `${getHumanReadableWalletType(
+                          connector?.walletType || wallet.walletType,
+                        )} · ${connector ? 'connected' : 'disconnected'}`,
+                        onClick: () => setActiveWallet(wallet.address),
+                        selected: wallet.address == user?.wallet?.address,
+                      };
+                    })}
+                  />
+                </div>
+
+                {!walletConnectors?.walletConnectors?.length && user.wallet && (
+                  <p className="text-sm italic">
+                    Previously linked wallets cannot be restored at this time. We&rsquo;re working
+                    hard to fix this!
+                  </p>
+                )}
+                {!walletConnectors?.walletConnectors?.length && !user.wallet && (
+                  <p className="text-sm italic">
+                    You haven&rsquo;t linked any wallets yet. Try linking and then come back!
+                  </p>
+                )}
+              </section>
             </div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-3 mt-16 gap-10 -sm:grid-cols-1 -sm:mt-10">
-          <div>
-            <h2 className="font-bold text-privy-navy text-xl md:text-2xl">Engage your users</h2>
-            <p className="text-sm min-h-[60px] mt-4">
-              With just a few lines of code, you can easily prompt your users to link different
-              accounts and safely take on credentials.
-            </p>
-            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-0">Wallets</h3>
-            <div className="flex flex-col gap-2 mt-5">
-              {wallets.map((wallet) => (
-                <AuthLinker
-                  key={wallet.address}
-                  isLink
-                  linkedText={formatWallet(wallet.address)}
-                  canUnlink={canRemoveAccount}
-                  unlinkAction={() => {
-                    unlinkWallet(wallet.address);
-                  }}
-                  linkAction={linkWallet}
-                />
-              ))}
-              <AuthSection text="Link a wallet" action={<LinkButton onClick={linkWallet} />} />
-            </div>
-
-            <h3 className="font-bold text-privy-navy text-lg mt-8">Email / SMS / Social</h3>
-
-            <div className="flex flex-col gap-2 mt-5">
-              <AuthLinker
-                unlinkedText="Link an email account"
-                linkedText={`Email ${emailAddress}`}
-                canUnlink={canRemoveAccount}
-                isLink={!!emailAddress}
-                unlinkAction={() => {
-                  unlinkEmail(emailAddress as string);
-                }}
-                linkAction={linkEmail}
-              />
-
-              <AuthLinker
-                unlinkedText="Link a phone number"
-                linkedText={`Phone number ${phoneNumber}`}
-                canUnlink={canRemoveAccount}
-                isLink={!!phoneNumber}
-                unlinkAction={() => {
-                  unlinkPhone(phoneNumber as string);
-                }}
-                linkAction={linkPhone}
-              />
-
-              <AuthLinker
-                unlinkedText="Link a google account"
-                linkedText={`Google user ${googleName}`}
-                canUnlink={canRemoveAccount}
-                isLink={!!googleSubject}
-                unlinkAction={() => {
-                  unlinkGoogle(googleSubject as string);
-                }}
-                linkAction={linkGoogle}
-              />
-
-              <AuthLinker
-                unlinkedText="Link a twitter account"
-                linkedText={`Twitter user ${twitterUsername}`}
-                canUnlink={canRemoveAccount}
-                isLink={!!twitterSubject}
-                unlinkAction={() => {
-                  unlinkTwitter(twitterSubject as string);
-                }}
-                linkAction={linkTwitter}
-              />
-
-              <AuthLinker
-                unlinkedText="Link a discord account"
-                linkedText={`Discord user ${discordUsername}`}
-                canUnlink={canRemoveAccount}
-                isLink={!!discordSubject}
-                unlinkAction={() => {
-                  unlinkDiscord(discordSubject as string);
-                }}
-                linkAction={linkDiscord}
-              />
-
-              <AuthLinker
-                unlinkedText="Link a github account"
-                linkedText={`Github user ${githubUsername}`}
-                canUnlink={canRemoveAccount}
-                isLink={!!githubSubject}
-                unlinkAction={() => {
-                  unlinkGithub(githubSubject as string);
-                }}
-                linkAction={linkGithub}
-              />
-            </div>
-
-            {canRemoveAccount ? null : (
-              <p className="text-slate-400 text-sm mt-4 px-1">
-                Note that if the user only has one account, you cannot unlink it.
-              </p>
-            )}
-          </div>
-
-          <div>
-            <h2 className="font-bold text-2xl text-privy-navy text-xl md:text-2xl">
-              Build a rich user object
-            </h2>
-            <p className="text-sm min-h-[60px] mt-4">
-              Privy gives you modular components so you can customize your product for your users.
-              Learn more in{' '}
-              <a
-                href="https://docs.privy.io/guide/frontend/users/object"
-                target="_blank"
-                rel="noreferrer"
-                className="underline text-privurple hover:text-privurpleaccent"
-              >
-                our docs
-              </a>
-              .
-            </p>
-            <h3 className="font-bold text-privy-navy text-lg mt-5 lg:mt-0">JSON</h3>
-            <div className="mt-5">
-              <textarea
-                value={JSON.stringify(user, null, 2)}
-                className="min-w-full p-5 bg-white text-privy-navy font-mono text-xs rounded-xl border-0"
-                rows={JSON.stringify(user, null, 2).split('\n').length}
-                disabled
-              />
-            </div>
-          </div>
-
-          <div className="hidden lg:block">
-            <h2 className="font-bold text-2xl text-privy-navy text-xl md:text-2xl">
-              Work with responsive UI
-            </h2>
-            <p className="text-sm min-h-[60px] mt-4">
-              You decide when to engage users, we take care of the how. Connect within seconds,
-              seriously.
-            </p>
-            <h3 className="font-bold text-privy-navy text-lg">Authenticated accounts</h3>
-            <div className="mt-5">
-              <UserBox user={user} />
-            </div>
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </>
   );
 }
