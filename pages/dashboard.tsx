@@ -371,7 +371,7 @@ export default function LoginPage() {
                           connector?.walletType || wallet.walletType,
                         )} · ${connector ? 'connected' : 'disconnected'}`,
                         onClick: () => setActiveWallet(wallet.address),
-                        selected: wallet.address == user?.wallet?.address,
+                        selected: wallet.address == user?.wallet?.address && connector,
                       };
                     })}
                   />
