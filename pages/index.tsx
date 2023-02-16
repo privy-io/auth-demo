@@ -5,6 +5,9 @@ import {usePrivy} from '@privy-io/react-auth';
 import Loading from '../components/loading';
 import Image from 'next/image';
 
+const btnStyle =
+  'rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400';
+
 export default function LoginPage() {
   const router = useRouter();
   const {ready, authenticated, login} = usePrivy();
@@ -55,16 +58,10 @@ export default function LoginPage() {
                   Get started now
                 </a>
               </p>
-              <button
-                onClick={login}
-                className="rounded-md bg-coral py-2 px-4 text-white hover:bg-coralaccent lg:hidden"
-              >
+              <button onClick={login} className={`${btnStyle} lg:hidden`}>
                 Log in
               </button>
-              <button
-                onClick={login}
-                className="hidden rounded-md bg-coral py-2 px-4 text-white hover:bg-coralaccent lg:block"
-              >
+              <button onClick={login} className={`${btnStyle} hidden lg:block`}>
                 Log in to try it out
               </button>
             </div>
@@ -90,16 +87,10 @@ export default function LoginPage() {
                 Learn how we partnered with Lighthouse!
               </a>
             </p>
-            <button
-              onClick={login}
-              className="mt-10 rounded-md bg-coral py-2 px-4 text-white hover:bg-coralaccent sm:hidden"
-            >
+            <button onClick={login} className={`mt-10 sm:hidden ${btnStyle}`}>
               Log in to try it out
             </button>
-            <button
-              onClick={login}
-              className="mt-16 hidden rounded-md bg-coral py-2 px-4 text-white hover:bg-coralaccent sm:block"
-            >
+            <button onClick={login} className={`mt-16 hidden sm:block ${btnStyle}`}>
               Try it out
             </button>
           </div>
