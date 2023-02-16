@@ -369,7 +369,7 @@ export default function LoginPage() {
                         title: formatWallet(wallet.address),
                         description: `${getHumanReadableWalletType(
                           connector?.walletType || wallet.walletType,
-                        )} · ${connector ? 'connected' : 'disconnected'}`,
+                        )} · ${connector ? 'ready' : 'disconnected'}`,
                         onClick: () => setActiveWallet(wallet.address),
                         selected: wallet.address == user?.wallet?.address && connector,
                       };
