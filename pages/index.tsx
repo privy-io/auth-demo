@@ -54,7 +54,7 @@ export default function LoginPage() {
                 </a>
               </p>
               <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
-                <a href="https://docs.privy.io/guide/setup" target="_blank" rel="noreferrer">
+                <a href="https://docs.privy.io/guide/quickstart" target="_blank" rel="noreferrer">
                   Get started now
                 </a>
               </p>
