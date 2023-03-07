@@ -161,7 +161,7 @@ export default function LoginPage() {
                 </p>
                 <button
                   onClick={logout}
-                  className="rounded-md border border-privurple border-opacity-90 py-2 px-4 text-privurple transition-all hover:border-opacity-100 "
+                  className="rounded-md border border-privurple border-opacity-90 px-4 py-2 text-privurple transition-all hover:border-opacity-100 "
                 >
                   Log out
                 </button>
@@ -308,7 +308,7 @@ export default function LoginPage() {
               <div className="mt-5">
                 <button
                   onClick={deleteUser}
-                  className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                  className="mx-auto rounded-md bg-privurple px-4 py-2 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
                 >
                   Delete my data
                 </button>
@@ -358,7 +358,7 @@ export default function LoginPage() {
                 <div className="flex">
                   <button
                     disabled={signLoading || !walletConnectors?.walletConnectors?.length}
-                    className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                    className="mx-auto rounded-md bg-privurple px-4 py-2 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
                     onClick={() => {
                       setSignError(false);
                       setSignSuccess(false);
@@ -401,14 +401,15 @@ export default function LoginPage() {
                   <ActiveWalletDropdown
                     disabled={!wallets.length}
                     options={wallets.map((wallet) => {
+                      console.log(wallet);
                       const connector = walletConnectors?.walletConnectors.find(
                         (wc) => wc.address === wallet.address,
                       );
                       return {
                         title: formatWallet(wallet.address),
-                        description: `${getHumanReadableWalletType(
-                          connector?.walletType || wallet.walletType,
-                        )} · ${connector ? 'ready' : 'disconnected'}`,
+                        description: `${getHumanReadableWalletType(connector?.walletType)} · ${
+                          connector ? 'ready' : 'disconnected'
+                        }`,
                         onClick: () => setActiveWallet(wallet.address),
                         selected: wallet.address == user?.wallet?.address && !!connector,
                       };
