@@ -1,4 +1,5 @@
 {
+  "name": "privy-auth-demo",
   "private": true,
   "engines": {
     "npm": ">=8.0.0 <10.0.0",
@@ -15,7 +16,7 @@
     "@datadog/browser-rum": "^4.32.1",
     "@headlessui/react": "^1.7.3",
     "@heroicons/react": "^2.0.12",
-    "@privy-io/react-auth": "1.14.1-beta.9",
+    "@privy-io/react-auth": "1.16.1",
     "@privy-io/server-auth": "^1.1.2",
     "@tailwindcss/forms": "^0.5.3",
     "next": "latest",
