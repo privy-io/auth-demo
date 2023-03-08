@@ -401,7 +401,6 @@ export default function LoginPage() {
                   <ActiveWalletDropdown
                     disabled={!wallets.length}
                     options={wallets.map((wallet) => {
-                      console.log(wallet);
                       const connector = walletConnectors?.walletConnectors.find(
                         (wc) => wc.address === wallet.address,
                       );
