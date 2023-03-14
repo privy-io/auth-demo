@@ -109,8 +109,8 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      <div className="relative flex flex-col min-h-screen min-w-screen bg-privy-light-blue">
-        <main className="flex flex-col flex-grow p-8 sm:p-10">
+      <div className="min-w-screen relative flex min-h-screen flex-col bg-privy-light-blue">
+        <main className="flex flex-grow flex-col p-8 sm:p-10">
           <div className="sm:hidden">
             <div className="flex flex-row items-center justify-between">
               <div>
@@ -127,7 +127,7 @@ export default function LoginPage() {
                     e.preventDefault();
                     logout();
                   }}
-                  className="underline text-privurple hover:cursor-pointer hover:text-privurpleaccent"
+                  className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent"
                 >
                   Log out
                 </button>
@@ -146,22 +146,22 @@ export default function LoginPage() {
                 />
               </div>
               <div className="flex items-center justify-center gap-4">
-                <p className="underline text-privurple hover:cursor-pointer hover:text-privurpleaccent">
+                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
                   <Link href="/gallery">Gallery</Link>
                 </p>
-                <p className="underline text-privurple hover:cursor-pointer hover:text-privurpleaccent">
+                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
                   <a href="https://docs.privy.io" target="_blank">
                     Docs
                   </a>
                 </p>
-                <p className="underline text-privurple hover:cursor-pointer hover:text-privurpleaccent">
+                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
                   <a href="https://docs.privy.io/guide/quickstart" target="_blank">
                     Get started now
                   </a>
                 </p>
                 <button
                   onClick={logout}
-                  className="px-4 py-2 border rounded-md border-privurple border-opacity-90 text-privurple transition-all hover:border-opacity-100 "
+                  className="rounded-md border border-privurple border-opacity-90 px-4 py-2 text-privurple transition-all hover:border-opacity-100 "
                 >
                   Log out
                 </button>
@@ -177,7 +177,7 @@ export default function LoginPage() {
                 accounts and safely take on credentials.
               </p>
               <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">Wallets</h3>
-              <div className="flex flex-col mt-5 gap-2">
+              <div className="mt-5 flex flex-col gap-2">
                 {wallets.map((wallet) => (
                   <AuthLinker
                     key={wallet.address}
@@ -189,11 +189,8 @@ export default function LoginPage() {
                     }}
                     linkAction={linkWallet}
                     additionalInfo={
-                      wallet.address === user?.wallet?.address &&
-                      walletConnectors?.walletConnectors.find(
-                        (wc) => wc.address === wallet.address,
-                      ) ? (
-                        <span className="flex items-center px-2 py-1 text-xs gap-1 rounded-md bg-slate-100">
+                      wallet.address === walletConnectors?.activeWalletConnector?.address ? (
+                        <span className="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-xs">
                           active
                         </span>
                       ) : null
@@ -205,7 +202,7 @@ export default function LoginPage() {
 
               <h3 className="mt-8 text-lg font-bold text-privy-navy">Email / SMS / Social</h3>
 
-              <div className="flex flex-col mt-5 gap-2">
+              <div className="mt-5 flex flex-col gap-2">
                 <AuthLinker
                   unlinkedText="Link an email account"
                   linkedText={`Email ${emailAddress}`}
@@ -274,7 +271,7 @@ export default function LoginPage() {
               </div>
 
               {canRemoveAccount ? null : (
-                <p className="px-1 mt-4 text-sm text-slate-400">
+                <p className="mt-4 px-1 text-sm text-slate-400">
                   Note that if the user only has one account, you cannot unlink it.
                 </p>
               )}
@@ -290,7 +287,7 @@ export default function LoginPage() {
                 <a
                   href="https://docs.privy.io/guide/frontend/users/object"
                   target="_blank"
-                  className="underline text-privurple hover:text-privurpleaccent"
+                  className="text-privurple underline hover:text-privurpleaccent"
                 >
                   our docs
                 </a>
@@ -300,7 +297,7 @@ export default function LoginPage() {
               <div className="mt-5">
                 <textarea
                   value={JSON.stringify(user, null, 2)}
-                  className="min-w-full p-5 font-mono text-xs bg-white border-0 rounded-xl text-privy-navy"
+                  className="min-w-full rounded-xl border-0 bg-white p-5 font-mono text-xs text-privy-navy"
                   rows={JSON.stringify(user, null, 2).split('\n').length + 3}
                   disabled
                 />
@@ -308,7 +305,7 @@ export default function LoginPage() {
               <div className="mt-5">
                 <button
                   onClick={deleteUser}
-                  className="px-4 py-2 mx-auto text-white rounded-md bg-privurple shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                  className="mx-auto rounded-md bg-privurple px-4 py-2 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
                 >
                   Delete my data
                 </button>
@@ -334,7 +331,7 @@ export default function LoginPage() {
 
               <section className="flex flex-col gap-4">
                 <h3 className="mt-10 text-lg font-bold text-privy-navy">Wallet actions</h3>
-                <div className="flex flex-col text-sm gap-1">
+                <div className="flex flex-col gap-1 text-sm">
                   <p>
                     With at least one linked wallet, you can use the active wallet to perform
                     on-chain actions like signing or transactions.
@@ -362,7 +359,7 @@ export default function LoginPage() {
                       !walletConnectors?.walletConnectors?.length ||
                       !walletConnectors?.activeWalletConnector
                     }
-                    className="px-4 py-2 mx-auto text-white rounded-md bg-privurple shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                    className="mx-auto rounded-md bg-privurple px-4 py-2 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
                     onClick={() => {
                       setSignError(false);
                       setSignSuccess(false);
@@ -386,14 +383,14 @@ export default function LoginPage() {
                   </button>
                 </div>
 
-                <div className="flex flex-col text-sm gap-1">
+                <div className="flex flex-col gap-1 text-sm">
                   <p>
                     As a developer, you can programmatically update the user&rsquo;s active wallet
                     based on the available options in the browser session. Learn more in{' '}
                     <a
                       href="https://docs.privy.io/guide/frontend/wallets/multiwallet"
                       target="_blank"
-                      className="underline text-privurple hover:text-privurpleaccent"
+                      className="text-privurple underline hover:text-privurpleaccent"
                     >
                       our docs
                     </a>
