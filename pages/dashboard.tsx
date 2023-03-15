@@ -195,6 +195,7 @@ export default function LoginPage() {
                         </span>
                       ) : null
                     }
+                    isEmbeddedWallet={wallet.walletClient === 'privy'}
                   />
                 ))}
                 <AuthSection text="Link a wallet" action={<LinkButton onClick={linkWallet} />} />
@@ -402,6 +403,18 @@ export default function LoginPage() {
                   <ActiveWalletDropdown
                     disabled={!wallets.length}
                     options={wallets.map((wallet) => {
+                      if (wallet.walletClient === 'privy') {
+                        return {
+                          title: formatWallet(wallet.address),
+                          description: 'Embedded · ready',
+                          onClick: () => {
+                            // This isn't a problem right now because people shouldn't haven
+                            // an embedded wallet yet in the demo. Needs to be fixed in PRI-743
+                            console.log('TODO: need to set active!');
+                          },
+                          selected: wallet.address === user?.wallet?.address,
+                        };
+                      }
                       const activeWalletAddress = walletConnectors?.activeWalletConnector?.address;
                       const connector = walletConnectors?.walletConnectors.find(
                         (wc) => wc.address === activeWalletAddress,
@@ -412,7 +425,7 @@ export default function LoginPage() {
                           connector ? 'ready' : 'disconnected'
                         }`,
                         onClick: () => setActiveWallet(wallet.address),
-                        selected: wallet.address == user?.wallet?.address && !!connector,
+                        selected: wallet.address == activeWalletAddress,
                       };
                     })}
                   />
