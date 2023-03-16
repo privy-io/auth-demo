@@ -9,6 +9,7 @@ export type AuthLinkerProps = {
   canUnlink: boolean;
   // Optional content placed aligned left, to the right of the main text
   additionalInfo?: React.ReactNode;
+  isEmbeddedWallet?: boolean;
 };
 
 export function LinkButton(props: {onClick: () => void}) {
@@ -38,12 +39,19 @@ export function AuthSection(props: {
   text: string;
   action: React.ReactNode;
   additionalInfo?: React.ReactNode;
+  isEmbeddedWallet?: boolean;
 }) {
   return (
     <div className="flex min-w-full items-center justify-between gap-10 rounded-xl bg-white px-3 py-3">
       <div className="flex items-center gap-3 text-sm">
         <p>{props.text}</p>
         {props.additionalInfo}
+
+        {props.isEmbeddedWallet && (
+          <span className="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-xs">
+            embedded
+          </span>
+        )}
       </div>
       <div className="flex flex-row items-center">{props.action}</div>
     </div>
@@ -58,6 +66,7 @@ export default function AuthLinker({
   isLink,
   unlinkAction,
   additionalInfo,
+  isEmbeddedWallet,
 }: AuthLinkerProps) {
   return (
     <AuthSection
@@ -70,6 +79,7 @@ export default function AuthLinker({
         )
       }
       additionalInfo={additionalInfo}
+      isEmbeddedWallet={isEmbeddedWallet}
     />
   );
 }
