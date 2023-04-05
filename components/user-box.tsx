@@ -11,7 +11,7 @@ export default function UserBox({user}: UserBoxProps) {
     (count, account) => count + Number(account.type === 'wallet'),
     0,
   );
-  const socialsCount = [user.discord, user.github, user.google, user.twitter].filter(
+  const socialsCount = [user.discord, user.github, user.google, user.twitter, user.apple].filter(
     Boolean,
   ).length;
 
