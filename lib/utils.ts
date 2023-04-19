@@ -1,6 +1,6 @@
 // TODO: Release types for WalletType
 export const getHumanReadableWalletType = (
-  walletType: 'metamask' | 'coinbase_wallet' | 'wallet_connect' | 'metamask_wc' | undefined,
+  walletType: 'metamask' | 'coinbase_wallet' | 'wallet_connect' | 'metamask_wc' | 'phantom' | undefined,
 ) => {
   switch (walletType) {
     case 'metamask':
@@ -11,7 +11,9 @@ export const getHumanReadableWalletType = (
       return 'WalletConnect'
     case 'metamask_wc':
       return 'MetaMask mobile'
+    case 'phantom':
+      return 'Phantom'
     default:
-    return 'Unknown Wallet';
+      return 'Unknown Wallet';
   };
 };
