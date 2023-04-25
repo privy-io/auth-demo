@@ -31,6 +31,7 @@ function MyApp({Component, pageProps}: AppProps) {
       <PlausibleProvider domain="demo.privy.io">
         <PrivyProvider
           appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
+          apiUrl={process.env.NEXT_PUBLIC_PRIVY_AUTH_URL}
           onSuccess={(user) => {
             setDatadogUser(user);
             router.push('/dashboard');
