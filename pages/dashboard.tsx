@@ -166,7 +166,7 @@ export default function LoginPage() {
                 </p>
                 <button
                   onClick={logout}
-                  className="rounded-md border border-privurple border-opacity-90 px-4 py-2 text-privurple transition-all hover:border-opacity-100"
+                  className="rounded-md border border-privurple border-opacity-90 py-2 px-4 text-privurple transition-all hover:border-opacity-100"
                 >
                   Log out
                 </button>
@@ -195,7 +195,7 @@ export default function LoginPage() {
                     linkAction={linkWallet}
                     additionalInfo={
                       wallet.address === walletConnectors?.activeWalletConnector?.address ? (
-                        <span className="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-xs">
+                        <span className="flex items-center gap-1 rounded-md bg-slate-100 py-1 px-2 text-xs">
                           active
                         </span>
                       ) : null
@@ -322,7 +322,7 @@ export default function LoginPage() {
               <div className="mt-5">
                 <button
                   onClick={deleteUser}
-                  className="mx-auto rounded-md bg-privurple px-4 py-2 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                  className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
                 >
                   Delete my data
                 </button>
@@ -376,7 +376,7 @@ export default function LoginPage() {
                       !walletConnectors?.walletConnectors?.length ||
                       !walletConnectors?.activeWalletConnector
                     }
-                    className="mx-auto rounded-md bg-privurple px-4 py-2 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                    className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
                     onClick={() => {
                       setSignError(false);
                       setSignSuccess(false);
