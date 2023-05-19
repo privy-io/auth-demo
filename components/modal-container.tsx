@@ -9,10 +9,10 @@ export default function ModalContainer({className}: {className?: string}) {
       className={`flex h-[38.75rem] w-[22.5rem] shrink-0 grow-0 flex-col rounded-[1.625rem] border border-gray-300 bg-white p-6 shadow-xl ${className}`}
     >
       <div className="shrink-0 grow-0 pb-4 text-xl">Welcome to privy</div>
-      <div className="shrink-0 grow-0 pb-2 text-sm text-gray-600">
+      <div className="shrink-0 grow-0 pb-4 text-gray-600">
         Privy Auth is a simple toolkit for progressive authentication in web3.
       </div>
-      <div className="shrink-0 grow-0 pb-10 text-sm text-gray-600">
+      <div className="shrink-0 grow-0 pb-10 text-gray-600">
         Engage your users in web3 within seconds, whether they start with wallet, email or social,
         on desktop and mobile.
       </div>
