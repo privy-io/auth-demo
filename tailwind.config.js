@@ -16,7 +16,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Adelle Sans', ...defaultTheme.fontFamily.sans],
+        // sans: ['Adelle Sans', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         privurple: '#696FFD',
@@ -28,6 +28,9 @@ module.exports = {
         'privy-light-blue': '#EFF1FD',
         'privy-blueish': '#D4D9FC',
         'privy-pink': '#FF8271',
+      },
+      backgroundImage: {
+        'conic-gradient': "url('/images/conic-gradient.jpg')",
       },
     },
   },

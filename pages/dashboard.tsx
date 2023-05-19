@@ -119,12 +119,7 @@ export default function LoginPage() {
           <div className="sm:hidden">
             <div className="flex flex-row items-center justify-between">
               <div>
-                <Image
-                  src="/logos/privy-demo.png"
-                  height="50px"
-                  width="206px"
-                  alt="Privy Auth Demo"
-                />
+                <Image src="/logos/privy-demo.png" height={50} width={206} alt="Privy Auth Demo" />
               </div>
               <div>
                 <button
@@ -143,12 +138,7 @@ export default function LoginPage() {
           <div className="hidden sm:block">
             <div className="flex flex-row items-center justify-between">
               <div>
-                <Image
-                  src="/logos/privy-demo.png"
-                  height="50px"
-                  width="206px"
-                  alt="Privy Auth Demo"
-                />
+                <Image src="/logos/privy-demo.png" height={50} width={206} alt="Privy Auth Demo" />
               </div>
               <div className="flex items-center justify-center gap-4">
                 <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">

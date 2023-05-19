@@ -3,25 +3,54 @@
 @tailwind utilities;
 
 @layer base {
-  /* normal */
-  @font-face {
-    font-family: 'Adelle Sans';
-    src: url('/fonts/AdelleSans-Regular.woff2') format('woff2');
-    font-style: normal;
-    font-display: swap;
-    font-weight: 400;
+  html,
+  body,
+  #__next {
+    @apply h-full text-privy-navy;
   }
 
-  /* semibold */
-  @font-face {
-    font-family: 'Adelle Sans';
-    src: url('/fonts/AdelleSans-Semibold.woff2') format('woff2');
-    font-style: normal;
-    font-display: swap;
-    font-weight: 600;
+  a {
+    @apply text-privurple underline;
   }
 }
 
-body {
-  @apply text-privy-navy;
+@layer components {
+  .button-primary {
+    @apply flex items-center justify-center rounded-md bg-privurple font-medium text-white no-underline shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300 hover:disabled:bg-gray-300;
+  }
+
+  .button-secondary {
+    @apply flex items-center  justify-center rounded-md border border-gray-300 font-medium text-privurple no-underline hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300 hover:disabled:bg-gray-300;
+  }
+
+  input {
+    @apply caret-privurple;
+  }
+
+  .input-color {
+    @apply relative appearance-none overflow-hidden rounded-full border-none p-0;
+  }
+  .input-color::-webkit-color-swatch {
+    @apply absolute top-0 left-0 h-full max-h-full w-full cursor-pointer appearance-none rounded-full border-none p-0 opacity-0;
+  }
+  .input-color::-moz-color-swatch {
+    @apply absolute top-0 left-0 h-full max-h-full w-full cursor-pointer appearance-none rounded-full border-none p-0 opacity-0;
+  }
+}
+
+@layer utilities {
+  .bg-dotgrid-light {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 0);
+    backdrop-filter: overlay;
+    background-size: 24px 24px;
+    background-position: -19px -19px;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
 }
