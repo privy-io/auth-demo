@@ -1,14 +1,21 @@
 import '../styles/globals.css';
 import type {AppProps} from 'next/app';
 import Head from 'next/head';
-import {PrivyProvider} from '@privy-io/react-auth';
+import {PrivyClientConfig, PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
 import {initializeDatadog, setDatadogUser} from '../lib/datadog';
-import {useMemo} from 'react';
+import {useMemo, useState} from 'react';
+import PrivyConfigContext from '../lib/hooks/usePrivyConfig';
 
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
+  const [config, setConfig] = useState<PrivyClientConfig>({
+    _render: {
+      inDialog: false,
+      inParentNodeId: 'render-privy',
+    },
+  });
 
   useMemo(initializeDatadog, []);
 
@@ -24,15 +31,19 @@ function MyApp({Component, pageProps}: AppProps) {
         <meta name="description" content="Privy Auth Demo" />
       </Head>
       <PlausibleProvider domain="demo.privy.io">
-        <PrivyProvider
-          appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
-          onSuccess={(user) => {
-            setDatadogUser(user);
-            router.push('/dashboard');
-          }}
-        >
-          <Component {...pageProps} />
-        </PrivyProvider>
+        <PrivyConfigContext.Provider value={config}>
+          <PrivyProvider
+            appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
+            apiUrl={process.env.NEXT_PUBLIC_PRIVY_AUTH_URL}
+            onSuccess={(user) => {
+              setDatadogUser(user);
+              router.push('/dashboard');
+            }}
+            config={config}
+          >
+            <Component {...pageProps} />
+          </PrivyProvider>
+        </PrivyConfigContext.Provider>
       </PlausibleProvider>
     </>
   );
