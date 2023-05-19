@@ -2,10 +2,7 @@
 
 import {Listbox, Transition} from '@headlessui/react';
 import {WalletIcon, ChevronDownIcon, CheckIcon} from '@heroicons/react/20/solid';
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
+import {classNames} from '../lib/classNames';
 
 export default function ActiveWalletDropdown(props: {
   disabled?: boolean;

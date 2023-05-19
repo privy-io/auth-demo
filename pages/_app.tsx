@@ -1,16 +1,16 @@
 import '../styles/globals.css';
 import type {AppProps} from 'next/app';
 import Head from 'next/head';
-import {PrivyClientConfig, PrivyProvider} from '@privy-io/react-auth';
+import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
 import {initializeDatadog, setDatadogUser} from '../lib/datadog';
 import {useMemo, useState} from 'react';
-import PrivyConfigContext from '../lib/hooks/usePrivyConfig';
+import PrivyConfigContext, {PrivyConfigContextType} from '../lib/hooks/usePrivyConfig';
 
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
-  const [config, setConfig] = useState<PrivyClientConfig>({
+  const [config, setConfig] = useState<PrivyConfigContextType['config']>({
     appearance: {
       accentColor: '#6A6FF5',
       theme: '#FFFFFF',
@@ -21,6 +21,7 @@ function MyApp({Component, pageProps}: AppProps) {
       inDialog: false,
       inParentNodeId: 'render-privy',
     },
+    createPrivyWalletOnLogin: true,
   });
 
   useMemo(initializeDatadog, []);
@@ -46,6 +47,7 @@ function MyApp({Component, pageProps}: AppProps) {
               router.push('/dashboard');
             }}
             config={config}
+            createPrivyWalletOnLogin={config.createPrivyWalletOnLogin}
           >
             <Component {...pageProps} />
           </PrivyProvider>

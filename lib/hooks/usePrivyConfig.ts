@@ -1,8 +1,12 @@
 import type {PrivyClientConfig} from '@privy-io/react-auth';
 import {createContext} from 'react';
 
-const PrivyConfigContext = createContext<{
-  config: PrivyClientConfig;
-  setConfig?: (config: PrivyClientConfig) => void;
-}>({config: {}});
+type PrivyDemoConfig = PrivyClientConfig & {createPrivyWalletOnLogin?: boolean};
+
+export type PrivyConfigContextType = {
+  config: PrivyDemoConfig;
+  setConfig?: (config: PrivyDemoConfig) => void;
+};
+
+const PrivyConfigContext = createContext<PrivyConfigContextType>({config: {}});
 export default PrivyConfigContext;

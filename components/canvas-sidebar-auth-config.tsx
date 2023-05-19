@@ -5,7 +5,28 @@ import Toggle from './toggle';
 import WalletButton from './wallet-button';
 import {WalletIcon} from '@heroicons/react/24/outline';
 import CanvasSidebarHeader from './canvas-sidebar-header';
-import PrivyConfigContext from '../lib/hooks/usePrivyConfig';
+import PrivyConfigContext, {PrivyConfigContextType} from '../lib/hooks/usePrivyConfig';
+import {classNames} from '../lib/classNames';
+
+function StaticColorPicker({
+  hex,
+  config,
+  setConfig,
+  border = false,
+}: {
+  hex: `#${string}`;
+  config: PrivyConfigContextType['config'];
+  setConfig: PrivyConfigContextType['setConfig'];
+  border?: boolean;
+}) {
+  return (
+    <div
+      className={classNames('h-6 w-6 rounded-full', border ? 'border-gray-300' : '')}
+      style={{backgroundColor: hex}}
+      onClick={() => setConfig?.({...config, appearance: {...config.appearance, theme: hex}})}
+    />
+  );
+}
 
 export default function CanvasSidebarAuthConfig({className}: {className?: string}) {
   const [draggedConfig, setDraggedConfig] = useState<
@@ -103,13 +124,8 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
           <div className="shrink-0 grow-0">
             <div className="pb-2 text-[0.875rem]">Background</div>
             <div className="flex gap-x-2">
-              <div className="h-6 w-6 rounded-full border border-gray-300 bg-white"></div>
-              <div
-                className="h-6 w-6 rounded-full bg-gray-900"
-                onClick={() =>
-                  setConfig?.({...config, appearance: {...config.appearance, theme: '#2C2C2C'}})
-                }
-              ></div>
+              <StaticColorPicker hex="#FFFFFF" config={config} setConfig={setConfig} border />
+              <StaticColorPicker hex="#2C2C2C" config={config} setConfig={setConfig} />
               <input
                 type="color"
                 className="input-color m-0 h-6  w-6 rounded-full bg-conic-gradient bg-cover bg-center p-0"
@@ -402,7 +418,15 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               </a>{' '}
               by default
             </div>
-            <Toggle checked={true} />
+            <Toggle
+              checked={!!config.createPrivyWalletOnLogin}
+              onChange={(checked) => {
+                setConfig?.({
+                  ...config,
+                  createPrivyWalletOnLogin: checked,
+                });
+              }}
+            />
           </div>
           <div className="text-sm text-gray-400">
             With Privy, even non web3 natives can enjoy the benefits of life on chain. Upon sign in,
