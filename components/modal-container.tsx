@@ -1,3 +1,4 @@
+import {MegaphoneIcon} from '@heroicons/react/24/outline';
 import {usePrivy} from '@privy-io/react-auth';
 
 export default function ModalContainer({className}: {className?: string}) {
@@ -5,7 +6,7 @@ export default function ModalContainer({className}: {className?: string}) {
 
   return (
     <div
-      className={`flex h-[38.75rem] w-[22.5rem] flex-col rounded-[1.625rem] border border-gray-300 bg-white p-6 shadow-xl ${className}`}
+      className={`flex h-[38.75rem] w-[22.5rem] shrink-0 grow-0 flex-col rounded-[1.625rem] border border-gray-300 bg-white p-6 shadow-xl ${className}`}
     >
       <div className="shrink-0 grow-0 pb-4 text-xl">Welcome to privy</div>
       <div className="shrink-0 grow-0 pb-2 text-sm text-gray-600">
@@ -16,8 +17,9 @@ export default function ModalContainer({className}: {className?: string}) {
         on desktop and mobile.
       </div>
       <div className="shrink-0 grow-0 rounded-lg bg-gray-100 p-4 text-sm">
-        <div className="inline-flex h-[1.375rem] items-center rounded-full bg-gradient-to-r from-indigo-400 to-red-300 px-2 text-xs font-medium text-white">
-          Hot Press
+        <div className="inline-flex h-[1.375rem] items-center gap-x-1 rounded-full bg-gradient-to-r from-indigo-400 to-red-300 px-2 text-xs font-medium text-white">
+          <MegaphoneIcon className="h-4 w-4" strokeWidth={2} />
+          Hot of the Press
         </div>
         <a
           href="https://lighthouse.mirror.xyz/zq6Tb_YD__KIhvCLhT5M8bOnA43W3peUJa9LYnviiwY"
