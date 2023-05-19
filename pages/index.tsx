@@ -15,7 +15,7 @@ import CanvasRow from '../components/canvas-row';
 
 export default function LoginPage() {
   const router = useRouter();
-  const {ready, authenticated, login} = usePrivy();
+  const {ready, authenticated} = usePrivy();
 
   if (!ready) {
     return <Loading />;

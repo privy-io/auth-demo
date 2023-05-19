@@ -11,6 +11,12 @@ import PrivyConfigContext from '../lib/hooks/usePrivyConfig';
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
   const [config, setConfig] = useState<PrivyClientConfig>({
+    appearance: {
+      accentColor: '#6A6FF5',
+      theme: '#FFFFFF',
+      showWalletLoginFirst: true,
+    },
+    loginMethods: ['email', 'wallet'],
     _render: {
       inDialog: false,
       inParentNodeId: 'render-privy',
@@ -31,7 +37,7 @@ function MyApp({Component, pageProps}: AppProps) {
         <meta name="description" content="Privy Auth Demo" />
       </Head>
       <PlausibleProvider domain="demo.privy.io">
-        <PrivyConfigContext.Provider value={config}>
+        <PrivyConfigContext.Provider value={{config, setConfig}}>
           <PrivyProvider
             appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
             apiUrl={process.env.NEXT_PUBLIC_PRIVY_AUTH_URL}

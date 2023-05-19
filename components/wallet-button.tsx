@@ -3,11 +3,13 @@ export default function WalletButton({
   icon,
   label,
   className,
+  children,
 }: {
   type?: string;
   icon: React.ReactNode;
   label: string;
   className?: string;
+  children?: React.ReactNode;
 }) {
   const Control: React.FC = (): React.ReactElement => {
     if (type === 'radio') {
@@ -44,7 +46,7 @@ export default function WalletButton({
     >
       <div className="shrink-0 grow-0">{icon}</div>
       <div className="w-full text-sm">{label}</div>
-      <Control />
+      {children}
     </div>
   );
 }
