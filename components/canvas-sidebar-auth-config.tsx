@@ -1,6 +1,5 @@
 import {EllipsisVerticalIcon, LockClosedIcon, SparklesIcon} from '@heroicons/react/24/outline';
 import {useContext, useState} from 'react';
-import type {AuthConfiguration, SocialsConfiguration, WalletsConfiguration} from '../types';
 import Toggle from './toggle';
 import WalletButton from './wallet-button';
 import {WalletIcon} from '@heroicons/react/24/outline';
@@ -12,54 +11,39 @@ function StaticColorPicker({
   hex,
   config,
   setConfig,
+  configAttr = 'theme',
   border = false,
 }: {
   hex: `#${string}`;
   config: PrivyConfigContextType['config'];
   setConfig: PrivyConfigContextType['setConfig'];
+  configAttr?: 'accentColor' | 'theme';
   border?: boolean;
 }) {
   return (
     <div
-      className={classNames('h-6 w-6 rounded-full', border ? 'border-gray-300' : '')}
+      className={classNames(
+        'h-6 w-6 cursor-pointer rounded-full',
+        border ? 'border border-gray-300' : '',
+      )}
       style={{backgroundColor: hex}}
-      onClick={() => setConfig?.({...config, appearance: {...config.appearance, theme: hex}})}
+      onClick={() =>
+        setConfig?.({...config, appearance: {...config.appearance, [configAttr]: hex}})
+      }
     />
   );
 }
 
+type AuthConfiguration = 'wallets' | 'socials';
+
 export default function CanvasSidebarAuthConfig({className}: {className?: string}) {
-  const [draggedConfig, setDraggedConfig] = useState<
-    WalletsConfiguration | SocialsConfiguration | null
-  >(null);
+  const [draggedConfig, setDraggedConfig] = useState<AuthConfiguration | null>(null);
   const {config, setConfig} = useContext(PrivyConfigContext);
   const [defaultConfigStyles, setDefaultConfigStyles] = useState<string>(
     '!border-b-transparent !border-t-transparent cursor-grab',
   );
-  const [authConfiguration, setAuthConfiguration] = useState<AuthConfiguration>([
-    {name: 'wallets', enabled: true, order: 1},
-    {
-      name: 'socials',
-      order: 2,
-      enabled: true,
-      email: true,
-      sms: true,
-      options: {
-        discord: true,
-        github: true,
-        google: true,
-        twitter: true,
-        apple: true,
-      },
-    },
-  ]);
 
-  console.log(config);
-
-  const handleDrag = (
-    e: React.DragEvent<HTMLDivElement>,
-    config: WalletsConfiguration | SocialsConfiguration,
-  ) => {
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>, config: AuthConfiguration) => {
     setDraggedConfig(config);
     e.currentTarget.classList.add('!border-transparent', 'rounded-md');
   };
@@ -67,13 +51,13 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (!draggedConfig) return;
-    const isTarget: boolean = e.currentTarget.id !== draggedConfig.name;
+    const isTarget: boolean = e.currentTarget.id !== draggedConfig;
 
-    if (isTarget && draggedConfig.order === 1) {
+    if (isTarget && draggedConfig === 'wallets' && config.appearance?.showWalletLoginFirst) {
       setDefaultConfigStyles('');
       e.currentTarget.classList.add('!border-b-privurple');
       setDefaultConfigStyles('border-t-transparent cursor-grabbing');
-    } else if (isTarget && draggedConfig.order === 2) {
+    } else if (isTarget && draggedConfig === 'socials' && config.appearance?.showWalletLoginFirst) {
       setDefaultConfigStyles('');
       e.currentTarget.classList.add('!border-t-privurple');
       setDefaultConfigStyles('border-b-transparent cursor-grabbing');
@@ -83,30 +67,20 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    // console.log(
-    //   `drop: dropEffect = ${e.dataTransfer.dropEffect} ; effectAllowed = ${e.dataTransfer.effectAllowed}`,
-    // );
     if (!draggedConfig) return;
+
     setDefaultConfigStyles('!border-b-transparent !border-t-transparent cursor-grab');
-    const dragBox = authConfiguration.find((config) => config.name === draggedConfig.name);
-    const dropBox = authConfiguration.find((config) => config.name === e.currentTarget.id);
 
-    if (!dropBox || !dragBox) return;
+    if (draggedConfig === e.currentTarget.id) return;
 
-    const dragBoxOrder = dragBox.order;
-    const dropBoxOrder = dropBox.order;
-
-    const newConfiguration = authConfiguration.map((config) => {
-      if (config.name === draggedConfig.name) {
-        config.order = dropBoxOrder;
-      }
-      if (config.name === e.currentTarget.id) {
-        config.order = dragBoxOrder;
-      }
-      return config;
+    setConfig?.({
+      ...config,
+      appearance: {
+        ...config.appearance,
+        showWalletLoginFirst: !config.appearance!.showWalletLoginFirst,
+      },
     });
-
-    setAuthConfiguration(newConfiguration);
+    setDraggedConfig(null);
   };
 
   return (
@@ -129,21 +103,48 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               <input
                 type="color"
                 className="input-color m-0 h-6  w-6 rounded-full bg-conic-gradient bg-cover bg-center p-0"
+                onChange={(e) => {
+                  setConfig?.({...config, appearance: {theme: e.target.value as `#${string}`}});
+                }}
               />
             </div>
           </div>
           <div className="shrink-0 grow-0">
             <div className="pb-2 text-[0.875rem]">Accent</div>
             <div className="flex gap-x-2">
-              <div className="h-6 w-6 rounded-full border border-gray-300 bg-white"></div>
-              <div className="h-6 w-6 rounded-full bg-gray-900"></div>
-              <div className="h-6 w-6 rounded-full bg-gray-900"></div>
-              <div className="h-6 w-6 rounded-full bg-gray-900"></div>
-              <div className="h-6 w-6 rounded-full bg-gray-900"></div>
-              <div className="h-6 w-6 rounded-full bg-gray-900"></div>
+              <StaticColorPicker
+                hex="#6A6FF5"
+                config={config}
+                setConfig={setConfig}
+                configAttr="accentColor"
+              />
+              <StaticColorPicker
+                hex="#A7C080"
+                config={config}
+                setConfig={setConfig}
+                configAttr="accentColor"
+              />
+              <StaticColorPicker
+                hex="#38CCCD"
+                config={config}
+                setConfig={setConfig}
+                configAttr="accentColor"
+              />
+              <StaticColorPicker
+                hex="#EF8977"
+                config={config}
+                setConfig={setConfig}
+                configAttr="accentColor"
+              />
               <input
                 type="color"
                 className="input-color m-0 h-6  w-6 rounded-full bg-conic-gradient bg-cover bg-center p-0"
+                onChange={(e) => {
+                  setConfig?.({
+                    ...config,
+                    appearance: {accentColor: e.target.value as `#${string}`},
+                  });
+                }}
               />
             </div>
           </div>
@@ -169,244 +170,229 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
             Authentication
           </CanvasSidebarHeader>
         </div>
-        {/* A drag and drop for two sections with react-beautiful-dnd */}
         {/* start: auth-ordering-section */}
-        <div className="flex flex-col gap-y-4 px-4 py-4">
-          {authConfiguration
-            .sort((a, b) => a.order - b.order)
-            .map((authConfig, index) => {
-              if (authConfig.name === 'wallets') {
-                return (
-                  <div
-                    draggable
-                    id={authConfig.name}
-                    onDragOver={handleDragOver}
-                    onDragStart={(e) => handleDrag(e, authConfig)}
-                    onDrop={handleDrop}
-                    className={`flex flex-col gap-y-2 border-y-2 ${defaultConfigStyles} bg-white py-2 pl-1 pr-2`}
-                    key={authConfig.name + index}
-                  >
-                    <div className="flex w-full items-center gap-4">
-                      <div className="flex shrink-0 grow-0 items-center">
-                        <EllipsisVerticalIcon className="h-4 w-4" strokeWidth={2} />
-                        <EllipsisVerticalIcon className="-m-3 h-4 w-4" strokeWidth={2} />
-                      </div>
-                      <div className="w-full text-sm">Wallets</div>
-                      <Toggle
-                        checked={config.loginMethods!.includes('wallet')}
-                        onChange={(checked) => {
-                          setConfig?.({
-                            ...config,
-                            loginMethods: checked
-                              ? [...(config.loginMethods ?? []), 'wallet']
-                              : (config.loginMethods ?? []).filter((m) => m !== 'wallet'),
-                          });
-                        }}
-                      />
-                    </div>
-                    <WalletButton
-                      icon={<WalletIcon className="h-4 w-4 text-privurple" strokeWidth={2} />}
-                      label="External Wallets"
-                    ></WalletButton>
-                  </div>
-                );
-              } else {
-                return (
-                  <div
-                    draggable
-                    id={authConfig.name}
-                    onDragOver={handleDragOver}
-                    onDragStart={(e) => handleDrag(e, authConfig)}
-                    onDrop={handleDrop}
-                    className={`flex flex-col gap-y-2 border-y-2 ${defaultConfigStyles} bg-white py-2 pl-1 pr-2`}
-                    key={authConfig.name + index}
-                  >
-                    <div className="flex w-full items-center gap-4">
-                      <div className="flex shrink-0 grow-0 items-center">
-                        <EllipsisVerticalIcon className="h-4 w-4" strokeWidth={2} />
-                        <EllipsisVerticalIcon className="-m-3 h-4 w-4" strokeWidth={2} />
-                      </div>
-                      <div className="w-full text-sm">Email / SMS / Socials</div>
-                      <Toggle
-                        checked={config.loginMethods!.some((m) => ['email', 'sms'].includes(m))}
-                        onChange={(checked) => {
-                          setConfig?.({
-                            ...config,
-                            loginMethods: checked
-                              ? [...(config.loginMethods ?? []), 'email']
-                              : (config.loginMethods ?? []).filter((m) => m === 'wallet'),
-                          });
-                        }}
-                      />
-                    </div>
-                    <div className="flex gap-x-4">
-                      <WalletButton
-                        className="w-full"
-                        type="radio"
-                        icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
-                        label="Email"
-                      >
-                        <input
-                          className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
-                          type="radio"
-                          name="email"
-                          checked={config?.loginMethods?.includes('email')}
-                          onChange={(e) => {
-                            setConfig?.({
-                              ...config,
-                              loginMethods: e.target.checked
-                                ? [
-                                    ...(config.loginMethods ?? []).filter((m) => m !== 'sms'),
-                                    'email',
-                                  ]
-                                : (config.loginMethods ?? []).filter((m) => m !== 'email'),
-                            });
-                          }}
-                        />
-                      </WalletButton>
-                      <WalletButton
-                        className="w-full"
-                        type="radio"
-                        icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
-                        label="SMS"
-                      >
-                        <input
-                          className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
-                          type="radio"
-                          name="sms"
-                          checked={config?.loginMethods?.includes('sms')}
-                          onChange={(e) => {
-                            setConfig?.({
-                              ...config,
-                              loginMethods: e.target.checked
-                                ? [
-                                    ...(config.loginMethods ?? []).filter((m) => m !== 'email'),
-                                    'sms',
-                                  ]
-                                : (config.loginMethods ?? []).filter((m) => m !== 'sms'),
-                            });
-                          }}
-                        />
-                      </WalletButton>
-                    </div>
-                    <div className="my-2 h-[1px] w-full shrink-0 grow-0 bg-gray-300"></div>
-                    <div className="flex flex-col gap-y-2">
-                      <div className="flex gap-x-4">
-                        <WalletButton
-                          className="w-full"
-                          type="radio"
-                          icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
-                          label="Google"
-                        >
-                          <input
-                            className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
-                            type="checkbox"
-                            name="wallet"
-                            checked={config?.loginMethods?.includes('google')}
-                            onChange={(e) => {
-                              setConfig?.({
-                                ...config,
-                                loginMethods: e.target.checked
-                                  ? [...(config.loginMethods ?? []), 'google']
-                                  : (config.loginMethods ?? []).filter((m) => m !== 'google'),
-                              });
-                            }}
-                          />
-                        </WalletButton>
-                        <WalletButton
-                          className="w-full"
-                          type="radio"
-                          icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
-                          label="Apple"
-                        >
-                          <input
-                            className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
-                            type="checkbox"
-                            name="wallet"
-                            checked={config?.loginMethods?.includes('apple')}
-                            onChange={(e) => {
-                              setConfig?.({
-                                ...config,
-                                loginMethods: e.target.checked
-                                  ? [...(config.loginMethods ?? []), 'apple']
-                                  : (config.loginMethods ?? []).filter((m) => m !== 'apple'),
-                              });
-                            }}
-                          />
-                        </WalletButton>
-                      </div>
-                      <div className="flex gap-x-4">
-                        <WalletButton
-                          className="w-full"
-                          type="radio"
-                          icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
-                          label="Twitter"
-                        >
-                          <input
-                            className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
-                            type="checkbox"
-                            name="wallet"
-                            checked={config?.loginMethods?.includes('twitter')}
-                            onChange={(e) => {
-                              setConfig?.({
-                                ...config,
-                                loginMethods: e.target.checked
-                                  ? [...(config.loginMethods ?? []), 'twitter']
-                                  : (config.loginMethods ?? []).filter((m) => m !== 'twitter'),
-                              });
-                            }}
-                          />
-                        </WalletButton>
-                        <WalletButton
-                          className="w-full"
-                          type="radio"
-                          icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
-                          label="Discord"
-                        >
-                          <input
-                            className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
-                            type="checkbox"
-                            name="wallet"
-                            checked={config?.loginMethods?.includes('discord')}
-                            onChange={(e) => {
-                              setConfig?.({
-                                ...config,
-                                loginMethods: e.target.checked
-                                  ? [...(config.loginMethods ?? []), 'discord']
-                                  : (config.loginMethods ?? []).filter((m) => m !== 'discord'),
-                              });
-                            }}
-                          />
-                        </WalletButton>
-                      </div>
-                      <div className="flex gap-x-4 pr-4">
-                        <WalletButton
-                          className="w-1/2"
-                          type="radio"
-                          icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
-                          label="Github"
-                        >
-                          <input
-                            className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
-                            type="checkbox"
-                            name="wallet"
-                            checked={config?.loginMethods?.includes('github')}
-                            onChange={(e) => {
-                              setConfig?.({
-                                ...config,
-                                loginMethods: e.target.checked
-                                  ? [...(config.loginMethods ?? []), 'github']
-                                  : (config.loginMethods ?? []).filter((m) => m !== 'github'),
-                              });
-                            }}
-                          />
-                        </WalletButton>
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-            })}
+        <div
+          className={classNames(
+            'flex flex-col gap-y-4 px-4 py-4',
+            !config.appearance?.showWalletLoginFirst ? 'flex-col-reverse' : '',
+          )}
+        >
+          <div
+            draggable
+            id="wallets"
+            onDragOver={handleDragOver}
+            onDragStart={(e) => handleDrag(e, e.currentTarget.id as AuthConfiguration)}
+            onDrop={handleDrop}
+            className={`flex flex-col gap-y-2 border-y-2 ${defaultConfigStyles} bg-white py-2 pl-1 pr-2`}
+          >
+            <div className="flex w-full items-center gap-4">
+              <div className="flex shrink-0 grow-0 items-center">
+                <EllipsisVerticalIcon className="h-4 w-4" strokeWidth={2} />
+                <EllipsisVerticalIcon className="-m-3 h-4 w-4" strokeWidth={2} />
+              </div>
+              <div className="w-full text-sm">Wallets</div>
+              <Toggle
+                checked={config.loginMethods!.includes('wallet')}
+                onChange={(checked) => {
+                  setConfig?.({
+                    ...config,
+                    loginMethods: checked
+                      ? [...(config.loginMethods ?? []), 'wallet']
+                      : (config.loginMethods ?? []).filter((m) => m !== 'wallet'),
+                  });
+                }}
+              />
+            </div>
+            <WalletButton
+              icon={<WalletIcon className="h-4 w-4 text-privurple" strokeWidth={2} />}
+              label="External Wallets"
+            ></WalletButton>
+          </div>
+          <div
+            draggable
+            id="socials"
+            onDragOver={handleDragOver}
+            onDragStart={(e) => handleDrag(e, e.currentTarget.id as AuthConfiguration)}
+            onDrop={handleDrop}
+            className={`flex flex-col gap-y-2 border-y-2 ${defaultConfigStyles} bg-white py-2 pl-1 pr-2`}
+          >
+            <div className="flex w-full items-center gap-4">
+              <div className="flex shrink-0 grow-0 items-center">
+                <EllipsisVerticalIcon className="h-4 w-4" strokeWidth={2} />
+                <EllipsisVerticalIcon className="-m-3 h-4 w-4" strokeWidth={2} />
+              </div>
+              <div className="w-full text-sm">Email / SMS / Socials</div>
+              <Toggle
+                checked={config.loginMethods!.some((m) => ['email', 'sms'].includes(m))}
+                onChange={(checked) => {
+                  setConfig?.({
+                    ...config,
+                    loginMethods: checked
+                      ? [...(config.loginMethods ?? []), 'email']
+                      : (config.loginMethods ?? []).filter((m) => m === 'wallet'),
+                  });
+                }}
+              />
+            </div>
+            <div className="flex gap-x-4">
+              <WalletButton
+                className="w-full"
+                type="radio"
+                icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                label="Email"
+              >
+                <input
+                  className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                  type="radio"
+                  name="email"
+                  checked={config?.loginMethods?.includes('email')}
+                  onChange={(e) => {
+                    setConfig?.({
+                      ...config,
+                      loginMethods: e.target.checked
+                        ? [...(config.loginMethods ?? []).filter((m) => m !== 'sms'), 'email']
+                        : (config.loginMethods ?? []).filter((m) => m !== 'email'),
+                    });
+                  }}
+                />
+              </WalletButton>
+              <WalletButton
+                className="w-full"
+                type="radio"
+                icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                label="SMS"
+              >
+                <input
+                  className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                  type="radio"
+                  name="sms"
+                  checked={config?.loginMethods?.includes('sms')}
+                  onChange={(e) => {
+                    setConfig?.({
+                      ...config,
+                      loginMethods: e.target.checked
+                        ? [...(config.loginMethods ?? []).filter((m) => m !== 'email'), 'sms']
+                        : (config.loginMethods ?? []).filter((m) => m !== 'sms'),
+                    });
+                  }}
+                />
+              </WalletButton>
+            </div>
+            <div className="my-2 h-[1px] w-full shrink-0 grow-0 bg-gray-300"></div>
+            <div className="flex flex-col gap-y-2">
+              <div className="flex gap-x-4">
+                <WalletButton
+                  className="w-full"
+                  type="radio"
+                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  label="Google"
+                >
+                  <input
+                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    type="checkbox"
+                    name="wallet"
+                    checked={config?.loginMethods?.includes('google')}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'google']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'google'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+                <WalletButton
+                  className="w-full"
+                  type="radio"
+                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  label="Apple"
+                >
+                  <input
+                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    type="checkbox"
+                    name="wallet"
+                    checked={config?.loginMethods?.includes('apple')}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'apple']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'apple'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+              </div>
+              <div className="flex gap-x-4">
+                <WalletButton
+                  className="w-full"
+                  type="radio"
+                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  label="Twitter"
+                >
+                  <input
+                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    type="checkbox"
+                    name="wallet"
+                    checked={config?.loginMethods?.includes('twitter')}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'twitter']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'twitter'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+                <WalletButton
+                  className="w-full"
+                  type="radio"
+                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  label="Discord"
+                >
+                  <input
+                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    type="checkbox"
+                    name="wallet"
+                    checked={config?.loginMethods?.includes('discord')}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'discord']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'discord'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+              </div>
+              <div className="flex gap-x-4 pr-4">
+                <WalletButton
+                  className="w-1/2"
+                  type="radio"
+                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  label="Github"
+                >
+                  <input
+                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    type="checkbox"
+                    name="wallet"
+                    checked={config?.loginMethods?.includes('github')}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'github']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'github'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+              </div>
+            </div>
+          </div>
         </div>
         {/* end: auth-ordering-section */}
         <div className="flex flex-col gap-y-2 px-6 py-4">
