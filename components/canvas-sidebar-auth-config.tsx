@@ -4,8 +4,13 @@ import Toggle from './toggle';
 import WalletButton from './wallet-button';
 import {WalletIcon} from '@heroicons/react/24/outline';
 import CanvasSidebarHeader from './canvas-sidebar-header';
-import PrivyConfigContext, {PrivyConfigContextType} from '../lib/hooks/usePrivyConfig';
+import PrivyConfigContext, {
+  PrivyConfigContextType,
+  privyLogo,
+  privyLogoDark,
+} from '../lib/hooks/usePrivyConfig';
 import {classNames} from '../lib/classNames';
+import {isDark} from '../lib/color';
 
 function StaticColorPicker({
   hex,
@@ -20,6 +25,7 @@ function StaticColorPicker({
   configAttr?: 'accentColor' | 'theme';
   border?: boolean;
 }) {
+  const logoConfig = configAttr === 'theme' ? {logo: isDark(hex) ? privyLogoDark : privyLogo} : {};
   return (
     <div
       className={classNames(
@@ -28,7 +34,14 @@ function StaticColorPicker({
       )}
       style={{backgroundColor: hex}}
       onClick={() =>
-        setConfig?.({...config, appearance: {...config.appearance, [configAttr]: hex}})
+        setConfig?.({
+          ...config,
+          appearance: {
+            ...config.appearance,
+            [configAttr]: hex,
+            ...logoConfig,
+          },
+        })
       }
     />
   );
@@ -105,7 +118,14 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 type="color"
                 className="input-color m-0 h-6  w-6 rounded-full bg-conic-gradient bg-cover bg-center p-0"
                 onChange={(e) => {
-                  setConfig?.({...config, appearance: {theme: e.target.value as `#${string}`}});
+                  setConfig?.({
+                    ...config,
+                    appearance: {
+                      ...config.appearance,
+                      theme: e.target.value as `#${string}`,
+                      logo: isDark(e.target.value) ? privyLogoDark : privyLogo,
+                    },
+                  });
                 }}
               />
             </div>
@@ -143,7 +163,10 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 onChange={(e) => {
                   setConfig?.({
                     ...config,
-                    appearance: {accentColor: e.target.value as `#${string}`},
+                    appearance: {
+                      ...config.appearance,
+                      accentColor: e.target.value as `#${string}`,
+                    },
                   });
                 }}
               />

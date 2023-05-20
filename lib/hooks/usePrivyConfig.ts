@@ -8,5 +8,30 @@ export type PrivyConfigContextType = {
   setConfig?: (config: PrivyDemoConfig) => void;
 };
 
+export const privyLogo = 'https://pub-dc971f65d0aa41d18c1839f8ab426dcb.r2.dev/privy.png';
+export const privyLogoDark = 'https://pub-dc971f65d0aa41d18c1839f8ab426dcb.r2.dev/privy-dark.png';
+
+export const defaultIndexConfig: PrivyDemoConfig = {
+  appearance: {
+    accentColor: '#6A6FF5',
+    theme: '#FFFFFF',
+    showWalletLoginFirst: true,
+    logo: privyLogo,
+  },
+  loginMethods: ['email', 'wallet'],
+  _render: {
+    inDialog: false,
+    inParentNodeId: 'render-privy',
+  },
+  createPrivyWalletOnLogin: true,
+};
+
+export const defaultDashboardConfig: PrivyDemoConfig = {
+  _render: {
+    inDialog: true,
+    inParentNodeId: null,
+  },
+};
+
 const PrivyConfigContext = createContext<PrivyConfigContextType>({config: {}});
 export default PrivyConfigContext;

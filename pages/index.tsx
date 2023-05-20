@@ -16,13 +16,15 @@ import ModalContainer from '../components/modal-container';
 import CanvasContainer from '../components/canvas-container';
 import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
-import {useContext} from 'react';
-import PrivyConfigContext from '../lib/hooks/usePrivyConfig';
+import {useContext, useEffect} from 'react';
+import PrivyConfigContext, {defaultIndexConfig} from '../lib/hooks/usePrivyConfig';
 
 export default function LoginPage() {
   const router = useRouter();
   const {ready, authenticated} = usePrivy();
-  const {config} = useContext(PrivyConfigContext);
+  const {config, setConfig} = useContext(PrivyConfigContext);
+
+  useEffect(() => setConfig?.(defaultIndexConfig), [setConfig]);
 
   if (!ready) {
     return <Loading />;

@@ -30,7 +30,7 @@ import {
 import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
 import CanvasCardHeader from '../components/canvas-card-header';
-import PrivyConfigContext from '../lib/hooks/usePrivyConfig';
+import PrivyConfigContext, {defaultDashboardConfig} from '../lib/hooks/usePrivyConfig';
 
 const formatWallet = (address: string | undefined): string => {
   if (!address) {
@@ -49,15 +49,7 @@ export default function LoginPage() {
 
   const {setConfig} = useContext(PrivyConfigContext);
 
-  useEffect(() => {
-    setConfig?.({
-      _render: {
-        inDialog: true,
-        inParentNodeId: null,
-      },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(() => setConfig?.(defaultDashboardConfig), [setConfig]);
 
   const {
     ready,

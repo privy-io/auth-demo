@@ -6,23 +6,14 @@ import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
 import {initializeDatadog, setDatadogUser} from '../lib/datadog';
 import {useMemo, useState} from 'react';
-import PrivyConfigContext, {PrivyConfigContextType} from '../lib/hooks/usePrivyConfig';
+import PrivyConfigContext, {
+  defaultIndexConfig,
+  PrivyConfigContextType,
+} from '../lib/hooks/usePrivyConfig';
 
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
-  const [config, setConfig] = useState<PrivyConfigContextType['config']>({
-    appearance: {
-      accentColor: '#6A6FF5',
-      theme: '#FFFFFF',
-      showWalletLoginFirst: true,
-    },
-    loginMethods: ['email', 'wallet'],
-    _render: {
-      inDialog: false,
-      inParentNodeId: 'render-privy',
-    },
-    createPrivyWalletOnLogin: true,
-  });
+  const [config, setConfig] = useState<PrivyConfigContextType['config']>(defaultIndexConfig);
 
   useMemo(initializeDatadog, []);
 
