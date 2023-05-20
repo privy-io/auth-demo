@@ -5,17 +5,24 @@ import Loading from '../components/loading';
 import {Header} from '../components/header';
 import CanvasSidebarAuthConfig from '../components/canvas-sidebar-auth-config';
 import PrivyBlobIcon from '../components/icons/outline/privy-blob';
-import {ArrowDownOnSquareIcon, ArrowRightIcon} from '@heroicons/react/24/outline';
+import {
+  ArrowDownOnSquareIcon,
+  ArrowRightIcon,
+  ClipboardDocumentIcon,
+} from '@heroicons/react/24/outline';
 import CanvasCardHeader from '../components/canvas-card-header';
 import CanvasCard from '../components/canvas-card';
 import ModalContainer from '../components/modal-container';
 import CanvasContainer from '../components/canvas-container';
 import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
+import {useContext} from 'react';
+import PrivyConfigContext from '../lib/hooks/usePrivyConfig';
 
 export default function LoginPage() {
   const router = useRouter();
   const {ready, authenticated} = usePrivy();
+  const {config} = useContext(PrivyConfigContext);
 
   if (!ready) {
     return <Loading />;
@@ -69,6 +76,26 @@ export default function LoginPage() {
                 <div className="pb-2 text-sm text-gray-400">
                   Privy&apos;s components can be customized <a href="#">client-side</a>, so you can
                   easily reuse this theme in your application.
+                </div>
+                <div
+                  className="button-secondary h-[1.625rem] cursor-pointer gap-x-2 pl-3 pr-2 text-sm"
+                  onClick={() => {
+                    const {_render, createPrivyWalletOnLogin, ...rest} = config;
+                    const providerCode = `<PrivyProvider createPrivyWalletOnLogin={${createPrivyWalletOnLogin}} config={${JSON.stringify(
+                      rest,
+                    )}}>{children}</PrivyProvider>`;
+                    navigator.clipboard
+                      .writeText(providerCode)
+                      .then(() => {
+                        console.log('Text copied to clipboard');
+                      })
+                      .catch((error) => {
+                        console.error('Failed to copy text to clipboard:', error);
+                      });
+                  }}
+                >
+                  Copy
+                  <ClipboardDocumentIcon className="h-5 w-5" strokeWidth={2} />
                 </div>
               </CanvasCard>
             </CanvasRow>

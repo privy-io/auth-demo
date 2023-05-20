@@ -1,12 +1,22 @@
+import {classNames} from '../lib/classNames';
+
 export default function Toggle({
   checked = false,
   onChange,
+  disabled = false,
 }: {
   checked: boolean;
   onChange: (checked: boolean) => void;
+  disabled?: boolean;
 }) {
   return (
-    <div className="flex items-center" onClick={() => onChange(!checked)}>
+    <div
+      className={classNames('flex items-center', disabled ? 'opacity-30' : '')}
+      onClick={() => {
+        if (disabled) return;
+        onChange(!checked);
+      }}
+    >
       <div
         className={`flex h-[0.875rem] w-7 cursor-pointer select-none items-center rounded-full pl-0.5 align-middle ${
           checked ? 'justify-start bg-privurple' : 'justify-end bg-gray-300'

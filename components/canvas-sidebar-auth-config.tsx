@@ -200,6 +200,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                       : (config.loginMethods ?? []).filter((m) => m !== 'wallet'),
                   });
                 }}
+                disabled={!config.loginMethods?.some((m) => ['sms', 'email'].includes(m))}
               />
             </div>
             <WalletButton
@@ -231,6 +232,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                       : (config.loginMethods ?? []).filter((m) => m === 'wallet'),
                   });
                 }}
+                disabled={!config.loginMethods?.includes('wallet')}
               />
             </div>
             <div className="flex gap-x-4">
