@@ -11,7 +11,7 @@ export default function Toggle({
 }) {
   return (
     <div
-      className={classNames('flex items-center', disabled ? 'opacity-30' : '')}
+      className={classNames('flex items-center', disabled ? 'opacity-50' : '')}
       onClick={() => {
         if (disabled) return;
         onChange(!checked);

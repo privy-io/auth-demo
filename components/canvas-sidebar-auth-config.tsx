@@ -82,6 +82,8 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
     setDraggedConfig(null);
   };
 
+  const hasSocials = config.loginMethods?.some((m) => ['sms', 'email'].includes(m));
+
   return (
     <div
       className={`no-scrollbar h-full w-[24rem] shrink-0 grow-0 overflow-y-scroll border-r border-gray-300 bg-white ${className}`}
@@ -200,7 +202,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                       : (config.loginMethods ?? []).filter((m) => m !== 'wallet'),
                   });
                 }}
-                disabled={!config.loginMethods?.some((m) => ['sms', 'email'].includes(m))}
+                disabled={!hasSocials}
               />
             </div>
             <WalletButton
@@ -237,8 +239,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
             </div>
             <div className="flex gap-x-4">
               <WalletButton
-                className="w-full"
-                type="radio"
+                className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                 icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
                 label="Email"
               >
@@ -258,8 +259,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 />
               </WalletButton>
               <WalletButton
-                className="w-full"
-                type="radio"
+                className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                 icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
                 label="SMS"
               >
@@ -283,8 +283,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-4">
                 <WalletButton
-                  className="w-full"
-                  type="radio"
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
                   label="Google"
                 >
@@ -292,6 +291,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
                     type="checkbox"
                     name="wallet"
+                    disabled={!hasSocials}
                     checked={config?.loginMethods?.includes('google')}
                     onChange={(e) => {
                       setConfig?.({
@@ -304,8 +304,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   />
                 </WalletButton>
                 <WalletButton
-                  className="w-full"
-                  type="radio"
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
                   label="Apple"
                 >
@@ -313,6 +312,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
                     type="checkbox"
                     name="wallet"
+                    disabled={!hasSocials}
                     checked={config?.loginMethods?.includes('apple')}
                     onChange={(e) => {
                       setConfig?.({
@@ -327,8 +327,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               </div>
               <div className="flex gap-x-4">
                 <WalletButton
-                  className="w-full"
-                  type="radio"
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
                   label="Twitter"
                 >
@@ -336,6 +335,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
                     type="checkbox"
                     name="wallet"
+                    disabled={!hasSocials}
                     checked={config?.loginMethods?.includes('twitter')}
                     onChange={(e) => {
                       setConfig?.({
@@ -348,8 +348,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   />
                 </WalletButton>
                 <WalletButton
-                  className="w-full"
-                  type="radio"
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
                   label="Discord"
                 >
@@ -357,6 +356,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
                     type="checkbox"
                     name="wallet"
+                    disabled={!hasSocials}
                     checked={config?.loginMethods?.includes('discord')}
                     onChange={(e) => {
                       setConfig?.({
@@ -371,8 +371,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               </div>
               <div className="flex gap-x-4 pr-4">
                 <WalletButton
-                  className="w-1/2"
-                  type="radio"
+                  className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
                   icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
                   label="Github"
                 >
@@ -380,6 +379,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
                     type="checkbox"
                     name="wallet"
+                    disabled={!hasSocials}
                     checked={config?.loginMethods?.includes('github')}
                     onChange={(e) => {
                       setConfig?.({

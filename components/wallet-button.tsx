@@ -4,7 +4,6 @@ export default function WalletButton({
   className,
   children,
 }: {
-  type?: string;
   icon: React.ReactNode;
   label: string;
   className?: string;
