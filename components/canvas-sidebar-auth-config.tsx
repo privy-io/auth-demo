@@ -51,16 +51,15 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (!draggedConfig) return;
-    const isTarget: boolean = e.currentTarget.id !== draggedConfig;
+    const isTarget = e.currentTarget.id !== draggedConfig;
+    const borderBottom =
+      (draggedConfig === 'wallets' && config.appearance?.showWalletLoginFirst) ||
+      (draggedConfig === 'socials' && !config.appearance?.showWalletLoginFirst);
 
-    if (isTarget && draggedConfig === 'wallets' && config.appearance?.showWalletLoginFirst) {
+    if (isTarget) {
       setDefaultConfigStyles('');
-      e.currentTarget.classList.add('!border-b-privurple');
+      e.currentTarget.classList.add(borderBottom ? '!border-b-privurple' : '!border-t-privurple');
       setDefaultConfigStyles('border-t-transparent cursor-grabbing');
-    } else if (isTarget && draggedConfig === 'socials' && config.appearance?.showWalletLoginFirst) {
-      setDefaultConfigStyles('');
-      e.currentTarget.classList.add('!border-t-privurple');
-      setDefaultConfigStyles('border-b-transparent cursor-grabbing');
     } else {
       setDefaultConfigStyles('!border-b-transparent !border-t-transparent cursor-grab');
     }
