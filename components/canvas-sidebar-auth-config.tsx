@@ -1,5 +1,5 @@
 import {EllipsisVerticalIcon, LockClosedIcon, SparklesIcon} from '@heroicons/react/24/outline';
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import Toggle from './toggle';
 import WalletButton from './wallet-button';
 import {WalletIcon} from '@heroicons/react/24/outline';
@@ -11,6 +11,11 @@ import PrivyConfigContext, {
 } from '../lib/hooks/usePrivyConfig';
 import {classNames} from '../lib/classNames';
 import {isDark} from '../lib/color';
+import {isValidUrl} from '@datadog/browser-core';
+
+function getLogo(hex: `#${string}`, userLogoUrl: string) {
+  return isValidUrl(userLogoUrl) ? userLogoUrl : isDark(hex) ? privyLogoDark : privyLogo;
+}
 
 function StaticColorPicker({
   hex,
@@ -18,14 +23,16 @@ function StaticColorPicker({
   setConfig,
   configAttr = 'theme',
   border = false,
+  userLogoUrl = '',
 }: {
   hex: `#${string}`;
   config: PrivyConfigContextType['config'];
   setConfig: PrivyConfigContextType['setConfig'];
   configAttr?: 'accentColor' | 'theme';
   border?: boolean;
+  userLogoUrl?: string;
 }) {
-  const logoConfig = configAttr === 'theme' ? {logo: isDark(hex) ? privyLogoDark : privyLogo} : {};
+  const logoConfig = configAttr === 'theme' ? {logo: getLogo(hex, userLogoUrl)} : {};
   return (
     <div
       className={classNames(
@@ -55,6 +62,18 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
   const [defaultConfigStyles, setDefaultConfigStyles] = useState<string>(
     '!border-b-transparent !border-t-transparent cursor-grab',
   );
+  const [userLogoUrl, setUserLogoUrl] = useState<string>('');
+
+  useEffect(() => {
+    setConfig?.({
+      ...config,
+      appearance: {
+        ...config.appearance,
+        logo: getLogo(config?.appearance?.theme as `#${string}`, userLogoUrl),
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userLogoUrl]);
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>, config: AuthConfiguration) => {
     setDraggedConfig(config);
@@ -112,8 +131,19 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
           <div className="shrink-0 grow-0">
             <div className="pb-2 text-[0.875rem]">Background</div>
             <div className="flex gap-x-2">
-              <StaticColorPicker hex="#FFFFFF" config={config} setConfig={setConfig} border />
-              <StaticColorPicker hex="#2C2C2C" config={config} setConfig={setConfig} />
+              <StaticColorPicker
+                hex="#FFFFFF"
+                config={config}
+                setConfig={setConfig}
+                userLogoUrl={userLogoUrl}
+                border
+              />
+              <StaticColorPicker
+                hex="#2C2C2C"
+                config={config}
+                setConfig={setConfig}
+                userLogoUrl={userLogoUrl}
+              />
               <input
                 type="color"
                 className="input-color m-0 h-6  w-6 rounded-full bg-conic-gradient bg-cover bg-center p-0"
@@ -123,7 +153,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     appearance: {
                       ...config.appearance,
                       theme: e.target.value as `#${string}`,
-                      logo: isDark(e.target.value) ? privyLogoDark : privyLogo,
+                      logo: getLogo(e.target.value as `#${string}`, userLogoUrl),
                     },
                   });
                 }}
@@ -180,8 +210,9 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
             className="h-8 w-full border-none px-0 text-[0.875rem] placeholder-gray-300 focus:border-none focus:ring-0"
             type="url"
             placeholder="Add image URL or Upload"
+            value={userLogoUrl}
+            onChange={(e) => setUserLogoUrl(e.target.value)}
           />
-          <div className="button-secondary h-8 shrink-0 grow-0 px-4 text-[0.875rem]">Upload</div>
         </div>
         {/* end: image-upload */}
       </div>
