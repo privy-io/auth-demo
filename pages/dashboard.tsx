@@ -79,6 +79,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (ready && !authenticated) {
+      console.log('!authenticated');
       clearDatadogUser();
       router.push('/');
     }

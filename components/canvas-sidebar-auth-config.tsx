@@ -216,7 +216,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               </div>
               <div className="w-full text-sm">Wallets</div>
               <Toggle
-                checked={config.loginMethods!.includes('wallet')}
+                checked={!!config.loginMethods?.includes('wallet') ?? true}
                 onChange={(checked) => {
                   setConfig?.({
                     ...config,
@@ -248,7 +248,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               </div>
               <div className="w-full text-sm">Email / SMS / Socials</div>
               <Toggle
-                checked={config.loginMethods!.some((m) => ['email', 'sms'].includes(m))}
+                checked={!!config.loginMethods?.some((m) => ['email', 'sms'].includes(m))}
                 onChange={(checked) => {
                   setConfig?.({
                     ...config,
@@ -270,7 +270,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
                   type="radio"
                   name="email"
-                  checked={config?.loginMethods?.includes('email')}
+                  checked={config?.loginMethods?.includes('email') ?? true}
                   onChange={(e) => {
                     setConfig?.({
                       ...config,
@@ -290,7 +290,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
                   type="radio"
                   name="sms"
-                  checked={config?.loginMethods?.includes('sms')}
+                  checked={config?.loginMethods?.includes('sms') ?? false}
                   onChange={(e) => {
                     setConfig?.({
                       ...config,
@@ -315,7 +315,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('google')}
+                    checked={config?.loginMethods?.includes('google') ?? false}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -336,7 +336,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('apple')}
+                    checked={config?.loginMethods?.includes('apple') ?? false}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -359,7 +359,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('twitter')}
+                    checked={config?.loginMethods?.includes('twitter') ?? false}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -380,7 +380,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('discord')}
+                    checked={config?.loginMethods?.includes('discord') ?? false}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -403,7 +403,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('github')}
+                    checked={config?.loginMethods?.includes('github') ?? false}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,

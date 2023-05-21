@@ -18,7 +18,7 @@ export const defaultIndexConfig: PrivyDemoConfig = {
     showWalletLoginFirst: true,
     logo: privyLogo,
   },
-  loginMethods: ['email', 'wallet'],
+  loginMethods: ['email', 'wallet', 'discord'],
   _render: {
     inDialog: false,
     inParentNodeId: 'render-privy',
@@ -27,10 +27,10 @@ export const defaultIndexConfig: PrivyDemoConfig = {
 };
 
 export const defaultDashboardConfig: PrivyDemoConfig = {
-  _render: {
-    inDialog: true,
-    inParentNodeId: null,
-  },
+  // _render: {
+  //   inDialog: true,
+  //   inParentNodeId: null,
+  // },
 };
 
 const PrivyConfigContext = createContext<PrivyConfigContextType>({config: {}});

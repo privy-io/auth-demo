@@ -12,19 +12,35 @@ import {
 } from '@heroicons/react/24/outline';
 import CanvasCardHeader from '../components/canvas-card-header';
 import CanvasCard from '../components/canvas-card';
-import ModalContainer from '../components/modal-container';
 import CanvasContainer from '../components/canvas-container';
 import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
 import {useContext, useEffect} from 'react';
-import PrivyConfigContext, {defaultIndexConfig} from '../lib/hooks/usePrivyConfig';
+import PrivyConfigContext, {
+  defaultDashboardConfig,
+  defaultIndexConfig,
+} from '../lib/hooks/usePrivyConfig';
 
 export default function LoginPage() {
   const router = useRouter();
-  const {ready, authenticated} = usePrivy();
+  const {ready, authenticated, login} = usePrivy();
   const {config, setConfig} = useContext(PrivyConfigContext);
 
-  useEffect(() => setConfig?.(defaultIndexConfig), [setConfig]);
+  useEffect(() => {
+    // there is an issue with applying the dashboard config (render as modal)
+    // _after_ loading the dashboard page, where the changing from in-line to modal
+    // rendering will re-trigger the oauth process (since that's an effect on the oauth
+    // status screen.) This will apply the config change if coming back from an oauth redirect,
+    // before that issue arises.
+    const currentUrl = new URL(window.location.href);
+    const oauthProvider = currentUrl.searchParams.get('privy_oauth_provider');
+    setConfig?.(oauthProvider ? defaultDashboardConfig : defaultIndexConfig);
+  }, [setConfig]);
+
+  useEffect(() => {
+    login();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!ready) {
     return <Loading />;
@@ -45,7 +61,7 @@ export default function LoginPage() {
           {/* start: canvas-panel */}
           <Canvas className="pl-24">
             {/* start: modal-column */}
-            <ModalContainer />
+            <div id="render-privy" />
             {/* end: modal-column */}
             <CanvasRow>
               {/* start: cta */}
