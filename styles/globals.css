@@ -6,7 +6,7 @@
   html,
   body,
   #__next {
-    @apply h-full text-privy-color-foreground-2;
+    @apply h-full bg-privy-color-background text-privy-color-foreground-2;
   }
 
   a {
