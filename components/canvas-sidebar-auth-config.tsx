@@ -36,8 +36,8 @@ function StaticColorPicker({
   return (
     <div
       className={classNames(
-        'h-6 w-6 cursor-pointer rounded-full',
-        border ? 'border border-gray-300' : '',
+        'h-6 w-6 cursor-pointer rounded-full border',
+        border ? 'border-privy-color-foreground-4' : 'border-privy-color-background',
       )}
       style={{backgroundColor: hex}}
       onClick={() =>
@@ -60,7 +60,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
   const [draggedConfig, setDraggedConfig] = useState<AuthConfiguration | null>(null);
   const {config, setConfig} = useContext(PrivyConfigContext);
   const [defaultConfigStyles, setDefaultConfigStyles] = useState<string>(
-    '!border-b-transparent !border-t-transparent cursor-grab',
+    '!border-b-privy-color-background !border-t-privy-color-background cursor-grab',
   );
   const [userLogoUrl, setUserLogoUrl] = useState<string>('');
 
@@ -77,7 +77,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>, config: AuthConfiguration) => {
     setDraggedConfig(config);
-    e.currentTarget.classList.add('!border-transparent', 'rounded-md');
+    e.currentTarget.classList.add('!border-privy-color-background', 'rounded-md');
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -90,17 +90,23 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
 
     if (isTarget) {
       setDefaultConfigStyles('');
-      e.currentTarget.classList.add(borderBottom ? '!border-b-privurple' : '!border-t-privurple');
-      setDefaultConfigStyles('border-t-transparent cursor-grabbing');
+      e.currentTarget.classList.add(
+        borderBottom ? '!border-b-privy-color-accent' : '!border-t-privy-color-accent',
+      );
+      setDefaultConfigStyles('!border-t-privy-color-background cursor-grabbing');
     } else {
-      setDefaultConfigStyles('!border-b-transparent !border-t-transparent cursor-grab');
+      setDefaultConfigStyles(
+        'border-b-privy-color-background !border-t-privy-color-background cursor-grab',
+      );
     }
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     if (!draggedConfig) return;
 
-    setDefaultConfigStyles('!border-b-transparent !border-t-transparent cursor-grab');
+    setDefaultConfigStyles(
+      '!border-b-privy-color-background !border-t-privy-color-background cursor-grab',
+    );
 
     if (draggedConfig === e.currentTarget.id) return;
 
@@ -118,7 +124,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
 
   return (
     <div
-      className={`no-scrollbar h-full w-[24rem] shrink-0 grow-0 overflow-y-scroll border-r border-gray-300 bg-white ${className}`}
+      className={`no-scrollbar h-full w-[24rem] shrink-0 grow-0 overflow-y-scroll border-r border-privy-color-foreground-4 bg-privy-color-background ${className}`}
     >
       {/* start: customize-section */}
       <div className="px-6 pb-4">
@@ -139,14 +145,15 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 border
               />
               <StaticColorPicker
-                hex="#2C2C2C"
+                hex="#222224"
                 config={config}
                 setConfig={setConfig}
                 userLogoUrl={userLogoUrl}
+                border
               />
               <input
                 type="color"
-                className="input-color m-0 h-6  w-6 rounded-full bg-conic-gradient bg-cover bg-center p-0"
+                className="input-color m-0 h-6  w-6 rounded-full border border-privy-color-background bg-conic-gradient bg-cover bg-center p-0"
                 onChange={(e) => {
                   setConfig?.({
                     ...config,
@@ -189,7 +196,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               />
               <input
                 type="color"
-                className="input-color m-0 h-6  w-6 rounded-full bg-conic-gradient bg-cover bg-center p-0"
+                className="input-color m-0 h-6 w-6 rounded-full border border-privy-color-background bg-conic-gradient bg-cover bg-center p-0"
                 onChange={(e) => {
                   setConfig?.({
                     ...config,
@@ -205,11 +212,11 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
         </div>
         {/* end: color-selection */}
         {/* start: image-upload */}
-        <div className="flex h-10 items-center gap-x-2 rounded-lg border border-dashed border-gray-300 pl-3 pr-1">
+        <div className="flex h-10 items-center gap-x-2 rounded-lg border border-dashed border-privy-color-foreground-4 pl-3 pr-1">
           <input
-            className="h-8 w-full border-none px-0 text-[0.875rem] placeholder-gray-300 focus:border-none focus:ring-0"
+            className="h-8 w-full border-none bg-transparent px-0 text-[0.875rem] placeholder-privy-color-foreground-4 focus:border-none focus:ring-0"
             type="url"
-            placeholder="Add image URL or Upload"
+            placeholder="Add image URL"
             value={userLogoUrl}
             onChange={(e) => setUserLogoUrl(e.target.value)}
           />
@@ -238,7 +245,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
             onDragOver={handleDragOver}
             onDragStart={(e) => handleDrag(e, e.currentTarget.id as AuthConfiguration)}
             onDrop={handleDrop}
-            className={`flex flex-col gap-y-2 border-y-2 ${defaultConfigStyles} bg-white py-2 pl-1 pr-2`}
+            className={`flex flex-col gap-y-2 border-y-2 ${defaultConfigStyles} bg-privy-color-background py-2 pl-1 pr-2`}
           >
             <div className="flex w-full items-center gap-4">
               <div className="flex shrink-0 grow-0 items-center">
@@ -260,7 +267,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               />
             </div>
             <WalletButton
-              icon={<WalletIcon className="h-4 w-4 text-privurple" strokeWidth={2} />}
+              icon={<WalletIcon className="h-4 w-4 text-privy-color-accent" strokeWidth={2} />}
               label="External Wallets"
             ></WalletButton>
           </div>
@@ -270,7 +277,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
             onDragOver={handleDragOver}
             onDragStart={(e) => handleDrag(e, e.currentTarget.id as AuthConfiguration)}
             onDrop={handleDrop}
-            className={`flex flex-col gap-y-2 border-y-2 ${defaultConfigStyles} bg-white py-2 pl-1 pr-2`}
+            className={`flex flex-col gap-y-2 border-y-2 ${defaultConfigStyles} bg-privy-color-background py-2 pl-1 pr-2`}
           >
             <div className="flex w-full items-center gap-4">
               <div className="flex shrink-0 grow-0 items-center">
@@ -298,7 +305,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 label="Email"
               >
                 <input
-                  className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                  className="shrink-0 grow-0"
                   type="radio"
                   name="email"
                   checked={config?.loginMethods?.includes('email') ?? true}
@@ -318,7 +325,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 label="SMS"
               >
                 <input
-                  className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                  className="shrink-0 grow-0"
                   type="radio"
                   name="sms"
                   checked={config?.loginMethods?.includes('sms') ?? false}
@@ -333,7 +340,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 />
               </WalletButton>
             </div>
-            <div className="my-2 h-[1px] w-full shrink-0 grow-0 bg-gray-300"></div>
+            <div className="my-2 h-[1px] w-full shrink-0 grow-0 bg-privy-color-foreground-4"></div>
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-4">
                 <WalletButton
@@ -342,7 +349,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   label="Google"
                 >
                   <input
-                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
@@ -363,7 +370,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   label="Apple"
                 >
                   <input
-                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
@@ -386,7 +393,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   label="Twitter"
                 >
                   <input
-                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
@@ -407,7 +414,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   label="Discord"
                 >
                   <input
-                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
@@ -430,7 +437,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   label="Github"
                 >
                   <input
-                    className="shrink-0 grow-0 border-gray-300 text-privurple focus:ring-privurple"
+                    className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
                     disabled={!hasSocials}
@@ -469,7 +476,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               }}
             />
           </div>
-          <div className="text-sm text-gray-400">
+          <div className="text-sm text-privy-color-foreground-3">
             With Privy, even non web3 natives can enjoy the benefits of life on chain. Upon sign in,
             we&apos;ll automatically create an “Embedded Wallet” for them to transact with on chain.
           </div>

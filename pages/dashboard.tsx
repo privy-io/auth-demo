@@ -8,7 +8,7 @@ import {usePrivy} from '@privy-io/react-auth';
 import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
-import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
+import AuthLinker, {LinkButton} from '../components/auth-linker';
 import {clearDatadogUser} from '../lib/datadog';
 import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
 import ActiveWalletDropdown from '../components/wallet-dropdown';
@@ -21,6 +21,7 @@ import CanvasSidebarHeader from '../components/canvas-sidebar-header';
 import {
   ArrowLeftOnRectangleIcon,
   ArrowsUpDownIcon,
+  CheckIcon,
   CommandLineIcon,
   PencilIcon,
   PlusIcon,
@@ -144,11 +145,11 @@ export default function LoginPage() {
             <div className="h-full py-4">
               <textarea
                 value={JSON.stringify(user, null, 2)}
-                className="no-scrollbar h-full w-full resize-none rounded-lg border-0 bg-gray-100 p-4 font-mono text-xs text-gray-700"
+                className="no-scrollbar h-full w-full resize-none rounded-lg border-0 bg-privy-color-background-2 p-4 font-mono text-xs text-privy-color-foreground-2"
                 disabled
               />
             </div>
-            <div className="shrink-0 grow-0 pb-4 text-sm text-gray-400">
+            <div className="shrink-0 grow-0 pb-4 text-sm text-privy-color-foreground-3">
               Privy gives you modular components so you can customize your product for your users.
               Learn more in{' '}
               <a href="https://docs.privy.io/guide/frontend/users/object" target="_blank">
@@ -157,7 +158,7 @@ export default function LoginPage() {
               .
             </div>
             <CanvasCard className="shrink-0 grow-0 !shadow-none">
-              <div className="pb-4 text-sm text-gray-400">
+              <div className="pb-4 text-sm text-privy-color-foreground-3">
                 Sign out or delete your data to restart the demo and customize your theme.
               </div>
               <div className="flex items-center gap-2">
@@ -166,14 +167,14 @@ export default function LoginPage() {
                     e.preventDefault();
                     logout();
                   }}
-                  className="button-secondary h-8 gap-x-1 px-3 text-sm"
+                  className="button h-8 gap-x-1 px-3 text-sm"
                 >
                   <ArrowLeftOnRectangleIcon className="h-4 w-4" strokeWidth={2} />
                   Sign out
                 </button>
                 <button
                   onClick={deleteUser}
-                  className="button-secondary h-8 gap-x-2 px-3 text-sm !text-red-400"
+                  className="button h-8 gap-x-2 px-3 text-sm !text-red-400"
                 >
                   Delete Account
                 </button>
@@ -206,6 +207,7 @@ export default function LoginPage() {
                 <div className="flex flex-col gap-2">
                   {wallets.map((wallet) => (
                     <AuthLinker
+                      isActive={wallet.address === walletConnectors?.activeWalletConnector?.address}
                       key={wallet.address}
                       isLink
                       linkedText={formatWallet(wallet.address)}
@@ -216,9 +218,9 @@ export default function LoginPage() {
                       linkAction={linkWallet}
                       additionalInfo={
                         wallet.address === walletConnectors?.activeWalletConnector?.address ? (
-                          <span className="flex items-center gap-1 rounded-md bg-slate-100 py-1 px-2 text-xs">
-                            active
-                          </span>
+                          <div className="flex h-4 items-center justify-center rounded-full bg-privy-color-success px-1 text-xs text-white">
+                            Active
+                          </div>
                         ) : null
                       }
                       isEmbeddedWallet={wallet.walletClient === 'privy'}
@@ -253,14 +255,10 @@ export default function LoginPage() {
                       };
                     })}
                   />
-                  <button
-                    className="button-secondary h-10 gap-x-1 px-4 text-sm"
-                    onClick={linkWallet}
-                  >
+                  <button className="button h-10 gap-x-1 px-4 text-sm" onClick={linkWallet}>
                     <PlusIcon className="h-4 w-4" strokeWidth={2} />
                     Link a Wallet
                   </button>
-                  {/* <AuthSection text="Link a wallet" action={<LinkButton onClick={linkWallet} />} /> */}
                 </div>
               </CanvasCard>
               <CanvasCard>
@@ -268,12 +266,12 @@ export default function LoginPage() {
                   <ArrowsUpDownIcon className="h-5 w-5" strokeWidth={2} />
                   Wallet Actions
                 </CanvasCardHeader>
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-privy-color-foreground-3">
                   Temporibus et sed eligendi. Excepturi aspernatur...
                 </div>
                 <div className="flex flex-col gap-2 pt-4">
                   <button
-                    className="button-secondary h-10 gap-x-1 px-4 text-sm"
+                    className="button h-10 gap-x-1 px-4 text-sm"
                     disabled={
                       signLoading ||
                       !walletConnectors?.walletConnectors?.length ||

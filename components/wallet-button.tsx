@@ -11,7 +11,7 @@ export default function WalletButton({
 }) {
   return (
     <div
-      className={`flex h-10 items-center gap-x-2 rounded-md border border-gray-300 px-3 ${className}`}
+      className={`flex h-10 items-center gap-x-2 rounded-md border border-privy-color-foreground-4 px-3 ${className}`}
     >
       <div className="shrink-0 grow-0">{icon}</div>
       <div className="w-full text-sm">{label}</div>

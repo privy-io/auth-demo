@@ -6,42 +6,47 @@
   html,
   body,
   #__next {
-    @apply h-full text-privy-navy;
+    @apply h-full text-privy-color-foreground-2;
   }
 
   a {
-    @apply text-privurple underline;
+    @apply text-privy-color-accent underline;
   }
 }
 
 @layer components {
-  .button-primary {
-    @apply flex items-center justify-center rounded-md bg-privurple font-medium text-white no-underline shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300 hover:disabled:bg-gray-300;
+  .button {
+    @apply flex items-center justify-center rounded-md border border-privy-color-foreground-4 font-medium text-privy-color-accent no-underline transition-all duration-200 ease-in-out hover:bg-privy-color-background-2 disabled:cursor-not-allowed disabled:border-privy-color-foreground-4 disabled:bg-privy-color-foreground-4 disabled:text-privy-color-foreground-3 hover:disabled:bg-privy-color-foreground-4;
   }
-
-  .button-secondary {
-    @apply flex items-center  justify-center rounded-md border border-gray-300 font-medium text-privurple no-underline hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300 hover:disabled:bg-gray-300;
+  .button-primary {
+    @apply border-privy-color-accent bg-privy-color-accent text-white hover:bg-privy-color-accent-light;
   }
 
   input {
-    @apply caret-privurple;
+    @apply caret-privy-color-accent;
+  }
+  input[type='checkbox'],
+  input[type='radio'] {
+    @apply border-privy-color-foreground-4 bg-transparent text-privy-color-accent focus:ring-1 focus:ring-privy-color-accent focus:ring-offset-2 focus:ring-offset-privy-color-background;
+  }
+  input[type='checkbox'] {
+    @apply rounded-sm;
   }
 
   .input-color {
-    @apply relative appearance-none overflow-hidden rounded-full border-none p-0;
+    @apply relative appearance-none overflow-hidden rounded-full border border-privy-color-background p-0;
   }
   .input-color::-webkit-color-swatch {
-    @apply absolute top-0 left-0 h-full max-h-full w-full cursor-pointer appearance-none rounded-full border-none p-0 opacity-0;
+    @apply absolute top-0 left-0 h-full max-h-full w-full cursor-pointer appearance-none rounded-full border border-privy-color-background p-0 opacity-0;
   }
   .input-color::-moz-color-swatch {
-    @apply absolute top-0 left-0 h-full max-h-full w-full cursor-pointer appearance-none rounded-full border-none p-0 opacity-0;
+    @apply absolute top-0 left-0 h-full max-h-full w-full cursor-pointer appearance-none rounded-full border border-privy-color-background p-0 opacity-0;
   }
 }
 
 @layer utilities {
   .bg-dotgrid-light {
-    background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1px, transparent 0);
-    backdrop-filter: overlay;
+    background-image: radial-gradient(var(--privy-color-foreground-4) 1px, transparent 0);
     background-size: 24px 24px;
     background-position: -19px -19px;
   }

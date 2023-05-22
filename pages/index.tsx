@@ -65,20 +65,20 @@ export default function LoginPage() {
             {/* end: modal-column */}
             <CanvasRow>
               {/* start: cta */}
-              <CanvasCard className="!border-none bg-gradient-to-r from-indigo-400 to-red-300 !p-1">
-                <div className="rounded-lg bg-white p-4">
+              <CanvasCard className="!border-none bg-gradient-to-r from-privy-color-accent-light to-red-300 !p-1">
+                <div className="rounded-lg bg-privy-color-background p-4">
                   <CanvasCardHeader>
                     <PrivyBlobIcon className="h-5 w-5" strokeWidth={2} />
                     Explore Privy
                   </CanvasCardHeader>
-                  <div className="pb-2 text-sm text-gray-400">
+                  <div className="pb-2 text-sm text-privy-color-foreground-3">
                     The easiest way to onboard all of your users to web3
                   </div>
                   <div className="text-sm">Sign in to the demo to access the dev tools.</div>
                   <div className="flex gap-x-2 pt-2">
                     <a
                       href="https://docs.privy.io"
-                      className="button-secondary h-[1.625rem] gap-x-2 pl-3 pr-2 text-sm"
+                      className="button h-[1.625rem] gap-x-2 pl-3 pr-2 text-sm"
                     >
                       Explore the Docs <ArrowRightIcon className="h-4 w-4" strokeWidth={2} />
                     </a>
@@ -91,29 +91,31 @@ export default function LoginPage() {
                   <ArrowDownOnSquareIcon className="h-5 w-5" strokeWidth={2} />
                   Export this configuration
                 </CanvasCardHeader>
-                <div className="pb-2 text-sm text-gray-400">
+                <div className="pb-2 text-sm text-privy-color-foreground-3">
                   Privy&apos;s components can be customized <a href="#">client-side</a>, so you can
                   easily reuse this theme in your application.
                 </div>
-                <div
-                  className="button-secondary h-[1.625rem] cursor-pointer gap-x-2 pl-3 pr-2 text-sm"
-                  onClick={() => {
-                    const {_render, createPrivyWalletOnLogin, ...rest} = config;
-                    const providerCode = `<PrivyProvider createPrivyWalletOnLogin={${createPrivyWalletOnLogin}} config={${JSON.stringify(
-                      rest,
-                    )}}>{children}</PrivyProvider>`;
-                    navigator.clipboard
-                      .writeText(providerCode)
-                      .then(() => {
-                        console.log('Text copied to clipboard');
-                      })
-                      .catch((error) => {
-                        console.error('Failed to copy text to clipboard:', error);
-                      });
-                  }}
-                >
-                  Copy
-                  <ClipboardDocumentIcon className="h-5 w-5" strokeWidth={2} />
+                <div className="flex gap-x-2 pt-2">
+                  <div
+                    className="button h-[1.625rem] cursor-pointer gap-x-2 pl-3 pr-2 text-sm"
+                    onClick={() => {
+                      const {_render, createPrivyWalletOnLogin, ...rest} = config;
+                      const providerCode = `<PrivyProvider createPrivyWalletOnLogin={${createPrivyWalletOnLogin}} config={${JSON.stringify(
+                        rest,
+                      )}}>{children}</PrivyProvider>`;
+                      navigator.clipboard
+                        .writeText(providerCode)
+                        .then(() => {
+                          console.log('Text copied to clipboard');
+                        })
+                        .catch((error) => {
+                          console.error('Failed to copy text to clipboard:', error);
+                        });
+                    }}
+                  >
+                    <ClipboardDocumentIcon className="h-4 w-4" strokeWidth={2} />
+                    Copy to Clipboard
+                  </div>
                 </div>
               </CanvasCard>
             </CanvasRow>
