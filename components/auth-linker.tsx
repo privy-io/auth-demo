@@ -30,12 +30,14 @@ export default function AuthLinker({
 }) {
   const {setActiveWallet, walletConnectors} = usePrivy();
 
+  const isEmbeddedWallet = wallet?.walletClient === 'privy';
+
   const getWalletType = (wallet: Wallet) => {
     const connector = walletConnectors?.walletConnectors.find(
       (wc) => wc.address === wallet.address,
     );
 
-    if (wallet.walletClient === 'privy') {
+    if (isEmbeddedWallet) {
       return {
         address: formatWallet(wallet.address),
         icon: (
@@ -91,6 +93,26 @@ export default function AuthLinker({
     return <></>;
   };
 
+  const LinkButton = (isLinked: boolean) => {
+    if (isEmbeddedWallet) return <></>;
+    if (isLinked) {
+      return (
+        <button
+          className="button h-5 w-5 text-privy-color-foreground-2"
+          onClick={unlinkAction}
+          disabled={!canUnlink}
+        >
+          <MinusSmallIcon className="h-4 w-4" strokeWidth={2} />
+        </button>
+      );
+    }
+    return (
+      <button className="button button-primary h-5 w-5" onClick={linkAction}>
+        <PlusSmallIcon className="h-4 w-4" strokeWidth={2} />
+      </button>
+    );
+  };
+
   return (
     <>
       <div
@@ -112,19 +134,7 @@ export default function AuthLinker({
 
         <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1">
           <SetActiveButton wallet={wallet} isActive={isActive} />
-          {isLinked && wallet?.walletClient !== 'privy' ? (
-            <button
-              className="button h-5 w-5 text-privy-color-foreground-2"
-              onClick={unlinkAction}
-              disabled={!canUnlink}
-            >
-              <MinusSmallIcon className="h-4 w-4" strokeWidth={2} />
-            </button>
-          ) : (
-            <button className="button button-primary h-5 w-5" onClick={linkAction}>
-              <PlusSmallIcon className="h-4 w-4" strokeWidth={2} />
-            </button>
-          )}
+          {LinkButton(isLinked)}
         </div>
       </div>
     </>
