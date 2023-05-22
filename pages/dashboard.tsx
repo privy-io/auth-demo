@@ -42,6 +42,7 @@ import PrivyBlobIcon from '../components/icons/outline/privy-blob';
 import {classNames} from '../lib/classNames';
 import {isDark} from '../lib/color';
 import GitHubIcon from '../components/icons/social/github';
+import AppleIcon from '../components/icons/social/apple';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -147,7 +148,7 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      <div className="flex h-full max-w-screen-2xl flex-col px-6 pb-6">
+      <div className="flex h-full max-w-screen-2xl flex-col bg-privy-color-background px-6 pb-6">
         <Header />
         <CanvasContainer>
           <CanvasSidebarConsole className="px-6 pb-6">
@@ -472,12 +473,7 @@ export default function LoginPage() {
                             : 'text-black',
                         )}
                       >
-                        <Image
-                          src="/social-icons/color/apple.svg"
-                          height={20}
-                          width={20}
-                          alt="Google"
-                        />
+                        <AppleIcon height={20} width={20} />
                       </div>
                     }
                     label="Apple"
