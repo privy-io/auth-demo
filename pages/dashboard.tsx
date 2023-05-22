@@ -35,6 +35,9 @@ import CanvasCardHeader from '../components/canvas-card-header';
 import PrivyConfigContext, {defaultDashboardConfig} from '../lib/hooks/usePrivyConfig';
 import Image from 'next/image';
 import PrivyBlobIcon from '../components/icons/outline/privy-blob';
+import {classNames} from '../lib/classNames';
+import {isDark} from '../lib/color';
+import GitHubIcon from '../components/icons/social/github';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,7 +45,7 @@ export default function LoginPage() {
   const [signSuccess, setSignSuccess] = useState(false);
   const [signError, setSignError] = useState(false);
 
-  const {setConfig} = useContext(PrivyConfigContext);
+  const {setConfig, config} = useContext(PrivyConfigContext);
 
   useEffect(() => setConfig?.(defaultDashboardConfig), [setConfig]);
 
@@ -69,6 +72,7 @@ export default function LoginPage() {
     linkApple,
     unlinkApple,
     getAccessToken,
+    createWallet,
   } = usePrivy();
 
   useEffect(() => {
@@ -281,7 +285,13 @@ export default function LoginPage() {
                   With Privy, even non web3 natives can enjoy the benefits of life on chain.
                 </div>
                 <div className="flex flex-col gap-2 pt-4">
-                  <button className="button h-10 gap-x-1 px-4 text-sm" onClick={() => {}}>
+                  <button
+                    className="button h-10 gap-x-1 px-4 text-sm"
+                    disabled={!(ready && authenticated)}
+                    onClick={() => {
+                      createWallet();
+                    }}
+                  >
                     <PlusIcon className="h-4 w-4" strokeWidth={2} />
                     Create an Embedded Wallet
                   </button>
@@ -415,12 +425,7 @@ export default function LoginPage() {
                   <AuthLinker
                     socialIcon={
                       <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                        <Image
-                          src="/social-icons/color/github.svg"
-                          height={20}
-                          width={20}
-                          alt="Google"
-                        />
+                        <GitHubIcon height={20} width={20} />
                       </div>
                     }
                     label="Github"
@@ -435,7 +440,14 @@ export default function LoginPage() {
 
                   <AuthLinker
                     socialIcon={
-                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <div
+                        className={classNames(
+                          'h-[1.125rem] w-[1.125rem] shrink-0 grow-0',
+                          isDark(config?.appearance?.theme || '#FFFFFF')
+                            ? 'text-white'
+                            : 'text-black',
+                        )}
+                      >
                         <Image
                           src="/social-icons/color/apple.svg"
                           height={20}
