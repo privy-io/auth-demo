@@ -73,6 +73,7 @@ export default function LoginPage() {
     unlinkApple,
     getAccessToken,
     createWallet,
+    exportWallet,
   } = usePrivy();
 
   useEffect(() => {
@@ -85,6 +86,10 @@ export default function LoginPage() {
   const linkedAccounts = user?.linkedAccounts || [];
 
   const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
+
+  const embeddedWallet = wallets.map((wallet) => {
+    return wallet.walletClient === 'privy' ? wallet : null;
+  });
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
@@ -276,46 +281,54 @@ export default function LoginPage() {
                 </div>
               </CanvasCard>
               {/* If they don't have an Embedded Wallet */}
-              <CanvasCard>
-                <CanvasCardHeader>
-                  <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
-                  Embedded Wallet
-                </CanvasCardHeader>
-                <div className="text-sm text-privy-color-foreground-3">
-                  With Privy, even non web3 natives can enjoy the benefits of life on chain.
-                </div>
-                <div className="flex flex-col gap-2 pt-4">
-                  <button
-                    className="button h-10 gap-x-1 px-4 text-sm"
-                    disabled={!(ready && authenticated)}
-                    onClick={() => {
-                      createWallet();
-                    }}
-                  >
-                    <PlusIcon className="h-4 w-4" strokeWidth={2} />
-                    Create an Embedded Wallet
-                  </button>
-                </div>
-              </CanvasCard>
-              {/* If they have an Embedded Wallet */}
-              <CanvasCard>
-                <CanvasCardHeader>
-                  <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
-                  <div className="w-full">Embedded Wallet</div>
-                  <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1 text-privy-color-foreground-3">
-                    {`0xwal...adr`}
+              {embeddedWallet ? (
+                <CanvasCard>
+                  <CanvasCardHeader>
+                    <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
+                    <div className="w-full">Embedded Wallet</div>
+                    <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1 text-privy-color-foreground-3">
+                      {`0xwal...adr`}
+                    </div>
+                  </CanvasCardHeader>
+                  <div className="text-sm text-privy-color-foreground-3">
+                    Temporibus et sed eligendi. Excepturi aspernatur...
                   </div>
-                </CanvasCardHeader>
-                <div className="text-sm text-privy-color-foreground-3">
-                  Temporibus et sed eligendi. Excepturi aspernatur...
-                </div>
-                <div className="flex flex-col gap-2 pt-4">
-                  <button className="button h-10 gap-x-1 px-4 text-sm" onClick={() => {}}>
-                    <ArrowUpOnSquareIcon className="h-4 w-4" strokeWidth={2} />
-                    Export your wallet
-                  </button>
-                </div>
-              </CanvasCard>
+                  <div className="flex flex-col gap-2 pt-4">
+                    <button
+                      className="button h-10 gap-x-1 px-4 text-sm"
+                      disabled={!(ready && authenticated)}
+                      onClick={() => {
+                        exportWallet();
+                      }}
+                    >
+                      <ArrowUpOnSquareIcon className="h-4 w-4" strokeWidth={2} />
+                      Export your Embedded wallet
+                    </button>
+                  </div>
+                </CanvasCard>
+              ) : (
+                <CanvasCard>
+                  <CanvasCardHeader>
+                    <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
+                    Embedded Wallet
+                  </CanvasCardHeader>
+                  <div className="text-sm text-privy-color-foreground-3">
+                    With Privy, even non web3 natives can enjoy the benefits of life on chain.
+                  </div>
+                  <div className="flex flex-col gap-2 pt-4">
+                    <button
+                      className="button h-10 gap-x-1 px-4 text-sm"
+                      disabled={!(ready && authenticated)}
+                      onClick={() => {
+                        createWallet();
+                      }}
+                    >
+                      <PlusIcon className="h-4 w-4" strokeWidth={2} />
+                      Create an Embedded Wallet
+                    </button>
+                  </div>
+                </CanvasCard>
+              )}
             </CanvasRow>
 
             <CanvasRow>
