@@ -19,7 +19,7 @@
     @apply flex items-center justify-center rounded-md border border-privy-color-foreground-4 font-medium text-privy-color-accent no-underline transition-all duration-200 ease-in-out hover:bg-privy-color-background-2 disabled:cursor-not-allowed disabled:border-privy-color-foreground-4 disabled:bg-privy-color-foreground-4 disabled:text-privy-color-foreground-3 hover:disabled:bg-privy-color-foreground-4;
   }
   .button-primary {
-    @apply border-privy-color-accent bg-privy-color-accent text-white hover:bg-privy-color-accent-light;
+    @apply border-privy-color-accent bg-privy-color-accent text-white hover:bg-privy-color-accent-dark;
   }
 
   input {

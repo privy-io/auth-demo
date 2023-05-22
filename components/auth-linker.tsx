@@ -98,16 +98,19 @@ export default function AuthLinker({
           isActive ? 'border-privy-color-accent' : 'border-privy-color-foreground-4'
         } ${className}`}
       >
-        {socialIcon ? socialIcon : null}
-        {wallet ? getWalletType(wallet).icon : null}
-        {label ? <div className="w-full">{label}</div> : null}
+        <div className="flex shrink-0 grow-0 items-center gap-x-2">
+          {socialIcon ? socialIcon : null}
+          {wallet ? getWalletType(wallet).icon : null}
+          {label ? <div className="w-full">{label}</div> : null}
+        </div>
+
         {isLinked && linkedLabel ? (
-          <div className="max-w-[7.5rem] shrink-0 grow-0 truncate text-privy-color-foreground-3">
+          <div className="w-full justify-end truncate text-right text-privy-color-foreground-3">
             {linkedLabel}
           </div>
         ) : null}
 
-        <div className="flex flex-row items-center justify-end gap-x-1">
+        <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1">
           <SetActiveButton wallet={wallet} isActive={isActive} />
           {isLinked ? (
             <button

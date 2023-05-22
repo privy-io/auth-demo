@@ -18,6 +18,8 @@ import {classNames} from '../lib/classNames';
 import {isDark} from '../lib/color';
 import {isValidUrl} from '@datadog/browser-core';
 import Image from 'next/image';
+import AppleIcon from './icons/social/apple';
+import GitHubIcon from './icons/social/github';
 
 function getLogo(hex: `#${string}`, userLogoUrl: string) {
   return isValidUrl(userLogoUrl) ? userLogoUrl : isDark(hex) ? privyLogoDark : privyLogo;
@@ -402,13 +404,15 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 <WalletButton
                   className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
-                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                      <Image
-                        src="/social-icons/color/apple.svg"
-                        height={18}
-                        width={18}
-                        alt="Apple"
-                      />
+                    <div
+                      className={classNames(
+                        'h-[1.125rem] w-[1.125rem] shrink-0 grow-0',
+                        isDark(config?.appearance?.theme || '#FFFFFF')
+                          ? 'text-white'
+                          : 'text-black',
+                      )}
+                    >
+                      <AppleIcon height={18} width={18} />
                     </div>
                   }
                   label="Apple"
@@ -497,12 +501,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                   className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                      <Image
-                        src="/social-icons/color/github.svg"
-                        height={18}
-                        width={18}
-                        alt="Github"
-                      />
+                      <GitHubIcon height={18} width={18} />
                     </div>
                   }
                   label="Github"
