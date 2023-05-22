@@ -382,7 +382,7 @@ export default function LoginPage() {
                       </div>
                     }
                     label="Twitter"
-                    linkedLabel={`Twitter user ${twitterUsername}`}
+                    linkedLabel={`${twitterUsername}`}
                     canUnlink={canRemoveAccount}
                     isLinked={!!twitterSubject}
                     unlinkAction={() => {
@@ -403,7 +403,7 @@ export default function LoginPage() {
                       </div>
                     }
                     label="Discord"
-                    linkedLabel={`Discord user ${discordUsername}`}
+                    linkedLabel={`${discordUsername}`}
                     canUnlink={canRemoveAccount}
                     isLinked={!!discordSubject}
                     unlinkAction={() => {
@@ -424,7 +424,7 @@ export default function LoginPage() {
                       </div>
                     }
                     label="Github"
-                    linkedLabel={`Github user ${githubUsername}`}
+                    linkedLabel={`${githubUsername}`}
                     canUnlink={canRemoveAccount}
                     isLinked={!!githubSubject}
                     unlinkAction={() => {
@@ -445,7 +445,7 @@ export default function LoginPage() {
                       </div>
                     }
                     label="Apple"
-                    linkedLabel={`Apple email ${appleEmail}`}
+                    linkedLabel={`${appleEmail}`}
                     canUnlink={canRemoveAccount}
                     isLinked={!!appleSubject}
                     unlinkAction={() => {
