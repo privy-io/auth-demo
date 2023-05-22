@@ -5,15 +5,27 @@ import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
 import {initializeDatadog, setDatadogUser} from '../lib/datadog';
-import {useMemo, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import PrivyConfigContext, {
   defaultIndexConfig,
   PrivyConfigContextType,
+  PRIVY_APPEARANCE_STORAGE_KEY,
 } from '../lib/hooks/usePrivyConfig';
 
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
   const [config, setConfig] = useState<PrivyConfigContextType['config']>(defaultIndexConfig);
+
+  const setConfigWithAppearanceStorage = useCallback(
+    (newConfig: PrivyConfigContextType['config']) => {
+      window.localStorage.setItem(
+        PRIVY_APPEARANCE_STORAGE_KEY,
+        JSON.stringify(newConfig.appearance),
+      );
+      return setConfig(newConfig);
+    },
+    [setConfig],
+  );
 
   useMemo(initializeDatadog, []);
 
@@ -29,7 +41,7 @@ function MyApp({Component, pageProps}: AppProps) {
         <meta name="description" content="Privy Auth Demo" />
       </Head>
       <PlausibleProvider domain="demo.privy.io">
-        <PrivyConfigContext.Provider value={{config, setConfig}}>
+        <PrivyConfigContext.Provider value={{config, setConfig: setConfigWithAppearanceStorage}}>
           <PrivyProvider
             appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
             apiUrl={process.env.NEXT_PUBLIC_PRIVY_AUTH_URL}

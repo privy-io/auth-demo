@@ -32,7 +32,11 @@ import {
 import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
 import CanvasCardHeader from '../components/canvas-card-header';
-import PrivyConfigContext, {defaultDashboardConfig} from '../lib/hooks/usePrivyConfig';
+import PrivyConfigContext, {
+  defaultDashboardConfig,
+  defaultIndexConfig,
+  PRIVY_APPEARANCE_STORAGE_KEY,
+} from '../lib/hooks/usePrivyConfig';
 import Image from 'next/image';
 import PrivyBlobIcon from '../components/icons/outline/privy-blob';
 import {classNames} from '../lib/classNames';
@@ -47,7 +51,14 @@ export default function LoginPage() {
 
   const {setConfig, config} = useContext(PrivyConfigContext);
 
-  useEffect(() => setConfig?.(defaultDashboardConfig), [setConfig]);
+  useEffect(() => {
+    setConfig?.({
+      ...defaultDashboardConfig,
+      appearance: window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)
+        ? JSON.parse(window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)!)
+        : defaultIndexConfig.appearance,
+    });
+  }, [setConfig]);
 
   const {
     ready,
