@@ -30,7 +30,7 @@
     @apply border-privy-color-foreground-4 bg-transparent text-privy-color-accent focus:ring-1 focus:ring-privy-color-accent focus:ring-offset-2 focus:ring-offset-privy-color-background;
   }
   input[type='checkbox'] {
-    @apply rounded-sm;
+    @apply rounded-[0.25rem];
   }
 
   .input-color {

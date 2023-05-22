@@ -1,4 +1,9 @@
-import {EllipsisVerticalIcon, LockClosedIcon, SparklesIcon} from '@heroicons/react/24/outline';
+import {
+  EllipsisVerticalIcon,
+  LockClosedIcon,
+  PhoneIcon,
+  SparklesIcon,
+} from '@heroicons/react/24/outline';
 import {useContext, useEffect, useState} from 'react';
 import Toggle from './toggle';
 import WalletButton from './wallet-button';
@@ -12,6 +17,7 @@ import PrivyConfigContext, {
 import {classNames} from '../lib/classNames';
 import {isDark} from '../lib/color';
 import {isValidUrl} from '@datadog/browser-core';
+import Image from 'next/image';
 
 function getLogo(hex: `#${string}`, userLogoUrl: string) {
   return isValidUrl(userLogoUrl) ? userLogoUrl : isDark(hex) ? privyLogoDark : privyLogo;
@@ -214,7 +220,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
         {/* start: image-upload */}
         <div className="flex h-10 items-center gap-x-2 rounded-lg border border-dashed border-privy-color-foreground-4 pl-3 pr-1">
           <input
-            className="h-8 w-full border-none bg-transparent px-0 text-[0.875rem] placeholder-privy-color-foreground-4 focus:border-none focus:ring-0"
+            className="h-8 w-full border-none bg-transparent px-0 text-[0.875rem] placeholder-privy-color-foreground-3 focus:border-none focus:ring-0"
             type="url"
             placeholder="Add image URL"
             value={userLogoUrl}
@@ -301,7 +307,17 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
             <div className="flex gap-x-4">
               <WalletButton
                 className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
-                icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                icon={
+                  <WalletIcon
+                    className={classNames(
+                      'h-4 w-4',
+                      config?.loginMethods?.includes('email') ?? true
+                        ? 'text-privy-color-accent'
+                        : '',
+                    )}
+                    strokeWidth={2}
+                  />
+                }
                 label="Email"
               >
                 <input
@@ -321,7 +337,17 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               </WalletButton>
               <WalletButton
                 className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
-                icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                icon={
+                  <PhoneIcon
+                    className={classNames(
+                      'h-4 w-4',
+                      config?.loginMethods?.includes('sms') ?? true
+                        ? 'text-privy-color-accent'
+                        : '',
+                    )}
+                    strokeWidth={2}
+                  />
+                }
                 label="SMS"
               >
                 <input
@@ -345,7 +371,16 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               <div className="flex gap-x-4">
                 <WalletButton
                   className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
-                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/google.svg"
+                        height={18}
+                        width={18}
+                        alt="Google"
+                      />
+                    </div>
+                  }
                   label="Google"
                 >
                   <input
@@ -366,7 +401,16 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 </WalletButton>
                 <WalletButton
                   className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
-                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/apple.svg"
+                        height={18}
+                        width={18}
+                        alt="Apple"
+                      />
+                    </div>
+                  }
                   label="Apple"
                 >
                   <input
@@ -389,7 +433,16 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               <div className="flex gap-x-4">
                 <WalletButton
                   className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
-                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/twitter.svg"
+                        height={18}
+                        width={18}
+                        alt="Twitter"
+                      />
+                    </div>
+                  }
                   label="Twitter"
                 >
                   <input
@@ -410,7 +463,16 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 </WalletButton>
                 <WalletButton
                   className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
-                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/discord.svg"
+                        height={18}
+                        width={18}
+                        alt="Discord"
+                      />
+                    </div>
+                  }
                   label="Discord"
                 >
                   <input
@@ -433,7 +495,16 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               <div className="flex gap-x-4 pr-4">
                 <WalletButton
                   className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
-                  icon={<WalletIcon className="h-4 w-4" strokeWidth={2} />}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/github.svg"
+                        height={18}
+                        width={18}
+                        alt="Github"
+                      />
+                    </div>
+                  }
                   label="Github"
                 >
                   <input

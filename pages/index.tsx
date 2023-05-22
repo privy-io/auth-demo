@@ -59,7 +59,7 @@ export default function LoginPage() {
         <CanvasContainer>
           <CanvasSidebarAuthConfig />
           {/* start: canvas-panel */}
-          <Canvas className="pl-24">
+          <Canvas className="pl-20 pr-8">
             {/* start: modal-column */}
             <div id="render-privy" />
             {/* end: modal-column */}
