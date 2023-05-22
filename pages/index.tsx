@@ -19,6 +19,7 @@ import {useContext, useEffect} from 'react';
 import PrivyConfigContext, {
   defaultDashboardConfig,
   defaultIndexConfig,
+  PRIVY_APPEARANCE_STORAGE_KEY,
 } from '../lib/hooks/usePrivyConfig';
 
 export default function LoginPage() {
@@ -34,7 +35,12 @@ export default function LoginPage() {
     // before that issue arises.
     const currentUrl = new URL(window.location.href);
     const oauthProvider = currentUrl.searchParams.get('privy_oauth_provider');
-    setConfig?.(oauthProvider ? defaultDashboardConfig : defaultIndexConfig);
+    setConfig?.({
+      ...(oauthProvider ? defaultDashboardConfig : defaultIndexConfig),
+      appearance: window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)
+        ? JSON.parse(window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)!)
+        : defaultIndexConfig.appearance,
+    });
   }, [setConfig]);
 
   useEffect(() => {
