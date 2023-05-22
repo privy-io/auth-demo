@@ -11,8 +11,7 @@ import Loading from '../components/loading';
 import AuthLinker from '../components/auth-linker';
 import {clearDatadogUser} from '../lib/datadog';
 import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
-import ActiveWalletDropdown from '../components/wallet-dropdown';
-import {getHumanReadableWalletType, formatWallet} from '../lib/utils';
+import {formatWallet} from '../lib/utils';
 import {Header} from '../components/header';
 import CanvasContainer from '../components/canvas-container';
 import CanvasSidebarConsole from '../components/canvas-sidebar-console';
@@ -20,11 +19,12 @@ import CanvasCard from '../components/canvas-card';
 import CanvasSidebarHeader from '../components/canvas-sidebar-header';
 import {
   ArrowLeftOnRectangleIcon,
+  ArrowUpOnSquareIcon,
   ArrowsUpDownIcon,
   CommandLineIcon,
+  DevicePhoneMobileIcon,
   EnvelopeIcon,
   PencilIcon,
-  PhoneIcon,
   PlusIcon,
   UserCircleIcon,
   WalletIcon,
@@ -34,6 +34,7 @@ import CanvasRow from '../components/canvas-row';
 import CanvasCardHeader from '../components/canvas-card-header';
 import PrivyConfigContext, {defaultDashboardConfig} from '../lib/hooks/usePrivyConfig';
 import Image from 'next/image';
+import PrivyBlobIcon from '../components/icons/outline/privy-blob';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -173,7 +174,7 @@ export default function LoginPage() {
               </div>
             </CanvasCard>
           </CanvasSidebarConsole>
-          <Canvas className="gap-x-10">
+          <Canvas className="gap-x-8">
             <CanvasRow>
               <CanvasCard>
                 <CanvasCardHeader>
@@ -270,6 +271,41 @@ export default function LoginPage() {
                   {signLoading && <DismissableInfo message="Waiting for signature" />}
                 </div>
               </CanvasCard>
+              {/* If they don't have an Embedded Wallet */}
+              <CanvasCard>
+                <CanvasCardHeader>
+                  <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
+                  Embedded Wallet
+                </CanvasCardHeader>
+                <div className="text-sm text-privy-color-foreground-3">
+                  With Privy, even non web3 natives can enjoy the benefits of life on chain.
+                </div>
+                <div className="flex flex-col gap-2 pt-4">
+                  <button className="button h-10 gap-x-1 px-4 text-sm" onClick={() => {}}>
+                    <PlusIcon className="h-4 w-4" strokeWidth={2} />
+                    Create an Embedded Wallet
+                  </button>
+                </div>
+              </CanvasCard>
+              {/* If they have an Embedded Wallet */}
+              <CanvasCard>
+                <CanvasCardHeader>
+                  <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
+                  <div className="w-full">Embedded Wallet</div>
+                  <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1 text-privy-color-foreground-3">
+                    {`0xwal...adr`}
+                  </div>
+                </CanvasCardHeader>
+                <div className="text-sm text-privy-color-foreground-3">
+                  Temporibus et sed eligendi. Excepturi aspernatur...
+                </div>
+                <div className="flex flex-col gap-2 pt-4">
+                  <button className="button h-10 gap-x-1 px-4 text-sm" onClick={() => {}}>
+                    <ArrowUpOnSquareIcon className="h-4 w-4" strokeWidth={2} />
+                    Export your wallet
+                  </button>
+                </div>
+              </CanvasCard>
             </CanvasRow>
 
             <CanvasRow>
@@ -298,7 +334,7 @@ export default function LoginPage() {
 
                   <AuthLinker
                     socialIcon={
-                      <PhoneIcon
+                      <DevicePhoneMobileIcon
                         className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0"
                         strokeWidth={2}
                       />

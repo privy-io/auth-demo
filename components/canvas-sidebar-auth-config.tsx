@@ -1,7 +1,7 @@
 import {
+  DevicePhoneMobileIcon,
   EllipsisVerticalIcon,
   LockClosedIcon,
-  PhoneIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
 import {useContext, useEffect, useState} from 'react';
@@ -338,7 +338,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               <WalletButton
                 className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                 icon={
-                  <PhoneIcon
+                  <DevicePhoneMobileIcon
                     className={classNames(
                       'h-4 w-4',
                       config?.loginMethods?.includes('sms') ?? true
