@@ -8,11 +8,11 @@ import {usePrivy} from '@privy-io/react-auth';
 import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
-import AuthLinker, {LinkButton} from '../components/auth-linker';
+import AuthLinker from '../components/auth-linker';
 import {clearDatadogUser} from '../lib/datadog';
 import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
 import ActiveWalletDropdown from '../components/wallet-dropdown';
-import {getHumanReadableWalletType} from '../lib/utils';
+import {getHumanReadableWalletType, formatWallet} from '../lib/utils';
 import {Header} from '../components/header';
 import CanvasContainer from '../components/canvas-container';
 import CanvasSidebarConsole from '../components/canvas-sidebar-console';
@@ -21,7 +21,6 @@ import CanvasSidebarHeader from '../components/canvas-sidebar-header';
 import {
   ArrowLeftOnRectangleIcon,
   ArrowsUpDownIcon,
-  CheckIcon,
   CommandLineIcon,
   PencilIcon,
   PlusIcon,
@@ -32,15 +31,6 @@ import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
 import CanvasCardHeader from '../components/canvas-card-header';
 import PrivyConfigContext, {defaultDashboardConfig} from '../lib/hooks/usePrivyConfig';
-
-const formatWallet = (address: string | undefined): string => {
-  if (!address) {
-    return '';
-  }
-  const first = address.slice(0, 8);
-  const last = address.slice(address.length - 4, address.length);
-  return `${first}...${last}`;
-};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -68,7 +58,6 @@ export default function LoginPage() {
     linkTwitter,
     unlinkTwitter,
     linkDiscord,
-    setActiveWallet,
     unlinkDiscord,
     walletConnectors,
     linkGithub,
@@ -181,7 +170,7 @@ export default function LoginPage() {
               </div>
             </CanvasCard>
           </CanvasSidebarConsole>
-          <Canvas>
+          <Canvas className="gap-x-10">
             <CanvasRow>
               <CanvasCard>
                 <CanvasCardHeader>
@@ -207,26 +196,20 @@ export default function LoginPage() {
                 <div className="flex flex-col gap-2">
                   {wallets.map((wallet) => (
                     <AuthLinker
+                      isLinked
+                      wallet={wallet}
                       isActive={wallet.address === walletConnectors?.activeWalletConnector?.address}
                       key={wallet.address}
-                      isLink
-                      linkedText={formatWallet(wallet.address)}
+                      label={formatWallet(wallet.address)}
                       canUnlink={canRemoveAccount}
                       unlinkAction={() => {
                         unlinkWallet(wallet.address);
                       }}
                       linkAction={linkWallet}
-                      additionalInfo={
-                        wallet.address === walletConnectors?.activeWalletConnector?.address ? (
-                          <div className="flex h-4 items-center justify-center rounded-full bg-privy-color-success px-1 text-xs text-white">
-                            Active
-                          </div>
-                        ) : null
-                      }
                       isEmbeddedWallet={wallet.walletClient === 'privy'}
                     />
                   ))}
-                  <ActiveWalletDropdown
+                  {/* <ActiveWalletDropdown
                     disabled={!wallets.length}
                     options={wallets.map((wallet) => {
                       if (wallet.walletClient === 'privy') {
@@ -254,7 +237,7 @@ export default function LoginPage() {
                         selected: wallet.address == activeWalletAddress,
                       };
                     })}
-                  />
+                  /> */}
                   <button className="button h-10 gap-x-1 px-4 text-sm" onClick={linkWallet}>
                     <PlusIcon className="h-4 w-4" strokeWidth={2} />
                     Link a Wallet
@@ -324,10 +307,10 @@ export default function LoginPage() {
                 </CanvasCardHeader>
                 <div className="flex flex-col gap-2">
                   <AuthLinker
-                    unlinkedText="Link an email account"
-                    linkedText={`Email ${emailAddress}`}
+                    label="Email"
+                    linkedLabel={`${emailAddress}`}
                     canUnlink={canRemoveAccount}
-                    isLink={!!emailAddress}
+                    isLinked={!!emailAddress}
                     unlinkAction={() => {
                       unlinkEmail(emailAddress as string);
                     }}
@@ -335,10 +318,10 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
-                    unlinkedText="Link a phone number"
-                    linkedText={`Phone number ${phoneNumber}`}
+                    label="Phone"
+                    linkedLabel={`${phoneNumber}`}
                     canUnlink={canRemoveAccount}
-                    isLink={!!phoneNumber}
+                    isLinked={!!phoneNumber}
                     unlinkAction={() => {
                       unlinkPhone(phoneNumber as string);
                     }}
@@ -346,10 +329,10 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
-                    unlinkedText="Link a Google account"
-                    linkedText={`Google user ${googleName}`}
+                    label="Google"
+                    linkedLabel={`${googleName}`}
                     canUnlink={canRemoveAccount}
-                    isLink={!!googleSubject}
+                    isLinked={!!googleSubject}
                     unlinkAction={() => {
                       unlinkGoogle(googleSubject as string);
                     }}
@@ -357,10 +340,10 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
-                    unlinkedText="Link a Twitter account"
-                    linkedText={`Twitter user ${twitterUsername}`}
+                    label="Twitter"
+                    linkedLabel={`Twitter user ${twitterUsername}`}
                     canUnlink={canRemoveAccount}
-                    isLink={!!twitterSubject}
+                    isLinked={!!twitterSubject}
                     unlinkAction={() => {
                       unlinkTwitter(twitterSubject as string);
                     }}
@@ -368,10 +351,10 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
-                    unlinkedText="Link a Discord account"
-                    linkedText={`Discord user ${discordUsername}`}
+                    label="Discord"
+                    linkedLabel={`Discord user ${discordUsername}`}
                     canUnlink={canRemoveAccount}
-                    isLink={!!discordSubject}
+                    isLinked={!!discordSubject}
                     unlinkAction={() => {
                       unlinkDiscord(discordSubject as string);
                     }}
@@ -379,10 +362,10 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
-                    unlinkedText="Link a Github account"
-                    linkedText={`Github user ${githubUsername}`}
+                    label="Github"
+                    linkedLabel={`Github user ${githubUsername}`}
                     canUnlink={canRemoveAccount}
-                    isLink={!!githubSubject}
+                    isLinked={!!githubSubject}
                     unlinkAction={() => {
                       unlinkGithub(githubSubject as string);
                     }}
@@ -390,10 +373,10 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
-                    unlinkedText="Link an Apple account"
-                    linkedText={`Apple email ${appleEmail}`}
+                    label="Apple"
+                    linkedLabel={`Apple email ${appleEmail}`}
                     canUnlink={canRemoveAccount}
-                    isLink={!!appleSubject}
+                    isLinked={!!appleSubject}
                     unlinkAction={() => {
                       unlinkApple(appleSubject as string);
                     }}
