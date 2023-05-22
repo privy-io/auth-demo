@@ -112,7 +112,7 @@ export default function AuthLinker({
 
         <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1">
           <SetActiveButton wallet={wallet} isActive={isActive} />
-          {isLinked ? (
+          {isLinked && wallet?.walletClient !== 'privy' ? (
             <button
               className="button h-5 w-5 text-privy-color-foreground-2"
               onClick={unlinkAction}

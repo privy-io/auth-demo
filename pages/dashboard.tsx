@@ -4,7 +4,7 @@
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect, useContext} from 'react';
-import {usePrivy} from '@privy-io/react-auth';
+import {Wallet, usePrivy} from '@privy-io/react-auth';
 import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
@@ -99,9 +99,7 @@ export default function LoginPage() {
 
   const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
 
-  const embeddedWallet = wallets.map((wallet) => {
-    return wallet.walletClient === 'privy' ? wallet : null;
-  });
+  const embeddedWallet = wallets.filter((wallet) => wallet.walletClient === 'privy')[0];
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
@@ -299,7 +297,7 @@ export default function LoginPage() {
                     <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
                     <div className="w-full">Embedded Wallet</div>
                     <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1 text-privy-color-foreground-3">
-                      {`0xwal...adr`}
+                      {formatWallet(embeddedWallet.address)}
                     </div>
                   </CanvasCardHeader>
                   <div className="text-sm text-privy-color-foreground-3">
