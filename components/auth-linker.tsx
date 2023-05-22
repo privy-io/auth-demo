@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import {MinusSmallIcon, PlusSmallIcon} from '@heroicons/react/24/outline';
 import {formatWallet, getHumanReadableWalletType} from '../lib/utils';
 import {Wallet, usePrivy} from '@privy-io/react-auth';
@@ -13,19 +14,18 @@ export default function AuthLinker({
   isLinked,
   isActive,
   unlinkAction,
-  isEmbeddedWallet,
+  socialIcon,
   className,
 }: {
   wallet?: Wallet;
-  label?: string;
+  isActive?: boolean;
+  isLinked: boolean;
   linkedLabel?: string | null;
   linkAction: () => void;
   unlinkAction: () => void;
-  isLinked: boolean;
-  isActive?: boolean;
   canUnlink: boolean;
-  // Optional content placed aligned left, to the right of the main text
-  isEmbeddedWallet?: boolean;
+  label?: string;
+  socialIcon?: JSX.Element;
   className?: string;
 }) {
   const {setActiveWallet, walletConnectors} = usePrivy();
@@ -39,8 +39,8 @@ export default function AuthLinker({
       return {
         address: formatWallet(wallet.address),
         icon: (
-          <div className="h-5 w-5 shrink-0 grow-0 overflow-hidden rounded-md">
-            <img
+          <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 overflow-hidden rounded-[0.25rem]">
+            <Image
               src="/logos/privy-logomark.png"
               height={20}
               width={20}
@@ -56,11 +56,12 @@ export default function AuthLinker({
     return {
       address: formatWallet(wallet.address),
       icon: (
-        <div className="h-5 w-5 shrink-0 grow-0 overflow-hidden rounded-md">
-          <img
+        <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 overflow-hidden rounded-[0.25rem]">
+          <Image
             src={`/wallet-icons/${connector?.walletType}.svg`}
+            height={20}
+            width={20}
             className="h-full w-full object-cover"
-            layout="fill"
             alt={getHumanReadableWalletType(connector?.walletType)}
           />
         </div>
@@ -72,7 +73,7 @@ export default function AuthLinker({
   const SetActiveButton = ({wallet, isActive}: {wallet?: Wallet; isActive?: boolean}) => {
     if (wallet && isActive) {
       return (
-        <div className="flex h-5 items-center justify-center rounded-md bg-privy-color-success px-1 text-xs text-white">
+        <div className="flex h-5 items-center justify-center rounded-md bg-gradient-to-r from-privy-color-accent to-red-300 px-1 text-xs font-medium text-white">
           Active
         </div>
       );
@@ -94,9 +95,10 @@ export default function AuthLinker({
     <>
       <div
         className={`group flex h-10 min-w-full items-center justify-between gap-x-3 rounded-md border bg-privy-color-background px-3 text-sm ${
-          isActive ? 'border-privy-color-success' : 'border-privy-color-foreground-4'
+          isActive ? 'border-privy-color-accent' : 'border-privy-color-foreground-4'
         } ${className}`}
       >
+        {socialIcon ? socialIcon : null}
         {wallet ? getWalletType(wallet).icon : null}
         {label ? <div className="w-full">{label}</div> : null}
         {isLinked && linkedLabel ? (
@@ -105,11 +107,6 @@ export default function AuthLinker({
           </div>
         ) : null}
 
-        {isEmbeddedWallet && (
-          <span className="flex items-center gap-1 rounded-md bg-privy-color-background-2 px-2 py-1 text-xs">
-            embedded
-          </span>
-        )}
         <div className="flex flex-row items-center justify-end gap-x-1">
           <SetActiveButton wallet={wallet} isActive={isActive} />
           {isLinked ? (

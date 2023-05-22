@@ -22,7 +22,9 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowsUpDownIcon,
   CommandLineIcon,
+  EnvelopeIcon,
   PencilIcon,
+  PhoneIcon,
   PlusIcon,
   UserCircleIcon,
   WalletIcon,
@@ -31,6 +33,7 @@ import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
 import CanvasCardHeader from '../components/canvas-card-header';
 import PrivyConfigContext, {defaultDashboardConfig} from '../lib/hooks/usePrivyConfig';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -206,38 +209,8 @@ export default function LoginPage() {
                         unlinkWallet(wallet.address);
                       }}
                       linkAction={linkWallet}
-                      isEmbeddedWallet={wallet.walletClient === 'privy'}
                     />
                   ))}
-                  {/* <ActiveWalletDropdown
-                    disabled={!wallets.length}
-                    options={wallets.map((wallet) => {
-                      if (wallet.walletClient === 'privy') {
-                        return {
-                          title: formatWallet(wallet.address),
-                          description: 'Embedded · ready',
-                          onClick: () => {
-                            // This isn't a problem right now because people shouldn't haven
-                            // an embedded wallet yet in the demo. Needs to be fixed in PRI-743
-                            console.log('TODO: need to set active!');
-                          },
-                          selected: wallet.address === user?.wallet?.address,
-                        };
-                      }
-                      const activeWalletAddress = walletConnectors?.activeWalletConnector?.address;
-                      const connector = walletConnectors?.walletConnectors.find(
-                        (wc) => wc.address === activeWalletAddress,
-                      );
-                      return {
-                        title: formatWallet(wallet.address),
-                        description: `${getHumanReadableWalletType(connector?.walletType)} · ${
-                          connector ? 'ready' : 'disconnected'
-                        }`,
-                        onClick: () => setActiveWallet(wallet.address),
-                        selected: wallet.address == activeWalletAddress,
-                      };
-                    })}
-                  /> */}
                   <button className="button h-10 gap-x-1 px-4 text-sm" onClick={linkWallet}>
                     <PlusIcon className="h-4 w-4" strokeWidth={2} />
                     Link a Wallet
@@ -307,6 +280,12 @@ export default function LoginPage() {
                 </CanvasCardHeader>
                 <div className="flex flex-col gap-2">
                   <AuthLinker
+                    socialIcon={
+                      <EnvelopeIcon
+                        className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0"
+                        strokeWidth={2}
+                      />
+                    }
                     label="Email"
                     linkedLabel={`${emailAddress}`}
                     canUnlink={canRemoveAccount}
@@ -318,6 +297,12 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
+                    socialIcon={
+                      <PhoneIcon
+                        className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0"
+                        strokeWidth={2}
+                      />
+                    }
                     label="Phone"
                     linkedLabel={`${phoneNumber}`}
                     canUnlink={canRemoveAccount}
@@ -329,6 +314,16 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/google.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
                     label="Google"
                     linkedLabel={`${googleName}`}
                     canUnlink={canRemoveAccount}
@@ -340,6 +335,16 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/twitter.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
                     label="Twitter"
                     linkedLabel={`Twitter user ${twitterUsername}`}
                     canUnlink={canRemoveAccount}
@@ -351,6 +356,16 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/discord.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
                     label="Discord"
                     linkedLabel={`Discord user ${discordUsername}`}
                     canUnlink={canRemoveAccount}
@@ -362,6 +377,16 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/github.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
                     label="Github"
                     linkedLabel={`Github user ${githubUsername}`}
                     canUnlink={canRemoveAccount}
@@ -373,6 +398,16 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/apple.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
                     label="Apple"
                     linkedLabel={`Apple email ${appleEmail}`}
                     canUnlink={canRemoveAccount}
