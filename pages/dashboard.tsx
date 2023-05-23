@@ -4,7 +4,7 @@
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect, useContext} from 'react';
-import {Wallet, usePrivy} from '@privy-io/react-auth';
+import {usePrivy} from '@privy-io/react-auth';
 import type {WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
@@ -14,7 +14,7 @@ import {DismissableInfo, DismissableError, DismissableSuccess} from '../componen
 import {formatWallet} from '../lib/utils';
 import {Header} from '../components/header';
 import CanvasContainer from '../components/canvas-container';
-import CanvasSidebarConsole from '../components/canvas-sidebar-console';
+import CanvasSidebar from '../components/canvas-sidebar';
 import CanvasCard from '../components/canvas-card';
 import CanvasSidebarHeader from '../components/canvas-sidebar-header';
 import {
@@ -149,7 +149,7 @@ export default function LoginPage() {
       <div className="flex h-full flex-col px-6 pb-6">
         <Header />
         <CanvasContainer>
-          <CanvasSidebarConsole className="px-6 pb-6">
+          <CanvasSidebar className="px-6 pb-6">
             <CanvasSidebarHeader>
               <CommandLineIcon className="h-5 w-5" strokeWidth={2} />
               <div className="w-full">Console</div>
@@ -192,7 +192,7 @@ export default function LoginPage() {
                 </button>
               </div>
             </CanvasCard>
-          </CanvasSidebarConsole>
+          </CanvasSidebar>
           <Canvas className="gap-x-8">
             <CanvasRow>
               <CanvasCard>

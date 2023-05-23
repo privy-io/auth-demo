@@ -3,7 +3,7 @@ export default function Canvas({
   children,
 }: {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <div

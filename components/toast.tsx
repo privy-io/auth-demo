@@ -1,4 +1,3 @@
-import {ExclamationCircleIcon, InformationCircleIcon} from '@heroicons/react/20/solid';
 import {ExclamationTriangleIcon, CheckCircleIcon} from '@heroicons/react/24/outline';
 import LoaderIcon from './icons/outline/loader';
 
@@ -75,7 +74,7 @@ export const DismissableInfo = ({
         <button
           type="button"
           onClick={clickHandler}
-          className="ml-3 rounded-md bg-slate-50 px-2 text-xs text-slate-800 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 focus:ring-offset-slate-50"
+          className="button border-transparent px-2 text-xs text-privy-color-foreground-2"
         >
           Dismiss
         </button>

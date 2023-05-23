@@ -1,9 +1,9 @@
-export default function CanvasSidebarConsole({
+export default function CanvasSidebar({
   className,
   children,
 }: {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <div
