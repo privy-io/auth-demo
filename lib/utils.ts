@@ -6,6 +6,7 @@ export const getHumanReadableWalletType = (
     | 'wallet_connect'
     | 'metamask_wc'
     | 'phantom'
+    | 'embedded'
     | undefined,
 ) => {
   switch (walletType) {
@@ -19,6 +20,8 @@ export const getHumanReadableWalletType = (
       return 'MetaMask mobile';
     case 'phantom':
       return 'Phantom';
+    case 'embedded':
+      return 'Embedded';
     default:
       return 'Unknown Wallet';
   }
