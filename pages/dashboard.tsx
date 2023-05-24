@@ -38,6 +38,7 @@ export default function LoginPage() {
     user,
     logout,
     linkEmail,
+    createWallet,
     linkWallet,
     unlinkEmail,
     linkPhone,
@@ -89,6 +90,8 @@ export default function LoginPage() {
 
   const appleSubject = user?.apple?.subject;
   const appleEmail = user?.apple?.email;
+
+  const hasEmbeddedWallet = wallets.find((wallet) => wallet.walletClient === 'privy');
 
   if (!ready || !authenticated || !user) {
     return <Loading />;
@@ -205,6 +208,14 @@ export default function LoginPage() {
                 ))}
                 <AuthSection text="Link a wallet" action={<LinkButton onClick={linkWallet} />} />
               </div>
+              {!hasEmbeddedWallet && (
+                <button
+                  onClick={createWallet}
+                  className="mx-auto mt-4 rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                >
+                  Create an embedded wallet
+                </button>
+              )}
 
               <h3 className="mt-8 text-lg font-bold text-privy-navy">Email / SMS / Social</h3>
 
@@ -419,21 +430,9 @@ export default function LoginPage() {
                   <ActiveWalletDropdown
                     disabled={!wallets.length}
                     options={wallets.map((wallet) => {
-                      if (wallet.walletClient === 'privy') {
-                        return {
-                          title: formatWallet(wallet.address),
-                          description: 'Embedded · ready',
-                          onClick: () => {
-                            // This isn't a problem right now because people shouldn't haven
-                            // an embedded wallet yet in the demo. Needs to be fixed in PRI-743
-                            console.log('TODO: need to set active!');
-                          },
-                          selected: wallet.address === user?.wallet?.address,
-                        };
-                      }
                       const activeWalletAddress = walletConnectors?.activeWalletConnector?.address;
                       const connector = walletConnectors?.walletConnectors.find(
-                        (wc) => wc.address === activeWalletAddress,
+                        (wc) => wc.address === wallet.address,
                       );
                       return {
                         title: formatWallet(wallet.address),
