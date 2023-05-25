@@ -1,4 +1,3 @@
-import BlobbyIcon from './blobby-icon';
 import CanvasContainer from './canvas-container';
 import Canvas from './canvas';
 import {Header} from './header';

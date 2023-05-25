@@ -24,7 +24,7 @@ import PrivyConfigContext, {
 
 export default function LoginPage() {
   const router = useRouter();
-  const {ready, authenticated, login} = usePrivy();
+  const {ready, authenticated} = usePrivy();
   const {config, setConfig} = useContext(PrivyConfigContext);
 
   useEffect(() => {
@@ -43,11 +43,6 @@ export default function LoginPage() {
     });
   }, [setConfig]);
 
-  useEffect(() => {
-    login();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (!ready) {
     return <Loading />;
   } else if (ready && authenticated) {
@@ -60,12 +55,12 @@ export default function LoginPage() {
       <Head>
         <title>Privy Auth Demo</title>
       </Head>
-      <div className="flex h-full flex-col px-6 pb-6">
+      <div className="flex h-full max-w-screen-2xl flex-col bg-privy-color-background px-6 pb-6">
         <Header />
         <CanvasContainer>
           <CanvasSidebarAuthConfig />
           {/* start: canvas-panel */}
-          <Canvas className="gap-x-20 pl-20 pr-8">
+          <Canvas className="pl-20 pr-8">
             {/* start: modal-column */}
             <div id="render-privy" />
             {/* end: modal-column */}

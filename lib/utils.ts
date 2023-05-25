@@ -4,8 +4,8 @@ export const getHumanReadableWalletType = (
     | 'metamask'
     | 'coinbase_wallet'
     | 'wallet_connect'
-    | 'metamask_wc'
     | 'phantom'
+    | 'embedded'
     | undefined,
 ) => {
   switch (walletType) {
@@ -15,10 +15,10 @@ export const getHumanReadableWalletType = (
       return 'Coinbase Wallet';
     case 'wallet_connect':
       return 'WalletConnect';
-    case 'metamask_wc':
-      return 'MetaMask mobile';
     case 'phantom':
       return 'Phantom';
+    case 'embedded':
+      return 'Privy';
     default:
       return 'Unknown Wallet';
   }

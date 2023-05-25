@@ -20,6 +20,7 @@ import {isValidUrl} from '@datadog/browser-core';
 import Image from 'next/image';
 import AppleIcon from './icons/social/apple';
 import GitHubIcon from './icons/social/github';
+import {usePrivy} from '@privy-io/react-auth';
 
 function getLogo(hex: `#${string}`, userLogoUrl: string) {
   return isValidUrl(userLogoUrl) ? userLogoUrl : isDark(hex) ? privyLogoDark : privyLogo;
@@ -65,12 +66,18 @@ function StaticColorPicker({
 type AuthConfiguration = 'wallets' | 'socials';
 
 export default function CanvasSidebarAuthConfig({className}: {className?: string}) {
+  const {login} = usePrivy();
   const [draggedConfig, setDraggedConfig] = useState<AuthConfiguration | null>(null);
   const {config, setConfig} = useContext(PrivyConfigContext);
   const [defaultConfigStyles, setDefaultConfigStyles] = useState<string>(
     '!border-b-privy-color-background !border-t-privy-color-background cursor-grab',
   );
   const [userLogoUrl, setUserLogoUrl] = useState<string>('');
+
+  useEffect(() => {
+    login();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setConfig?.({
