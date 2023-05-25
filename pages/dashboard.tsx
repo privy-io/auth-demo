@@ -200,11 +200,6 @@ export default function LoginPage() {
                   <WalletIcon className="h-5 w-5" strokeWidth={2} />
                   Wallets
                 </CanvasCardHeader>
-                {canRemoveAccount ? null : (
-                  <p className="mt-4 px-1 text-sm text-slate-400">
-                    Note that if the user only has one account, you cannot unlink it.
-                  </p>
-                )}
                 {!walletConnectors?.walletConnectors?.length && user.wallet && (
                   <p className="text-sm italic">
                     Previously linked wallets cannot be restored at this time. We&rsquo;re working
@@ -243,7 +238,8 @@ export default function LoginPage() {
                   Wallet Actions
                 </CanvasCardHeader>
                 <div className="text-sm text-privy-color-foreground-3">
-                  Temporibus et sed eligendi. Excepturi aspernatur...
+                  Whether they came in with Metamask or an embedded wallet, a user is a user.
+                  Trigger wallet actions below.
                 </div>
                 <div className="flex flex-col gap-2 pt-4">
                   <button
@@ -301,7 +297,7 @@ export default function LoginPage() {
                     </div>
                   </CanvasCardHeader>
                   <div className="text-sm text-privy-color-foreground-3">
-                    Temporibus et sed eligendi. Excepturi aspernatur...
+                    A user&apos;s embedded wallet is theirs to keep, and even take with them.
                   </div>
                   <div className="flex flex-col gap-2 pt-4">
                     <button

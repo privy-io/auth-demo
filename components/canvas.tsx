@@ -7,7 +7,7 @@ export default function Canvas({
 }) {
   return (
     <div
-      className={`no-scrollbar bg-dotgrid-light flex w-full items-start overflow-scroll bg-privy-color-background-2 p-8 ${className}`}
+      className={`no-scrollbar bg-dotgrid-light flex w-full items-start gap-x-8 overflow-scroll bg-privy-color-background-2 p-8 ${className}`}
     >
       {children}
     </div>
