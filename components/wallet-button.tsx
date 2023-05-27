@@ -10,12 +10,12 @@ export default function WalletButton({
   children?: React.ReactNode;
 }) {
   return (
-    <div
-      className={`flex h-10 items-center gap-x-2 rounded-md border border-privy-color-foreground-4 px-3 ${className}`}
+    <label
+      className={`flex h-10 cursor-pointer items-center gap-x-2 rounded-md border border-privy-color-foreground-4 px-3 ${className}`}
     >
       <div className="shrink-0 grow-0">{icon}</div>
       <div className="w-full text-sm">{label}</div>
       {children}
-    </div>
+    </label>
   );
 }

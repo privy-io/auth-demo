@@ -282,6 +282,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
               />
             </div>
             <WalletButton
+              className="cursor-auto"
               icon={<WalletIcon className="h-4 w-4 text-privy-color-accent" strokeWidth={2} />}
               label="External Wallets"
             ></WalletButton>
@@ -411,14 +412,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
                 <WalletButton
                   className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
-                    <div
-                      className={classNames(
-                        'h-[1.125rem] w-[1.125rem] shrink-0 grow-0',
-                        isDark(config?.appearance?.theme || '#FFFFFF')
-                          ? 'text-white'
-                          : 'text-black',
-                      )}
-                    >
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
                       <AppleIcon height={18} width={18} />
                     </div>
                   }
@@ -537,8 +531,12 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
         <div className="flex flex-col gap-y-2 px-6 py-4">
           <div className="flex w-full items-center gap-4">
             <div className="w-full text-sm">
-              Create and{' '}
-              <a href="#" target="_blank">
+              Create an{' '}
+              <a
+                href="https://docs.privy.io/guide/frontend/embedded/overview"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 Embedded Wallet
               </a>{' '}
               by default
@@ -554,8 +552,8 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
             />
           </div>
           <div className="text-sm text-privy-color-foreground-3">
-            With Privy, even non web3 natives can enjoy the benefits of life on chain. Upon sign in,
-            we&apos;ll automatically create an “Embedded Wallet” for them to transact with on chain.
+            You decide when you want to provision embedded wallets for your users — toggle to
+            automatically create one upon Email/SMS/Social login.
           </div>
         </div>
       </div>

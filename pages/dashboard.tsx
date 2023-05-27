@@ -39,8 +39,6 @@ import PrivyConfigContext, {
 } from '../lib/hooks/usePrivyConfig';
 import Image from 'next/image';
 import PrivyBlobIcon from '../components/icons/outline/privy-blob';
-import {classNames} from '../lib/classNames';
-import {isDark} from '../lib/color';
 import GitHubIcon from '../components/icons/social/github';
 import AppleIcon from '../components/icons/social/apple';
 
@@ -49,8 +47,9 @@ export default function LoginPage() {
   const [signLoading, setSignLoading] = useState(false);
   const [signSuccess, setSignSuccess] = useState(false);
   const [signError, setSignError] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const {setConfig, config} = useContext(PrivyConfigContext);
+  const {setConfig} = useContext(PrivyConfigContext);
 
   useEffect(() => {
     setConfig?.({
@@ -185,10 +184,14 @@ export default function LoginPage() {
                   Sign out
                 </button>
                 <button
-                  onClick={deleteUser}
+                  onClick={async () => {
+                    setIsDeleting(true);
+                    await deleteUser();
+                    setIsDeleting(true);
+                  }}
                   className="button h-8 gap-x-2 px-3 text-sm !text-red-400"
                 >
-                  Delete Account
+                  {!isDeleting ? 'Delete Account' : 'Deleting account...'}
                 </button>
               </div>
             </CanvasCard>
@@ -459,14 +462,7 @@ export default function LoginPage() {
 
                   <AuthLinker
                     socialIcon={
-                      <div
-                        className={classNames(
-                          'h-[1.125rem] w-[1.125rem] shrink-0 grow-0',
-                          isDark(config?.appearance?.theme || '#FFFFFF')
-                            ? 'text-white'
-                            : 'text-black',
-                        )}
-                      >
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
                         <AppleIcon height={20} width={20} />
                       </div>
                     }

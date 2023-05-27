@@ -32,6 +32,7 @@ export const defaultDashboardConfig: PrivyDemoConfig = {
     inDialog: true,
     inParentNodeId: null,
   },
+  createPrivyWalletOnLogin: true,
 };
 
 const PrivyConfigContext = createContext<PrivyConfigContextType>({config: {}});
