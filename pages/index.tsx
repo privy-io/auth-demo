@@ -15,7 +15,7 @@ import CanvasCard from '../components/canvas-card';
 import CanvasContainer from '../components/canvas-container';
 import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import PrivyConfigContext, {
   defaultDashboardConfig,
   defaultIndexConfig,
@@ -26,6 +26,7 @@ export default function LoginPage() {
   const router = useRouter();
   const {ready, authenticated} = usePrivy();
   const {config, setConfig} = useContext(PrivyConfigContext);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     // there is an issue with applying the dashboard config (render as modal)
@@ -112,10 +113,14 @@ export default function LoginPage() {
                         .catch((error) => {
                           console.error('Failed to copy text to clipboard:', error);
                         });
+                      setCopied(true);
+                      setTimeout(() => {
+                        setCopied(false);
+                      }, 2000);
                     }}
                   >
                     <ClipboardDocumentIcon className="h-4 w-4" strokeWidth={2} />
-                    Copy to Clipboard
+                    {copied ? 'Copied!' : 'Copy to Clipboard'}
                   </div>
                 </div>
               </CanvasCard>
