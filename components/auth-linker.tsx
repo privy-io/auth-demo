@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import {MinusSmallIcon, PlusSmallIcon} from '@heroicons/react/24/outline';
 import {formatWallet, getHumanReadableWalletType} from '../lib/utils';
-import {Wallet, usePrivy} from '@privy-io/react-auth';
+import type {ConnectedWallet} from '@privy-io/react-auth';
 import type React from 'react';
 import Image from 'next/image';
 
@@ -13,12 +13,14 @@ export default function AuthLinker({
   canUnlink,
   isLinked,
   isActive,
+  setActiveWallet,
   unlinkAction,
   socialIcon,
   className,
 }: {
-  wallet?: Wallet;
+  wallet?: ConnectedWallet;
   isActive?: boolean;
+  setActiveWallet?: (wallet: ConnectedWallet) => void;
   isLinked: boolean;
   linkedLabel?: string | null;
   linkAction: () => void;
@@ -28,15 +30,9 @@ export default function AuthLinker({
   socialIcon?: JSX.Element;
   className?: string;
 }) {
-  const {setActiveWallet, walletConnectors} = usePrivy();
+  const isEmbeddedWallet = wallet?.walletClientType === 'privy';
 
-  const isEmbeddedWallet = wallet?.walletClient === 'privy';
-
-  const getWalletType = (wallet: Wallet) => {
-    const connector = walletConnectors?.walletConnectors.find(
-      (wc) => wc.address === wallet.address,
-    );
-
+  const getWalletType = (wallet: ConnectedWallet) => {
     if (isEmbeddedWallet) {
       return {
         address: formatWallet(wallet.address),
@@ -60,19 +56,19 @@ export default function AuthLinker({
       icon: (
         <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 overflow-hidden rounded-[0.25rem]">
           <Image
-            src={`/wallet-icons/${connector?.walletType}.svg`}
+            src={`/wallet-icons/${wallet.walletClientType}.svg`}
             height={20}
             width={20}
             className="h-full w-full object-cover"
-            alt={getHumanReadableWalletType(connector?.walletType)}
+            alt={getHumanReadableWalletType(wallet.walletClientType as any)}
           />
         </div>
       ),
-      description: `${getHumanReadableWalletType(connector?.walletType)}`,
+      description: `${getHumanReadableWalletType(wallet.walletClientType as any)}`,
     };
   };
 
-  const SetActiveButton = ({wallet, isActive}: {wallet?: Wallet; isActive?: boolean}) => {
+  const SetActiveButton = ({wallet, isActive}: {wallet?: ConnectedWallet; isActive?: boolean}) => {
     if (wallet && isActive) {
       return (
         <div className="flex h-5 items-center justify-center rounded-md bg-gradient-to-r from-privy-color-accent to-red-300 px-1 text-xs font-medium text-white">
@@ -84,7 +80,7 @@ export default function AuthLinker({
       return (
         <div
           className="button h-5 shrink-0 grow-0 translate-x-2 cursor-pointer px-1 text-xs text-privy-color-foreground-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
-          onClick={() => setActiveWallet(wallet.address)}
+          onClick={() => setActiveWallet?.(wallet)}
         >
           Set Active
         </div>

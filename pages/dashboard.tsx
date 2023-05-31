@@ -4,8 +4,7 @@
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect, useContext} from 'react';
-import {usePrivy} from '@privy-io/react-auth';
-import type {WalletWithMetadata} from '@privy-io/react-auth';
+import {ConnectedWallet, usePrivy, useWallets} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
 import AuthLinker from '../components/auth-linker';
@@ -48,6 +47,7 @@ export default function LoginPage() {
   const [signSuccess, setSignSuccess] = useState(false);
   const [signError, setSignError] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [activeWallet, setActiveWallet] = useState<ConnectedWallet | null>(null);
 
   const {setConfig} = useContext(PrivyConfigContext);
 
@@ -77,7 +77,6 @@ export default function LoginPage() {
     unlinkTwitter,
     linkDiscord,
     unlinkDiscord,
-    walletConnectors,
     linkGithub,
     unlinkGithub,
     linkApple,
@@ -86,6 +85,8 @@ export default function LoginPage() {
     createWallet,
     exportWallet,
   } = usePrivy();
+
+  const {wallets: allWallets} = useWallets();
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -96,9 +97,16 @@ export default function LoginPage() {
 
   const linkedAccounts = user?.linkedAccounts || [];
 
-  const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
+  const wallets = allWallets.filter((w) => w.linked);
 
-  const embeddedWallet = wallets.filter((wallet) => wallet.walletClient === 'privy')[0];
+  // if no active wallet is set, set it to the first one if available
+  useEffect(() => {
+    if (!activeWallet && wallets && wallets.length > 0) {
+      setActiveWallet(wallets[0]!);
+    }
+  }, [activeWallet, wallets]);
+
+  const embeddedWallet = wallets.filter((wallet) => wallet.walletClientType === 'privy')[0];
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
@@ -203,13 +211,13 @@ export default function LoginPage() {
                   <WalletIcon className="h-5 w-5" strokeWidth={2} />
                   Wallets
                 </CanvasCardHeader>
-                {!walletConnectors?.walletConnectors?.length && user.wallet && (
+                {wallets.length === 0 && user.wallet && (
                   <p className="text-sm italic">
                     Previously linked wallets cannot be restored at this time. We&rsquo;re working
                     hard to fix this!
                   </p>
                 )}
-                {!walletConnectors?.walletConnectors?.length && !user.wallet && (
+                {!wallets.length && (
                   <p className="text-sm italic">
                     You haven&rsquo;t linked any wallets yet. Try linking and then come back!
                   </p>
@@ -219,7 +227,8 @@ export default function LoginPage() {
                     <AuthLinker
                       isLinked
                       wallet={wallet}
-                      isActive={wallet.address === walletConnectors?.activeWalletConnector?.address}
+                      isActive={wallet.address === activeWallet?.address}
+                      setActiveWallet={setActiveWallet}
                       key={wallet.address}
                       label={formatWallet(wallet.address)}
                       canUnlink={canRemoveAccount}
@@ -247,20 +256,13 @@ export default function LoginPage() {
                 <div className="flex flex-col gap-2 pt-4">
                   <button
                     className="button h-10 gap-x-1 px-4 text-sm"
-                    disabled={
-                      signLoading ||
-                      !walletConnectors?.walletConnectors?.length ||
-                      !walletConnectors?.activeWalletConnector
-                    }
+                    disabled={signLoading || !wallets.length || !activeWallet}
                     onClick={() => {
                       setSignError(false);
                       setSignSuccess(false);
                       setSignLoading(true);
-                      walletConnectors
-                        ?.activeWalletSign(
-                          'Signing with the active wallet in Privy: ' +
-                            walletConnectors?.activeWalletConnector?.address,
-                        )
+                      activeWallet
+                        ?.sign('Signing with the active wallet in Privy: ' + activeWallet?.address)
                         .then(() => {
                           setSignSuccess(true);
                           setSignLoading(false);
