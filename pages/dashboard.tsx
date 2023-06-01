@@ -70,7 +70,6 @@ export default function LoginPage() {
     unlinkEmail,
     linkPhone,
     unlinkPhone,
-    unlinkWallet,
     linkGoogle,
     unlinkGoogle,
     linkTwitter,
@@ -106,7 +105,7 @@ export default function LoginPage() {
     }
   }, [activeWallet, wallets]);
 
-  const embeddedWallet = wallets.filter((wallet) => wallet.walletClientType === 'privy')[0];
+  const embeddedWallet = wallets.filter((wallet) => wallet.walletClientType === 'privy')?.[0];
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
@@ -233,7 +232,7 @@ export default function LoginPage() {
                       label={formatWallet(wallet.address)}
                       canUnlink={canRemoveAccount}
                       unlinkAction={() => {
-                        unlinkWallet(wallet.address);
+                        wallet.unlink();
                       }}
                       linkAction={linkWallet}
                     />
