@@ -100,10 +100,14 @@ export default function LoginPage() {
     .sort((a, b) => a.address.localeCompare(b.address))
     .filter((w) => w.linked);
 
-  // if no active wallet is set, set it to the first one if available
   useEffect(() => {
+    // if no active wallet is set, set it to the first one if available
     if (!activeWallet && wallets && wallets.length > 0) {
       setActiveWallet(wallets[0]!);
+    }
+    // if an active wallet was removed from wallets, clear it out
+    if (!wallets.some((w) => w.address === activeWallet?.address)) {
+      setActiveWallet(wallets && wallets.length > 0 ? wallets[0]! : null);
     }
   }, [activeWallet, wallets]);
 
