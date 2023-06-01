@@ -1,5 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
@@ -16,9 +14,25 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Adelle Sans', ...defaultTheme.fontFamily.sans],
+        // sans: ['Adelle Sans', ...defaultTheme.fontFamily.sans],
       },
       colors: {
+        'privy-color-background': 'var(--privy-color-background)',
+        'privy-color-background-2': 'var(--privy-color-background-2)',
+
+        'privy-color-foreground': 'var(--privy-color-foreground)',
+        'privy-color-foreground-2': 'var(--privy-color-foreground-2)',
+        'privy-color-foreground-3': 'var(--privy-color-foreground-3)',
+        'privy-color-foreground-4': 'var(--privy-color-foreground-4)',
+        'privy-color-foreground-accent': 'var(--privy-color-foreground-accent)',
+
+        'privy-color-accent': 'var(--privy-color-accent)',
+        'privy-color-accent-light': 'var(--privy-color-accent-light)',
+        'privy-color-accent-dark': 'var(--privy-color-accent-dark)',
+
+        'privy-color-success': 'var(--privy-color-success)',
+        'privy-color-error': 'var(--privy-color-error)',
+
         privurple: '#696FFD',
         privurpleaccent: '#4f56ea',
         coral: '#FF8271',
@@ -28,6 +42,9 @@ module.exports = {
         'privy-light-blue': '#EFF1FD',
         'privy-blueish': '#D4D9FC',
         'privy-pink': '#FF8271',
+      },
+      backgroundImage: {
+        'conic-gradient': "url('/images/conic-gradient.jpg')",
       },
     },
   },

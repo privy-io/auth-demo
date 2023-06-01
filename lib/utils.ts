@@ -4,7 +4,6 @@ export const getHumanReadableWalletType = (
     | 'metamask'
     | 'coinbase_wallet'
     | 'wallet_connect'
-    | 'metamask_wc'
     | 'phantom'
     | 'embedded'
     | undefined,
@@ -16,13 +15,24 @@ export const getHumanReadableWalletType = (
       return 'Coinbase Wallet';
     case 'wallet_connect':
       return 'WalletConnect';
-    case 'metamask_wc':
-      return 'MetaMask mobile';
     case 'phantom':
       return 'Phantom';
     case 'embedded':
-      return 'Embedded';
+      return 'Privy';
     default:
       return 'Unknown Wallet';
   }
+};
+
+export const formatWallet = (address: string | undefined): string => {
+  if (!address) {
+    return '';
+  }
+  const first = address.slice(0, 5);
+  const last = address.slice(address.length - 3, address.length);
+  return `${first}...${last}`;
+};
+
+export const isEmpty = (value: any) => {
+  return value == null || (typeof value === 'string' && value.trim().length === 0);
 };

@@ -2,35 +2,63 @@
 /* eslint-disable react/jsx-no-target-blank */
 
 import axios from 'axios';
-import Link from 'next/link';
 import {useRouter} from 'next/router';
-import React, {useState, useEffect} from 'react';
-import {usePrivy} from '@privy-io/react-auth';
-import type {WalletWithMetadata} from '@privy-io/react-auth';
+import React, {useState, useEffect, useContext} from 'react';
+import {ConnectedWallet, usePrivy, useWallets} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
-import UserBox from '../components/user-box';
-import AuthLinker, {LinkButton, AuthSection} from '../components/auth-linker';
+import AuthLinker from '../components/auth-linker';
 import {clearDatadogUser} from '../lib/datadog';
 import {DismissableInfo, DismissableError, DismissableSuccess} from '../components/toast';
-import ActiveWalletDropdown from '../components/wallet-dropdown';
-import {getHumanReadableWalletType} from '../lib/utils';
+import {formatWallet} from '../lib/utils';
+import {Header} from '../components/header';
+import CanvasContainer from '../components/canvas-container';
+import CanvasSidebar from '../components/canvas-sidebar';
+import CanvasCard from '../components/canvas-card';
+import CanvasSidebarHeader from '../components/canvas-sidebar-header';
+import {
+  ArrowLeftOnRectangleIcon,
+  ArrowUpOnSquareIcon,
+  ArrowsUpDownIcon,
+  CommandLineIcon,
+  DevicePhoneMobileIcon,
+  EnvelopeIcon,
+  PencilIcon,
+  PlusIcon,
+  UserCircleIcon,
+  WalletIcon,
+} from '@heroicons/react/24/outline';
+import Canvas from '../components/canvas';
+import CanvasRow from '../components/canvas-row';
+import CanvasCardHeader from '../components/canvas-card-header';
+import PrivyConfigContext, {
+  defaultDashboardConfig,
+  defaultIndexConfig,
+  PRIVY_APPEARANCE_STORAGE_KEY,
+} from '../lib/hooks/usePrivyConfig';
 import Image from 'next/image';
-
-const formatWallet = (address: string | undefined): string => {
-  if (!address) {
-    return '';
-  }
-  const first = address.slice(0, 8);
-  const last = address.slice(address.length - 4, address.length);
-  return `${first}...${last}`;
-};
+import PrivyBlobIcon from '../components/icons/outline/privy-blob';
+import GitHubIcon from '../components/icons/social/github';
+import AppleIcon from '../components/icons/social/apple';
 
 export default function LoginPage() {
   const router = useRouter();
   const [signLoading, setSignLoading] = useState(false);
   const [signSuccess, setSignSuccess] = useState(false);
   const [signError, setSignError] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [activeWallet, setActiveWallet] = useState<ConnectedWallet | null>(null);
+
+  const {setConfig} = useContext(PrivyConfigContext);
+
+  useEffect(() => {
+    setConfig?.({
+      ...defaultDashboardConfig,
+      appearance: window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)
+        ? JSON.parse(window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)!)
+        : defaultIndexConfig.appearance,
+    });
+  }, [setConfig]);
 
   const {
     ready,
@@ -38,26 +66,26 @@ export default function LoginPage() {
     user,
     logout,
     linkEmail,
-    createWallet,
     linkWallet,
     unlinkEmail,
     linkPhone,
     unlinkPhone,
-    unlinkWallet,
     linkGoogle,
     unlinkGoogle,
     linkTwitter,
     unlinkTwitter,
     linkDiscord,
-    setActiveWallet,
     unlinkDiscord,
-    walletConnectors,
     linkGithub,
     unlinkGithub,
     linkApple,
     unlinkApple,
     getAccessToken,
+    createWallet,
+    exportWallet,
   } = usePrivy();
+
+  const {wallets: allWallets} = useWallets();
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -68,7 +96,22 @@ export default function LoginPage() {
 
   const linkedAccounts = user?.linkedAccounts || [];
 
-  const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
+  const wallets = allWallets
+    .sort((a, b) => a.address.localeCompare(b.address))
+    .filter((w) => w.linked);
+
+  useEffect(() => {
+    // if no active wallet is set, set it to the first one if available
+    if (!activeWallet && wallets && wallets.length > 0) {
+      setActiveWallet(wallets[0]!);
+    }
+    // if an active wallet was removed from wallets, clear it out
+    if (!wallets.some((w) => w.address === activeWallet?.address)) {
+      setActiveWallet(wallets && wallets.length > 0 ? wallets[0]! : null);
+    }
+  }, [activeWallet, wallets]);
+
+  const embeddedWallet = wallets.filter((wallet) => wallet.walletClientType === 'privy')?.[0];
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
@@ -90,8 +133,6 @@ export default function LoginPage() {
 
   const appleSubject = user?.apple?.subject;
   const appleEmail = user?.apple?.email;
-
-  const hasEmbeddedWallet = wallets.find((wallet) => wallet.walletClient === 'privy');
 
   if (!ready || !authenticated || !user) {
     return <Loading />;
@@ -117,286 +158,116 @@ export default function LoginPage() {
         <title>Privy Auth Demo</title>
       </Head>
 
-      <div className="min-w-screen relative flex min-h-screen flex-col bg-privy-light-blue">
-        <main className="flex flex-grow flex-col p-8 sm:p-10">
-          <div className="sm:hidden">
-            <div className="flex flex-row items-center justify-between">
-              <div>
-                <Image
-                  src="/logos/privy-demo.png"
-                  height="50px"
-                  width="206px"
-                  alt="Privy Auth Demo"
-                />
+      <div className="flex h-full flex-col px-6 pb-6">
+        <Header />
+        <CanvasContainer>
+          <CanvasSidebar className="px-6 pb-6">
+            <CanvasSidebarHeader>
+              <CommandLineIcon className="h-5 w-5" strokeWidth={2} />
+              <div className="w-full">Console</div>
+            </CanvasSidebarHeader>
+            <div className="h-full py-4">
+              <textarea
+                value={JSON.stringify(user, null, 2)}
+                className="no-scrollbar h-full w-full resize-none rounded-lg border-0 bg-privy-color-background-2 p-4 font-mono text-xs text-privy-color-foreground-2"
+                disabled
+              />
+            </div>
+            <div className="shrink-0 grow-0 pb-4 text-sm text-privy-color-foreground-3">
+              Privy gives you modular components so you can customize your product for your users.
+              Learn more in{' '}
+              <a href="https://docs.privy.io/guide/frontend/users/object" target="_blank">
+                our docs
+              </a>
+              .
+            </div>
+            <CanvasCard className="shrink-0 grow-0 !shadow-none">
+              <div className="pb-4 text-sm text-privy-color-foreground-3">
+                Sign out or delete your data to restart the demo and customize your theme.
               </div>
-              <div>
+              <div className="flex items-center gap-2">
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     logout();
                   }}
-                  className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent"
+                  className="button h-8 gap-x-1 px-3 text-sm"
                 >
-                  Log out
+                  <ArrowLeftOnRectangleIcon className="h-4 w-4" strokeWidth={2} />
+                  Sign out
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="hidden sm:block">
-            <div className="flex flex-row items-center justify-between">
-              <div>
-                <Image
-                  src="/logos/privy-demo.png"
-                  height="50px"
-                  width="206px"
-                  alt="Privy Auth Demo"
-                />
-              </div>
-              <div className="flex items-center justify-center gap-4">
-                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
-                  <Link href="/gallery">Gallery</Link>
-                </p>
-                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
-                  <a href="https://docs.privy.io" target="_blank">
-                    Docs
-                  </a>
-                </p>
-                <p className="text-privurple underline hover:cursor-pointer hover:text-privurpleaccent">
-                  <a href="https://docs.privy.io/guide/quickstart" target="_blank">
-                    Get started now
-                  </a>
-                </p>
                 <button
-                  onClick={logout}
-                  className="rounded-md border border-privurple border-opacity-90 py-2 px-4 text-privurple transition-all hover:border-opacity-100"
+                  onClick={async () => {
+                    setIsDeleting(true);
+                    await deleteUser();
+                    setIsDeleting(true);
+                  }}
+                  className="button h-8 gap-x-2 px-3 text-sm !text-red-400"
                 >
-                  Log out
+                  {!isDeleting ? 'Delete Account' : 'Deleting account...'}
                 </button>
               </div>
-            </div>
-          </div>
-
-          <div className="mt-10 grid grid-cols-1 gap-10 lg:mt-16 lg:grid-cols-3">
-            <div>
-              <h2 className="text-xl font-bold text-privy-navy md:text-2xl">Engage your users</h2>
-              <p className="mt-4 text-sm lg:min-h-[60px]">
-                With just a few lines of code, you can easily prompt your users to link different
-                accounts and safely take on credentials.
-              </p>
-              <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">Wallets</h3>
-              <div className="mt-5 flex flex-col gap-2">
-                {wallets.map((wallet) => (
-                  <AuthLinker
-                    key={wallet.address}
-                    isLink
-                    linkedText={formatWallet(wallet.address)}
-                    canUnlink={canRemoveAccount}
-                    unlinkAction={() => {
-                      unlinkWallet(wallet.address);
-                    }}
-                    linkAction={linkWallet}
-                    additionalInfo={
-                      wallet.address === walletConnectors?.activeWalletConnector?.address ? (
-                        <span className="flex items-center gap-1 rounded-md bg-slate-100 py-1 px-2 text-xs">
-                          active
-                        </span>
-                      ) : null
-                    }
-                    isEmbeddedWallet={wallet.walletClient === 'privy'}
-                  />
-                ))}
-                <AuthSection text="Link a wallet" action={<LinkButton onClick={linkWallet} />} />
-              </div>
-              {!hasEmbeddedWallet && (
-                <button
-                  onClick={createWallet}
-                  className="mx-auto mt-4 rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
-                >
-                  Create an embedded wallet
-                </button>
-              )}
-
-              <h3 className="mt-8 text-lg font-bold text-privy-navy">Email / SMS / Social</h3>
-
-              <div className="mt-5 flex flex-col gap-2">
-                <AuthLinker
-                  unlinkedText="Link an email account"
-                  linkedText={`Email ${emailAddress}`}
-                  canUnlink={canRemoveAccount}
-                  isLink={!!emailAddress}
-                  unlinkAction={() => {
-                    unlinkEmail(emailAddress as string);
-                  }}
-                  linkAction={linkEmail}
-                />
-
-                <AuthLinker
-                  unlinkedText="Link a phone number"
-                  linkedText={`Phone number ${phoneNumber}`}
-                  canUnlink={canRemoveAccount}
-                  isLink={!!phoneNumber}
-                  unlinkAction={() => {
-                    unlinkPhone(phoneNumber as string);
-                  }}
-                  linkAction={linkPhone}
-                />
-
-                <AuthLinker
-                  unlinkedText="Link a Google account"
-                  linkedText={`Google user ${googleName}`}
-                  canUnlink={canRemoveAccount}
-                  isLink={!!googleSubject}
-                  unlinkAction={() => {
-                    unlinkGoogle(googleSubject as string);
-                  }}
-                  linkAction={linkGoogle}
-                />
-
-                <AuthLinker
-                  unlinkedText="Link a Twitter account"
-                  linkedText={`Twitter user ${twitterUsername}`}
-                  canUnlink={canRemoveAccount}
-                  isLink={!!twitterSubject}
-                  unlinkAction={() => {
-                    unlinkTwitter(twitterSubject as string);
-                  }}
-                  linkAction={linkTwitter}
-                />
-
-                <AuthLinker
-                  unlinkedText="Link a Discord account"
-                  linkedText={`Discord user ${discordUsername}`}
-                  canUnlink={canRemoveAccount}
-                  isLink={!!discordSubject}
-                  unlinkAction={() => {
-                    unlinkDiscord(discordSubject as string);
-                  }}
-                  linkAction={linkDiscord}
-                />
-
-                <AuthLinker
-                  unlinkedText="Link a Github account"
-                  linkedText={`Github user ${githubUsername}`}
-                  canUnlink={canRemoveAccount}
-                  isLink={!!githubSubject}
-                  unlinkAction={() => {
-                    unlinkGithub(githubSubject as string);
-                  }}
-                  linkAction={linkGithub}
-                />
-
-                <AuthLinker
-                  unlinkedText="Link an Apple account"
-                  linkedText={`Apple email ${appleEmail}`}
-                  canUnlink={canRemoveAccount}
-                  isLink={!!appleSubject}
-                  unlinkAction={() => {
-                    unlinkApple(appleSubject as string);
-                  }}
-                  linkAction={linkApple}
-                />
-              </div>
-
-              {canRemoveAccount ? null : (
-                <p className="mt-4 px-1 text-sm text-slate-400">
-                  Note that if the user only has one account, you cannot unlink it.
-                </p>
-              )}
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
-                Build a rich user object
-              </h2>
-              <p className="mt-4 text-sm lg:min-h-[60px]">
-                Privy gives you modular components so you can customize your product for your users.
-                Learn more in{' '}
-                <a
-                  href="https://docs.privy.io/guide/frontend/users/object"
-                  target="_blank"
-                  className="text-privurple underline hover:text-privurpleaccent"
-                >
-                  our docs
-                </a>
-                .
-              </p>
-              <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">JSON</h3>
-              <div className="mt-5">
-                <textarea
-                  value={JSON.stringify(user, null, 2)}
-                  className="min-w-full rounded-xl border-0 bg-white p-5 font-mono text-xs text-privy-navy"
-                  rows={JSON.stringify(user, null, 2).split('\n').length + 3}
-                  disabled
-                />
-              </div>
-              <div className="mt-5">
-                <button
-                  onClick={deleteUser}
-                  className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
-                >
-                  Delete my data
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-privy-navy md:text-2xl">
-                Work with responsive UI
-              </h2>
-              <p className="mt-4 text-sm lg:min-h-[60px]">
-                You decide when to engage users, we take care of the how. Connect within seconds,
-                seriously.
-              </p>
-              <section className="hidden lg:block">
-                <h3 className="mt-5 text-lg font-bold text-privy-navy lg:mt-1">
-                  Authenticated accounts
-                </h3>
-                <div className="mt-5">
-                  <UserBox user={user} />
-                </div>
-              </section>
-
-              <section className="flex flex-col gap-4">
-                <h3 className="mt-10 text-lg font-bold text-privy-navy">Wallet actions</h3>
-                <div className="flex flex-col gap-1 text-sm">
-                  <p>
-                    With at least one linked wallet, you can use the active wallet to perform
-                    on-chain actions like signing or transactions.
+            </CanvasCard>
+          </CanvasSidebar>
+          <Canvas className="gap-x-8">
+            <CanvasRow>
+              <CanvasCard>
+                <CanvasCardHeader>
+                  <WalletIcon className="h-5 w-5" strokeWidth={2} />
+                  Wallets
+                </CanvasCardHeader>
+                {wallets.length === 0 && user.wallet && (
+                  <p className="text-sm italic">
+                    Previously linked wallets cannot be restored at this time. We&rsquo;re working
+                    hard to fix this!
                   </p>
+                )}
+                {!wallets.length && (
+                  <p className="text-sm italic">
+                    You haven&rsquo;t linked any wallets yet. Try linking and then come back!
+                  </p>
+                )}
+                <div className="flex flex-col gap-2">
+                  {wallets.map((wallet) => (
+                    <AuthLinker
+                      isLinked
+                      wallet={wallet}
+                      isActive={wallet.address === activeWallet?.address}
+                      setActiveWallet={setActiveWallet}
+                      key={wallet.address}
+                      label={formatWallet(wallet.address)}
+                      canUnlink={canRemoveAccount}
+                      unlinkAction={() => {
+                        wallet.unlink();
+                      }}
+                      linkAction={linkWallet}
+                    />
+                  ))}
+                  <button className="button h-10 gap-x-1 px-4 text-sm" onClick={linkWallet}>
+                    <PlusIcon className="h-4 w-4" strokeWidth={2} />
+                    Link a Wallet
+                  </button>
                 </div>
-
-                {signSuccess && (
-                  <DismissableSuccess
-                    message="Success!"
-                    clickHandler={() => setSignSuccess(false)}
-                  />
-                )}
-                {signError && (
-                  <DismissableError
-                    message="Signature failed"
-                    clickHandler={() => setSignError(false)}
-                  />
-                )}
-                {signLoading && <DismissableInfo message="Waiting for signature" />}
-
-                <div className="flex">
+              </CanvasCard>
+              <CanvasCard>
+                <CanvasCardHeader>
+                  <ArrowsUpDownIcon className="h-5 w-5" strokeWidth={2} />
+                  Wallet Actions
+                </CanvasCardHeader>
+                <div className="text-sm text-privy-color-foreground-3">
+                  Whether they came in with Metamask or an embedded wallet, a user is a user.
+                  Trigger wallet actions below.
+                </div>
+                <div className="flex flex-col gap-2 pt-4">
                   <button
-                    disabled={
-                      signLoading ||
-                      !walletConnectors?.walletConnectors?.length ||
-                      !walletConnectors?.activeWalletConnector
-                    }
-                    className="mx-auto rounded-md bg-privurple py-2 px-4 text-white shadow-sm hover:bg-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                    className="button h-10 gap-x-1 px-4 text-sm"
+                    disabled={signLoading || !wallets.length || !activeWallet}
                     onClick={() => {
                       setSignError(false);
                       setSignSuccess(false);
                       setSignLoading(true);
-                      walletConnectors
-                        ?.activeWalletSign(
-                          'Signing with the active wallet in Privy: ' +
-                            walletConnectors?.activeWalletConnector?.address,
-                        )
+                      activeWallet
+                        ?.sign('Signing with the active wallet in Privy: ' + activeWallet?.address)
                         .then(() => {
                           setSignSuccess(true);
                           setSignLoading(false);
@@ -407,59 +278,215 @@ export default function LoginPage() {
                         });
                     }}
                   >
-                    Sign a message
+                    <PencilIcon className="h-4 w-4" strokeWidth={2} />
+                    Sign a Message
                   </button>
+                  {signSuccess && (
+                    <DismissableSuccess
+                      message="Success!"
+                      clickHandler={() => setSignSuccess(false)}
+                    />
+                  )}
+                  {signError && (
+                    <DismissableError
+                      message="Signature failed"
+                      clickHandler={() => setSignError(false)}
+                    />
+                  )}
+                  {signLoading && <DismissableInfo message="Waiting for signature" />}
                 </div>
-
-                <div className="flex flex-col gap-1 text-sm">
-                  <p>
-                    As a developer, you can programmatically update the user&rsquo;s active wallet
-                    based on the available options in the browser session. Learn more in{' '}
-                    <a
-                      href="https://docs.privy.io/guide/frontend/wallets/multiwallet"
-                      target="_blank"
-                      className="text-privurple underline hover:text-privurpleaccent"
+              </CanvasCard>
+              {/* If they don't have an Embedded Wallet */}
+              {embeddedWallet ? (
+                <CanvasCard>
+                  <CanvasCardHeader>
+                    <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
+                    <div className="w-full">Embedded Wallet</div>
+                    <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1 text-privy-color-foreground-3">
+                      {formatWallet(embeddedWallet.address)}
+                    </div>
+                  </CanvasCardHeader>
+                  <div className="text-sm text-privy-color-foreground-3">
+                    A user&apos;s embedded wallet is theirs to keep, and even take with them.
+                  </div>
+                  <div className="flex flex-col gap-2 pt-4">
+                    <button
+                      className="button h-10 gap-x-1 px-4 text-sm"
+                      disabled={!(ready && authenticated)}
+                      onClick={() => {
+                        exportWallet();
+                      }}
                     >
-                      our docs
-                    </a>
-                    .
-                  </p>
-                </div>
+                      <ArrowUpOnSquareIcon className="h-4 w-4" strokeWidth={2} />
+                      Export your Embedded wallet
+                    </button>
+                  </div>
+                </CanvasCard>
+              ) : (
+                <CanvasCard>
+                  <CanvasCardHeader>
+                    <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
+                    Embedded Wallet
+                  </CanvasCardHeader>
+                  <div className="text-sm text-privy-color-foreground-3">
+                    With Privy, even non web3 natives can enjoy the benefits of life on chain.
+                  </div>
+                  <div className="flex flex-col gap-2 pt-4">
+                    <button
+                      className="button h-10 gap-x-1 px-4 text-sm"
+                      disabled={!(ready && authenticated)}
+                      onClick={() => {
+                        createWallet();
+                      }}
+                    >
+                      <PlusIcon className="h-4 w-4" strokeWidth={2} />
+                      Create an Embedded Wallet
+                    </button>
+                  </div>
+                </CanvasCard>
+              )}
+            </CanvasRow>
 
-                <div className="flex">
-                  <ActiveWalletDropdown
-                    disabled={!wallets.length}
-                    options={wallets.map((wallet) => {
-                      const activeWalletAddress = walletConnectors?.activeWalletConnector?.address;
-                      const connector = walletConnectors?.walletConnectors.find(
-                        (wc) => wc.address === wallet.address,
-                      );
-                      return {
-                        title: formatWallet(wallet.address),
-                        description: `${getHumanReadableWalletType(connector?.walletType)} · ${
-                          connector ? 'ready' : 'disconnected'
-                        }`,
-                        onClick: () => setActiveWallet(wallet.address),
-                        selected: wallet.address == activeWalletAddress,
-                      };
-                    })}
+            <CanvasRow>
+              <CanvasCard>
+                <CanvasCardHeader>
+                  <UserCircleIcon className="h-5 w-5" strokeWidth={2} />
+                  Linked Socials
+                </CanvasCardHeader>
+                <div className="flex flex-col gap-2">
+                  <AuthLinker
+                    socialIcon={
+                      <EnvelopeIcon
+                        className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0"
+                        strokeWidth={2}
+                      />
+                    }
+                    label="Email"
+                    linkedLabel={`${emailAddress}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!emailAddress}
+                    unlinkAction={() => {
+                      unlinkEmail(emailAddress as string);
+                    }}
+                    linkAction={linkEmail}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <DevicePhoneMobileIcon
+                        className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0"
+                        strokeWidth={2}
+                      />
+                    }
+                    label="Phone"
+                    linkedLabel={`${phoneNumber}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!phoneNumber}
+                    unlinkAction={() => {
+                      unlinkPhone(phoneNumber as string);
+                    }}
+                    linkAction={linkPhone}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/google.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
+                    label="Google"
+                    linkedLabel={`${googleName}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!googleSubject}
+                    unlinkAction={() => {
+                      unlinkGoogle(googleSubject as string);
+                    }}
+                    linkAction={linkGoogle}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/twitter.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
+                    label="Twitter"
+                    linkedLabel={`${twitterUsername}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!twitterSubject}
+                    unlinkAction={() => {
+                      unlinkTwitter(twitterSubject as string);
+                    }}
+                    linkAction={linkTwitter}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/discord.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
+                    label="Discord"
+                    linkedLabel={`${discordUsername}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!discordSubject}
+                    unlinkAction={() => {
+                      unlinkDiscord(discordSubject as string);
+                    }}
+                    linkAction={linkDiscord}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <GitHubIcon height={20} width={20} />
+                      </div>
+                    }
+                    label="Github"
+                    linkedLabel={`${githubUsername}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!githubSubject}
+                    unlinkAction={() => {
+                      unlinkGithub(githubSubject as string);
+                    }}
+                    linkAction={linkGithub}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
+                        <AppleIcon height={20} width={20} />
+                      </div>
+                    }
+                    label="Apple"
+                    linkedLabel={`${appleEmail}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!appleSubject}
+                    unlinkAction={() => {
+                      unlinkApple(appleSubject as string);
+                    }}
+                    linkAction={linkApple}
                   />
                 </div>
-                {!walletConnectors?.walletConnectors?.length && user.wallet && (
-                  <p className="text-sm italic">
-                    Previously linked wallets cannot be restored at this time. We&rsquo;re working
-                    hard to fix this!
-                  </p>
-                )}
-                {!walletConnectors?.walletConnectors?.length && !user.wallet && (
-                  <p className="text-sm italic">
-                    You haven&rsquo;t linked any wallets yet. Try linking and then come back!
-                  </p>
-                )}
-              </section>
-            </div>
-          </div>
-        </main>
+              </CanvasCard>
+            </CanvasRow>
+          </Canvas>
+        </CanvasContainer>
       </div>
     </>
   );

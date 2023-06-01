@@ -33,24 +33,19 @@ export default function LoginPage() {
           <div className="hidden lg:block">
             <Image
               src="/arrow-down-right.png"
-              width="152px"
-              height="106px"
+              width={152}
+              height={106}
               alt="top down arrow, go check out the gallery!"
             />
           </div>
         </div>
         <div className="mx-auto mt-10 flex max-w-[360px] flex-col justify-evenly gap-10 lg:mx-0 lg:max-w-full lg:flex-row">
-          <Image
-            src="/gallery_dollhouse.png"
-            height="576px"
-            width="360px"
-            alt="Dollhouse example"
-          />
-          <Image src="/gallery_abbey.png" height="576px" width="360px" alt="Abbey Road example" />
+          <Image src="/gallery_dollhouse.png" height={576} width={360} alt="Dollhouse example" />
+          <Image src="/gallery_abbey.png" height={576} width={360} alt="Abbey Road example" />
           <Image
             src="/gallery_submarine.png"
-            height="576px"
-            width="360px"
+            height={576}
+            width={360}
             alt="Yellow Submarine example"
           />
         </div>

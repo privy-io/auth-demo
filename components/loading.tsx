@@ -1,12 +1,16 @@
-import BlobbyIcon from './blobby-icon';
+import CanvasContainer from './canvas-container';
+import Canvas from './canvas';
+import {Header} from './header';
+import CanvasSidebar from './canvas-sidebar';
 
 export default function Loading() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-privy-light-blue text-xl">
-      <div className="animate-wiggle">
-        <BlobbyIcon size={42} />
-      </div>
-      <p className="text-slate-900">Loading...</p>
+    <div className="flex h-full flex-col px-6 pb-6">
+      <Header />
+      <CanvasContainer className="animate-pulse">
+        <CanvasSidebar className="animate-pulse" />
+        <Canvas className="animate-pulse" />
+      </CanvasContainer>
     </div>
   );
 }

@@ -1,85 +1,138 @@
+/* eslint-disable @next/next/no-img-element */
+import {MinusSmallIcon, PlusSmallIcon} from '@heroicons/react/24/outline';
+import {formatWallet, getHumanReadableWalletType} from '../lib/utils';
+import type {ConnectedWallet} from '@privy-io/react-auth';
 import type React from 'react';
-
-export type AuthLinkerProps = {
-  unlinkedText?: string | null;
-  linkedText?: string | null;
-  linkAction: () => void;
-  unlinkAction: () => void;
-  isLink: boolean;
-  canUnlink: boolean;
-  // Optional content placed aligned left, to the right of the main text
-  additionalInfo?: React.ReactNode;
-  isEmbeddedWallet?: boolean;
-};
-
-export function LinkButton(props: {onClick: () => void}) {
-  return (
-    <button
-      className="min-w-[60px] max-w-[60px] rounded-md bg-privurple py-1 px-2 text-sm text-white transition-all hover:bg-privurpleaccent"
-      onClick={props.onClick}
-    >
-      Link
-    </button>
-  );
-}
-
-function UnlinkButton(props: {disabled?: boolean; onClick: () => void}) {
-  return (
-    <button
-      className="min-w-[60px] max-w-[60px] rounded-md border border-privurple border-opacity-0 py-1 px-2 text-sm text-privurple transition-all hover:border-privurpleaccent hover:border-opacity-100 hover:text-privurpleaccent disabled:cursor-not-allowed disabled:border-slate-400 disabled:text-slate-400 hover:disabled:text-slate-400"
-      onClick={props.onClick}
-      disabled={props.disabled}
-    >
-      Unlink
-    </button>
-  );
-}
-
-export function AuthSection(props: {
-  text: string;
-  action: React.ReactNode;
-  additionalInfo?: React.ReactNode;
-  isEmbeddedWallet?: boolean;
-}) {
-  return (
-    <div className="flex min-w-full items-center justify-between gap-10 rounded-xl bg-white px-3 py-3">
-      <div className="flex items-center gap-3 text-sm">
-        <p>{props.text}</p>
-        {props.additionalInfo}
-
-        {props.isEmbeddedWallet && (
-          <span className="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-xs">
-            embedded
-          </span>
-        )}
-      </div>
-      <div className="flex flex-row items-center">{props.action}</div>
-    </div>
-  );
-}
+import Image from 'next/image';
 
 export default function AuthLinker({
+  wallet,
+  label,
   linkAction,
-  linkedText,
-  unlinkedText,
+  linkedLabel,
   canUnlink,
-  isLink,
+  isLinked,
+  isActive,
+  setActiveWallet,
   unlinkAction,
-  additionalInfo,
-  isEmbeddedWallet,
-}: AuthLinkerProps) {
+  socialIcon,
+  className,
+}: {
+  wallet?: ConnectedWallet;
+  isActive?: boolean;
+  setActiveWallet?: (wallet: ConnectedWallet) => void;
+  isLinked: boolean;
+  linkedLabel?: string | null;
+  linkAction: () => void;
+  unlinkAction: () => void;
+  canUnlink: boolean;
+  label?: string;
+  socialIcon?: JSX.Element;
+  className?: string;
+}) {
+  const isEmbeddedWallet = wallet?.walletClientType === 'privy';
+
+  const getWalletType = (wallet: ConnectedWallet) => {
+    if (isEmbeddedWallet) {
+      return {
+        address: formatWallet(wallet.address),
+        icon: (
+          <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 overflow-hidden rounded-[0.25rem]">
+            <Image
+              src="/logos/privy-logomark.png"
+              height={20}
+              width={20}
+              className="h-full w-full object-cover"
+              alt={'embedded'}
+            />
+          </div>
+        ),
+        description: 'Embedded',
+      };
+    }
+
+    return {
+      address: formatWallet(wallet.address),
+      icon: (
+        <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 overflow-hidden rounded-[0.25rem]">
+          <Image
+            src={`/wallet-icons/${wallet.walletClientType}.svg`}
+            height={20}
+            width={20}
+            className="h-full w-full object-cover"
+            alt={getHumanReadableWalletType(wallet.walletClientType as any)}
+          />
+        </div>
+      ),
+      description: `${getHumanReadableWalletType(wallet.walletClientType as any)}`,
+    };
+  };
+
+  const SetActiveButton = ({wallet, isActive}: {wallet?: ConnectedWallet; isActive?: boolean}) => {
+    if (wallet && isActive) {
+      return (
+        <div className="flex h-5 items-center justify-center rounded-md bg-gradient-to-r from-privy-color-accent to-red-300 px-1 text-xs font-medium text-white">
+          Active
+        </div>
+      );
+    }
+    if (wallet && !isActive) {
+      return (
+        <div
+          className="button h-5 shrink-0 grow-0 translate-x-2 cursor-pointer px-1 text-xs text-privy-color-foreground-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+          onClick={() => setActiveWallet?.(wallet)}
+        >
+          Set Active
+        </div>
+      );
+    }
+    return <></>;
+  };
+
+  const LinkButton = (isLinked: boolean) => {
+    if (isEmbeddedWallet) return <></>;
+    if (isLinked) {
+      return (
+        <button
+          className="button h-5 w-5 text-privy-color-foreground-2"
+          onClick={unlinkAction}
+          disabled={!canUnlink}
+        >
+          <MinusSmallIcon className="h-4 w-4" strokeWidth={2} />
+        </button>
+      );
+    }
+    return (
+      <button className="button button-primary h-5 w-5" onClick={linkAction}>
+        <PlusSmallIcon className="h-4 w-4" strokeWidth={2} />
+      </button>
+    );
+  };
+
   return (
-    <AuthSection
-      text={(isLink ? linkedText : unlinkedText) as string}
-      action={
-        isLink ? (
-          <UnlinkButton onClick={unlinkAction} disabled={!canUnlink} />
-        ) : (
-          <LinkButton onClick={linkAction} />
-        )
-      }
-      additionalInfo={additionalInfo}
-      isEmbeddedWallet={isEmbeddedWallet}
-    />
+    <>
+      <div
+        className={`group flex h-10 min-w-full items-center justify-between gap-x-3 rounded-md border bg-privy-color-background px-3 text-sm ${
+          isActive ? 'border-privy-color-accent' : 'border-privy-color-foreground-4'
+        } ${className}`}
+      >
+        <div className="flex shrink-0 grow-0 items-center gap-x-2">
+          {socialIcon ? socialIcon : null}
+          {wallet ? getWalletType(wallet).icon : null}
+          {label ? <div className="w-full">{label}</div> : null}
+        </div>
+
+        {isLinked && linkedLabel ? (
+          <div className="w-full justify-end truncate text-right text-privy-color-foreground-3">
+            {linkedLabel}
+          </div>
+        ) : null}
+
+        <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1">
+          <SetActiveButton wallet={wallet} isActive={isActive} />
+          {LinkButton(isLinked)}
+        </div>
+      </div>
+    </>
   );
 }
