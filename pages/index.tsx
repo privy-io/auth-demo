@@ -54,7 +54,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Privy Auth Demo</title>
+        <title>Privy Demo</title>
       </Head>
       <div className="flex h-full max-w-screen-2xl flex-col bg-privy-color-background px-6 pb-6">
         <Header />

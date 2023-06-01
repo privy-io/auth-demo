@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type {AppProps} from 'next/app';
-import Head from 'next/head';
+import Head from 'components/Head';
 import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
@@ -31,15 +31,18 @@ function MyApp({Component, pageProps}: AppProps) {
 
   return (
     <>
-      <Head>
-        <link rel="icon" href="/favicons/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicons/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
-        <link rel="manifest" href="/favicons/manifest.json" />
-
-        <title>Privy Auth Demo</title>
-        <meta name="description" content="Privy Auth Demo" />
-      </Head>
+      <Head
+        url="https://demo.privy.io"
+        image="https://privy.io/images/blobby-codey-og.png"
+        title="Privy Demo | Onboard all your users to web3"
+        description="A simple library to onboard all your users to your web3 product, newcomers and experts alike."
+      />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="crossorigin" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+      />
       <PlausibleProvider domain="demo.privy.io">
         <PrivyConfigContext.Provider value={{config, setConfig: setConfigWithAppearanceStorage}}>
           <PrivyProvider
