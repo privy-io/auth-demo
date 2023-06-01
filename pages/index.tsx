@@ -94,8 +94,15 @@ export default function LoginPage() {
                   Export this configuration
                 </CanvasCardHeader>
                 <div className="pb-2 text-sm text-privy-color-foreground-3">
-                  Privy&apos;s components can be customized <a href="#">client-side</a>, so you can
-                  easily reuse this theme in your application.
+                  Privy&apos;s components can be customized{' '}
+                  <a
+                    href="https://docs.privy.io/guide/theming"
+                    target="_blank"
+                    rel="noreferrer nopener"
+                  >
+                    client-side
+                  </a>
+                  , so you can easily reuse this theme in your application.
                 </div>
                 <div className="flex gap-x-2 pt-2">
                   <div
