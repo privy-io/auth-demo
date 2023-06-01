@@ -96,7 +96,9 @@ export default function LoginPage() {
 
   const linkedAccounts = user?.linkedAccounts || [];
 
-  const wallets = allWallets.filter((w) => w.linked);
+  const wallets = allWallets
+    .sort((a, b) => a.address.localeCompare(b.address))
+    .filter((w) => w.linked);
 
   // if no active wallet is set, set it to the first one if available
   useEffect(() => {
