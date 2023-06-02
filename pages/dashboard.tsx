@@ -97,7 +97,6 @@ export default function LoginPage() {
   const linkedAccounts = user?.linkedAccounts || [];
 
   const wallets = allWallets.sort((a, b) => a.address.localeCompare(b.address));
-  console.log(activeWallet?.connectedAt);
 
   useEffect(() => {
     // if no active wallet is set, set it to the first one if available
