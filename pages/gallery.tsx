@@ -6,7 +6,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Gallery · Privy Auth</title>
+        <title>Gallery · Privy</title>
       </Head>
 
       <main className="min-w-screen relative flex min-h-screen flex-col bg-privy-light-blue p-10">

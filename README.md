@@ -1,6 +1,6 @@
-# Privy Auth Demo
+# Privy Demo
 
-This is a browser and mobile optimized demo of Privy Auth.
+This is a browser and mobile optimized demo of Privy.
 
 ## Useful Code Snippets
 
@@ -16,7 +16,7 @@ These are the specific points of integration:
 
 ### `pages/index.tsx`
 
-- This landing page includes a button that invokes Privy Auth's `login` hook when clicked. This prompts the user to sign-in with a wallet or their email address.
+- This landing page includes a button that invokes Privy's `login` hook when clicked. This prompts the user to sign-in with a wallet or their email address.
 
 ### `pages/dashboard.tsx`
 

@@ -169,7 +169,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Privy Auth Demo</title>
+        <title>Privy Demo</title>
       </Head>
 
       <div className="flex h-full flex-col px-6 pb-6">
@@ -230,17 +230,9 @@ export default function LoginPage() {
                   <WalletIcon className="h-5 w-5" strokeWidth={2} />
                   Wallets
                 </CanvasCardHeader>
-                {wallets.length === 0 && user.wallet && (
-                  <p className="text-sm italic">
-                    Previously linked wallets cannot be restored at this time. We&rsquo;re working
-                    hard to fix this!
-                  </p>
-                )}
-                {!wallets.length && (
-                  <p className="text-sm italic">
-                    You haven&rsquo;t linked any wallets yet. Try linking and then come back!
-                  </p>
-                )}
+                <div className="text-sm text-privy-color-foreground-3">
+                  Whether you have one or fifteen, easily link wallets to your account.
+                </div>
                 <div className="flex flex-col gap-2">
                   {wallets.map((wallet) => (
                     <AuthLinker
