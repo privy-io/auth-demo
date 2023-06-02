@@ -230,7 +230,7 @@ export default function LoginPage() {
                   Wallets
                 </CanvasCardHeader>
                 <div className="text-sm text-privy-color-foreground-3">
-                  Whether you have one or fifteen, easily link wallets to your account.
+                  Connect and link wallets to your account.
                 </div>
                 <div className="flex flex-col gap-2">
                   {wallets.map((wallet) => (
@@ -244,7 +244,7 @@ export default function LoginPage() {
                       setActiveWallet={setActiveWallet}
                       key={wallet.address}
                       label={formatWallet(wallet.address)}
-                      canUnlink={canRemoveAccount}
+                      canUnlink={canRemoveAccount && wallet.linked}
                       unlinkAction={() => {
                         wallet.unlink();
                       }}
