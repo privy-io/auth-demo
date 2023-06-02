@@ -239,7 +239,8 @@ export default function LoginPage() {
                       wallet={wallet}
                       isActive={
                         wallet.address === activeWallet?.address &&
-                        wallet.connectedAt === activeWallet?.connectedAt
+                        wallet.connectorType === activeWallet?.connectorType &&
+                        wallet.walletClientType === activeWallet?.walletClientType
                       }
                       setActiveWallet={setActiveWallet}
                       key={wallet.address}
