@@ -152,6 +152,20 @@ export default function LoginPage() {
     logout();
   }
 
+  // Remove unknown walletClients.
+  // `user` has to be `any` type because by default walletClient is required.
+  const removeUnknownWalletClients = (user: any) => {
+    user.linkedAccounts.forEach(function (linkedAccount: any, index: number) {
+      if (linkedAccount.type === 'wallet' && linkedAccount.walletClient === 'unknown') {
+        delete user.linkedAccounts[index].walletClient;
+      }
+    });
+    if (user.wallet?.walletClient === 'unknown') {
+      delete user.wallet.walletClient;
+    }
+    return user;
+  };
+
   return (
     <>
       <Head>
@@ -168,7 +182,7 @@ export default function LoginPage() {
             </CanvasSidebarHeader>
             <div className="h-full py-4">
               <textarea
-                value={JSON.stringify(user, null, 2)}
+                value={JSON.stringify(removeUnknownWalletClients(user), null, 2)}
                 className="no-scrollbar h-full w-full resize-none rounded-lg border-0 bg-privy-color-background-2 p-4 font-mono text-xs text-privy-color-foreground-2"
                 disabled
               />
