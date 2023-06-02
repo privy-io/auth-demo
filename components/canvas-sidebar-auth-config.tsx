@@ -521,7 +521,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
           </div>
         </div>
         {/* end: auth-ordering-section */}
-        <div className="flex flex-col gap-y-2 md:px-6 py-4">
+        <div className="flex flex-col gap-y-2 py-4 md:px-6">
           <div className="flex w-full items-center gap-4">
             <div className="w-full text-sm">
               Create an{' '}
