@@ -139,7 +139,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
 
   return (
     <div
-      className={`no-scrollbar h-full w-[24rem] shrink-0 grow-0 overflow-y-scroll border-r border-privy-color-foreground-4 bg-privy-color-background ${className}`}
+      className={`md:no-scrollbar md:h-full w-[24rem] shrink-0 grow-0 overflow-y-scroll border-r border-privy-color-foreground-4 bg-privy-color-background ${className}`}
     >
       {/* start: customize-section */}
       <div className="px-6 pb-4">

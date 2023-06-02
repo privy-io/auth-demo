@@ -59,13 +59,13 @@ export default function LoginPage() {
       <div className="flex h-full max-w-screen-2xl flex-col bg-privy-color-background px-6 pb-6">
         <Header />
         <CanvasContainer>
-          <CanvasSidebarAuthConfig />
+          <CanvasSidebarAuthConfig className="hidden md:flex md:flex-col" />
           {/* start: canvas-panel */}
-          <Canvas className="pl-20 pr-8">
+          <Canvas className="md:pl-20 md:pr-8">
             {/* start: modal-column */}
-            <div id="render-privy" />
+            <div id="render-privy" className="mx-auto pt-8 md:mx-0 md:pt-0" />
             {/* end: modal-column */}
-            <CanvasRow>
+            <CanvasRow className="hidden md:flex">
               {/* start: cta */}
               <CanvasCard className="!border-none bg-gradient-to-r from-privy-color-accent-light to-red-300 !p-1">
                 <div className="rounded-lg bg-privy-color-background p-4">
