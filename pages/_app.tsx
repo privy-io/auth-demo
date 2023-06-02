@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type {AppProps} from 'next/app';
-import Head from 'components/Head';
+import Head from '../components/Head';
 import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
