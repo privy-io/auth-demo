@@ -173,19 +173,19 @@ export default function LoginPage() {
       <div className="flex h-full flex-col px-6 pb-6">
         <Header />
         <CanvasContainer>
-          <CanvasSidebar className="px-6 pb-6">
-            <CanvasSidebarHeader>
+          <CanvasSidebar className="md:px-6 md:pb-6">
+            <CanvasSidebarHeader className="hidden md:flex">
               <CommandLineIcon className="h-5 w-5" strokeWidth={2} />
               <div className="w-full">Console</div>
             </CanvasSidebarHeader>
-            <div className="h-full py-4">
+            <div className="hidden py-4 md:block md:h-full">
               <textarea
                 value={JSON.stringify(removeUnknownWalletClients(user), null, 2)}
                 className="no-scrollbar h-full w-full resize-none rounded-lg border-0 bg-privy-color-background-2 p-4 font-mono text-xs text-privy-color-foreground-2"
                 disabled
               />
             </div>
-            <div className="shrink-0 grow-0 pb-4 text-sm text-privy-color-foreground-3">
+            <div className="hidden shrink-0 grow-0 pb-4 text-sm text-privy-color-foreground-3 md:block">
               Privy gives you modular components so you can customize your product for your users.
               Learn more in{' '}
               <a href="https://docs.privy.io/guide/frontend/users/object" target="_blank">
@@ -193,7 +193,7 @@ export default function LoginPage() {
               </a>
               .
             </div>
-            <CanvasCard className="shrink-0 grow-0 !shadow-none">
+            <CanvasCard className="mb-8 shrink-0 grow-0 md:mb-0 md:!shadow-none">
               <div className="pb-4 text-sm text-privy-color-foreground-3">
                 Sign out or delete your data to restart the demo and customize your theme.
               </div>
