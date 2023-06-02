@@ -7,7 +7,7 @@ export default function CanvasContainer({
 }) {
   return (
     <div
-      className={`flex h-full w-full overflow-hidden rounded-[12px] border border-privy-color-foreground-4 ${className}`}
+      className={`flex w-full flex-col-reverse rounded-[12px] border-privy-color-foreground-4 md:h-full md:flex-row md:overflow-hidden md:border ${className}`}
     >
       {children}
     </div>
