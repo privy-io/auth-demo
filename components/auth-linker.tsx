@@ -94,11 +94,19 @@ export default function AuthLinker({
     if (isLinked) {
       return (
         <button
-          className="button h-5 w-5 text-privy-color-foreground-2"
+          className="button group/tooltip relative flex h-5 w-5 flex-col items-center text-privy-color-foreground-2"
           onClick={unlinkAction}
           disabled={!canUnlink}
         >
           <MinusSmallIcon className="h-4 w-4" strokeWidth={2} />
+          {!canUnlink && (
+            <div className="absolute bottom-0 mb-6 hidden flex-col items-center group-hover/tooltip:flex">
+              <span className="whitespace-no-wrap relative z-10 w-[156px] rounded-md bg-privy-color-foreground p-2 text-xs leading-[1.1rem] text-privy-color-background shadow-lg">
+                This wallet is connected but not linked.
+              </span>
+              <div className="-mt-2 h-3 w-3 rotate-45 bg-privy-color-foreground"></div>
+            </div>
+          )}
         </button>
       );
     }

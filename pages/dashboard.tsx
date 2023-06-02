@@ -96,8 +96,8 @@ export default function LoginPage() {
 
   const linkedAccounts = user?.linkedAccounts || [];
 
-  const wallets = allWallets
-    .sort((a, b) => a.address.localeCompare(b.address));
+  const wallets = allWallets.sort((a, b) => a.address.localeCompare(b.address));
+  console.log(activeWallet?.connectedAt);
 
   useEffect(() => {
     // if no active wallet is set, set it to the first one if available
@@ -229,7 +229,7 @@ export default function LoginPage() {
                   <WalletIcon className="h-5 w-5" strokeWidth={2} />
                   Wallets
                 </CanvasCardHeader>
-                <div className="text-sm text-privy-color-foreground-3">
+                <div className="pb-1 text-sm text-privy-color-foreground-3">
                   Connect and link wallets to your account.
                 </div>
                 <div className="flex flex-col gap-2">
