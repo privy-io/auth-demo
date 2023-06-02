@@ -19,7 +19,7 @@ export const defaultIndexConfig: PrivyDemoConfig = {
     showWalletLoginFirst: true,
     logo: privyLogo,
   },
-  loginMethods: ['email', 'wallet'],
+  loginMethods: ['email', 'wallet', 'google', 'apple', 'github', 'discord'],
   _render: {
     inDialog: false,
     inParentNodeId: 'render-privy',

@@ -21,14 +21,31 @@ import PrivyConfigContext, {
   defaultIndexConfig,
   PRIVY_APPEARANCE_STORAGE_KEY,
 } from '../lib/hooks/usePrivyConfig';
+import useMediaQuery from '../lib/hooks/useMediaQuery';
+
+const mobileQuery = '(max-width: 768px)';
 
 export default function LoginPage() {
   const router = useRouter();
-  const {ready, authenticated} = usePrivy();
+  const {login, ready, authenticated} = usePrivy();
   const {config, setConfig} = useContext(PrivyConfigContext);
   const [copied, setCopied] = useState(false);
 
+  const isMobile = useMediaQuery(mobileQuery);
   useEffect(() => {
+    setConfig?.({
+      ...config,
+      _render: isMobile ? defaultDashboardConfig._render : defaultIndexConfig._render,
+    });
+    // ensure that the modal is open on desktop
+    if (!isMobile) {
+      login();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobile]);
+
+  useEffect(() => {
+    const isMobileOnLoad = window.matchMedia(mobileQuery).matches;
     // there is an issue with applying the dashboard config (render as modal)
     // _after_ loading the dashboard page, where the changing from in-line to modal
     // rendering will re-trigger the oauth process (since that's an effect on the oauth
@@ -38,11 +55,17 @@ export default function LoginPage() {
     const oauthProvider = currentUrl.searchParams.get('privy_oauth_provider');
     setConfig?.({
       ...(oauthProvider ? defaultDashboardConfig : defaultIndexConfig),
+      _render: isMobileOnLoad ? defaultDashboardConfig._render : defaultIndexConfig._render,
       appearance: window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)
         ? JSON.parse(window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)!)
         : defaultIndexConfig.appearance,
     });
-  }, [setConfig]);
+
+    if (!isMobileOnLoad) {
+      login();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!ready) {
     return <Loading />;
@@ -58,6 +81,14 @@ export default function LoginPage() {
       </Head>
       <div className="flex h-full max-w-screen-2xl flex-col bg-privy-color-background px-6 pb-6">
         <Header />
+        <button
+          onClick={() => {
+            login();
+          }}
+          className="button button-primary fixed bottom-4 right-4 left-4 items-center gap-x-2 rounded-[13px] px-3 py-2 text-[14px] text-white md:hidden md:py-0"
+        >
+          Launch Privy
+        </button>
         <CanvasContainer>
           <CanvasSidebarAuthConfig className="hidden md:flex md:flex-col" />
           {/* start: canvas-panel */}
