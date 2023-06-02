@@ -232,7 +232,10 @@ export default function LoginPage() {
                     <AuthLinker
                       isLinked
                       wallet={wallet}
-                      isActive={wallet.address === activeWallet?.address}
+                      isActive={
+                        wallet.address === activeWallet?.address &&
+                        wallet.connectedAt === activeWallet?.connectedAt
+                      }
                       setActiveWallet={setActiveWallet}
                       key={wallet.address}
                       label={formatWallet(wallet.address)}
