@@ -96,9 +96,7 @@ export default function LoginPage() {
 
   const linkedAccounts = user?.linkedAccounts || [];
 
-  const wallets = allWallets
-    .sort((a, b) => a.address.localeCompare(b.address))
-    .filter((w) => w.linked);
+  const wallets = allWallets.sort((a, b) => a.address.localeCompare(b.address));
 
   useEffect(() => {
     // if no active wallet is set, set it to the first one if available
@@ -230,8 +228,8 @@ export default function LoginPage() {
                   <WalletIcon className="h-5 w-5" strokeWidth={2} />
                   Wallets
                 </CanvasCardHeader>
-                <div className="text-sm text-privy-color-foreground-3">
-                  Whether you have one or fifteen, easily link wallets to your account.
+                <div className="pb-1 text-sm text-privy-color-foreground-3">
+                  Connect and link wallets to your account.
                 </div>
                 <div className="flex flex-col gap-2">
                   {wallets.map((wallet) => (
@@ -240,12 +238,13 @@ export default function LoginPage() {
                       wallet={wallet}
                       isActive={
                         wallet.address === activeWallet?.address &&
-                        wallet.connectedAt === activeWallet?.connectedAt
+                        wallet.connectorType === activeWallet?.connectorType &&
+                        wallet.walletClientType === activeWallet?.walletClientType
                       }
                       setActiveWallet={setActiveWallet}
                       key={wallet.address}
                       label={formatWallet(wallet.address)}
-                      canUnlink={canRemoveAccount}
+                      canUnlink={canRemoveAccount && wallet.linked}
                       unlinkAction={() => {
                         wallet.unlink();
                       }}
