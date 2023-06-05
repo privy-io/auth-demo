@@ -20,7 +20,6 @@ import {isValidUrl} from '@datadog/browser-core';
 import Image from 'next/image';
 import AppleIcon from './icons/social/apple';
 import GitHubIcon from './icons/social/github';
-import {usePrivy} from '@privy-io/react-auth';
 
 function getLogo(hex: `#${string}`, userLogoUrl: string) {
   return isValidUrl(userLogoUrl) ? userLogoUrl : isDark(hex) ? privyLogoDark : privyLogo;
@@ -66,18 +65,12 @@ function StaticColorPicker({
 type AuthConfiguration = 'wallets' | 'socials';
 
 export default function CanvasSidebarAuthConfig({className}: {className?: string}) {
-  const {login} = usePrivy();
   const [draggedConfig, setDraggedConfig] = useState<AuthConfiguration | null>(null);
   const {config, setConfig} = useContext(PrivyConfigContext);
   const [defaultConfigStyles, setDefaultConfigStyles] = useState<string>(
     '!border-b-privy-color-background !border-t-privy-color-background cursor-grab',
   );
   const [userLogoUrl, setUserLogoUrl] = useState<string>('');
-
-  useEffect(() => {
-    login();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     setConfig?.({
@@ -139,10 +132,10 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
 
   return (
     <div
-      className={`md:no-scrollbar w-[24rem] shrink-0 grow-0 overflow-y-scroll border-r border-privy-color-foreground-4 bg-privy-color-background md:h-full ${className}`}
+      className={`md:no-scrollbar w-full shrink-0 grow-0 overflow-y-scroll border-privy-color-foreground-4 bg-privy-color-background md:h-full md:w-[24rem] md:border-r ${className}`}
     >
       {/* start: customize-section */}
-      <div className="px-6 pb-4">
+      <div className="pb-4 md:px-6">
         <CanvasSidebarHeader>
           <SparklesIcon className="h-4 w-4" strokeWidth={2} />
           Customize
@@ -241,7 +234,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
       {/* end: customize-section */}
       {/* start: authentication-section */}
       <div className="pb-4">
-        <div className="px-6">
+        <div className="md:px-6">
           <CanvasSidebarHeader>
             <LockClosedIcon className="h-4 w-4" strokeWidth={2} />
             Authentication
@@ -250,7 +243,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
         {/* start: auth-ordering-section */}
         <div
           className={classNames(
-            'flex flex-col gap-y-4 px-4 py-4',
+            'flex flex-col gap-y-4 py-4 md:px-4',
             !config.appearance?.showWalletLoginFirst ? 'flex-col-reverse' : '',
           )}
         >
@@ -528,7 +521,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
           </div>
         </div>
         {/* end: auth-ordering-section */}
-        <div className="flex flex-col gap-y-2 px-6 py-4">
+        <div className="flex flex-col gap-y-2 py-4 md:px-6">
           <div className="flex w-full items-center gap-4">
             <div className="w-full text-sm">
               Create an{' '}

@@ -172,7 +172,7 @@ export default function LoginPage() {
 
       <div className="flex h-full flex-col px-6 pb-6">
         <Header />
-        <CanvasContainer>
+        <CanvasContainer className="flex-col-reverse">
           <CanvasSidebar className="md:px-6 md:pb-6">
             <CanvasSidebarHeader className="hidden md:flex">
               <CommandLineIcon className="h-5 w-5" strokeWidth={2} />

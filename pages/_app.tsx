@@ -2,7 +2,6 @@ import '../styles/globals.css';
 import type {AppProps} from 'next/app';
 import Head from '../components/Head';
 import {PrivyProvider} from '@privy-io/react-auth';
-import {useRouter} from 'next/router';
 import PlausibleProvider from 'next-plausible';
 import {initializeDatadog, setDatadogUser} from '../lib/datadog';
 import {useCallback, useMemo, useState} from 'react';
@@ -13,7 +12,6 @@ import PrivyConfigContext, {
 } from '../lib/hooks/usePrivyConfig';
 
 function MyApp({Component, pageProps}: AppProps) {
-  const router = useRouter();
   const [config, setConfig] = useState<PrivyConfigContextType['config']>(defaultIndexConfig);
 
   const setConfigWithAppearanceStorage = useCallback(
@@ -50,7 +48,6 @@ function MyApp({Component, pageProps}: AppProps) {
             apiUrl={process.env.NEXT_PUBLIC_PRIVY_AUTH_URL}
             onSuccess={(user) => {
               setDatadogUser(user);
-              router.push('/dashboard');
             }}
             config={config}
             createPrivyWalletOnLogin={config.createPrivyWalletOnLogin}

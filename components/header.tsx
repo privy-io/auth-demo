@@ -11,7 +11,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="flex h-[34px] shrink-0 grow-0 flex-col items-center gap-x-4 gap-y-2 rounded-[17px] pl-4 pr-1 text-[14px] md:flex-row md:bg-privy-color-background-2">
+      <div className="flex shrink-0 grow-0 flex-col items-center gap-x-4 gap-y-2 rounded-[17px] pl-4 pr-1 text-[14px] md:h-[34px] md:flex-row md:bg-privy-color-background-2">
         Privy takes 9 minutes to set up
         <a
           href="https://docs.privy.io/guide/quickstart"
