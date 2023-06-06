@@ -89,6 +89,7 @@ export default function LoginPage() {
     getAccessToken,
     createWallet,
     exportWallet,
+    unlinkWallet,
     setActiveWallet: sdkSetActiveWallet,
   } = usePrivy();
 
@@ -252,9 +253,7 @@ export default function LoginPage() {
                         label={formatWallet(wallet.address)}
                         canUnlink={canRemoveAccount}
                         unlinkAction={() => {
-                          connectedWallets
-                            .find((wallet) => wallet.address === activeWallet?.address)
-                            ?.unlink();
+                          unlinkWallet(wallet.address);
                         }}
                         walletConnectorName={
                           connectedWallets.find((cw) => cw.address === wallet.address)
