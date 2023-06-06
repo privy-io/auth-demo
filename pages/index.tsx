@@ -19,7 +19,7 @@ import {useContext, useEffect, useState} from 'react';
 import PrivyConfigContext, {
   defaultDashboardConfig,
   defaultIndexConfig,
-  PRIVY_APPEARANCE_STORAGE_KEY,
+  PRIVY_STORAGE_KEY,
 } from '../lib/hooks/usePrivyConfig';
 import useMediaQuery from '../lib/hooks/useMediaQuery';
 
@@ -30,15 +30,23 @@ export default function LoginPage() {
   const {login, ready, authenticated} = usePrivy();
   const {config, setConfig} = useContext(PrivyConfigContext);
   const [copied, setCopied] = useState(false);
+  const storedConfigRaw =
+    typeof window === 'undefined' ? null : window.localStorage.getItem(PRIVY_STORAGE_KEY);
+  const storedConfig = storedConfigRaw ? JSON.parse(storedConfigRaw) : null;
 
   const isMobile = useMediaQuery(mobileQuery);
   useEffect(() => {
     setConfig?.({
       ...config,
+      appearance: storedConfig?.appearance
+        ? storedConfig.appearance
+        : defaultIndexConfig.appearance,
       _render: isMobile ? defaultDashboardConfig._render : defaultIndexConfig._render,
+      createPrivyWalletOnLogin:
+        storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
     });
     // ensure that the modal is open on desktop
-    if (!isMobile) {
+    if (!isMobile && !authenticated) {
       login();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,12 +64,14 @@ export default function LoginPage() {
     setConfig?.({
       ...(oauthProvider ? defaultDashboardConfig : defaultIndexConfig),
       _render: isMobileOnLoad ? defaultDashboardConfig._render : defaultIndexConfig._render,
-      appearance: window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)
-        ? JSON.parse(window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)!)
+      appearance: storedConfig?.appearance
+        ? storedConfig.appearance
         : defaultIndexConfig.appearance,
+      createPrivyWalletOnLogin:
+        storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
     });
 
-    if (!isMobileOnLoad) {
+    if (!isMobileOnLoad && !authenticated) {
       login();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -143,14 +153,9 @@ export default function LoginPage() {
                       const providerCode = `<PrivyProvider createPrivyWalletOnLogin={${createPrivyWalletOnLogin}} config={${JSON.stringify(
                         rest,
                       )}}>{children}</PrivyProvider>`;
-                      navigator.clipboard
-                        .writeText(providerCode)
-                        .then(() => {
-                          console.log('Text copied to clipboard');
-                        })
-                        .catch((error) => {
-                          console.error('Failed to copy text to clipboard:', error);
-                        });
+                      navigator.clipboard.writeText(providerCode).catch((error) => {
+                        console.error('Failed to copy text to clipboard:', error);
+                      });
                       setCopied(true);
                       setTimeout(() => {
                         setCopied(false);

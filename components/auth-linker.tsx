@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import {MinusSmallIcon, PlusSmallIcon} from '@heroicons/react/24/outline';
+import {MinusSmallIcon, PlusSmallIcon, LinkIcon} from '@heroicons/react/24/outline';
 import {formatWallet, getHumanReadableWalletType} from '../lib/utils';
-import type {ConnectedWallet} from '@privy-io/react-auth';
+import type {WalletWithMetadata} from '@privy-io/react-auth';
 import type React from 'react';
 import Image from 'next/image';
 
@@ -16,11 +16,14 @@ export default function AuthLinker({
   setActiveWallet,
   unlinkAction,
   socialIcon,
+  walletConnectorName,
+  isConnected,
+  connectAction,
   className,
 }: {
-  wallet?: ConnectedWallet;
+  wallet?: WalletWithMetadata;
   isActive?: boolean;
-  setActiveWallet?: (wallet: ConnectedWallet) => void;
+  setActiveWallet?: (wallet: WalletWithMetadata) => void;
   isLinked: boolean;
   linkedLabel?: string | null;
   linkAction: () => void;
@@ -28,11 +31,14 @@ export default function AuthLinker({
   canUnlink: boolean;
   label?: string;
   socialIcon?: JSX.Element;
+  walletConnectorName?: string;
+  isConnected?: boolean;
+  connectAction?: (address: string) => void;
   className?: string;
 }) {
-  const isEmbeddedWallet = wallet?.walletClientType === 'privy';
+  const isEmbeddedWallet = wallet?.walletClient === 'privy';
 
-  const getWalletType = (wallet: ConnectedWallet) => {
+  const getWalletType = (wallet: WalletWithMetadata) => {
     if (isEmbeddedWallet) {
       return {
         address: formatWallet(wallet.address),
@@ -55,24 +61,50 @@ export default function AuthLinker({
       address: formatWallet(wallet.address),
       icon: (
         <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 overflow-hidden rounded-[0.25rem]">
-          <Image
-            src={`/wallet-icons/${wallet.walletClientType}.svg`}
-            height={20}
-            width={20}
-            className="h-full w-full object-cover"
-            alt={getHumanReadableWalletType(wallet.walletClientType as any)}
-          />
+          {walletConnectorName ? (
+            <Image
+              src={`/wallet-icons/${walletConnectorName}.svg`}
+              height={20}
+              width={20}
+              className="h-full w-full object-cover"
+              alt={getHumanReadableWalletType(walletConnectorName as any)}
+            />
+          ) : (
+            <LinkIcon className="h-4 w-4 text-privy-color-foreground" strokeWidth={2} />
+          )}
         </div>
       ),
-      description: `${getHumanReadableWalletType(wallet.walletClientType as any)}`,
+      description: `${getHumanReadableWalletType(walletConnectorName as any)}`,
     };
   };
 
-  const SetActiveButton = ({wallet, isActive}: {wallet?: ConnectedWallet; isActive?: boolean}) => {
+  const SetActiveButton = ({
+    wallet,
+    isActive,
+  }: {
+    wallet?: WalletWithMetadata;
+    isActive?: boolean;
+  }) => {
     if (wallet && isActive) {
       return (
         <div className="flex h-5 items-center justify-center rounded-md bg-gradient-to-r from-privy-color-accent to-red-300 px-1 text-xs font-medium text-white">
           Active
+        </div>
+      );
+    }
+    if (wallet && !isConnected) {
+      return (
+        <div
+          className="group/tooltip button h-5 shrink-0 grow-0 translate-x-2 cursor-pointer px-1 text-xs text-privy-color-foreground-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+          onClick={() => connectAction?.(wallet.address)}
+        >
+          Connect
+          <div className="absolute bottom-0 mb-6 hidden flex-col items-center group-hover/tooltip:flex">
+            <span className="whitespace-no-wrap relative z-10 w-[156px] rounded-md bg-privy-color-foreground p-2 text-xs leading-[1.1rem] text-privy-color-background shadow-lg">
+              Re-connect this wallet to use it.
+            </span>
+            <div className="-mt-2 h-3 w-3 rotate-45 bg-privy-color-foreground"></div>
+          </div>
         </div>
       );
     }
