@@ -51,6 +51,7 @@ export default function LoginPage() {
 
   const {setConfig} = useContext(PrivyConfigContext);
 
+  // set initial config, first checking for stored config, then falling back to default
   useEffect(() => {
     const storedConfigRaw = window.localStorage.getItem(PRIVY_STORAGE_KEY);
     const storedConfig = storedConfigRaw ? JSON.parse(storedConfigRaw) : null;
@@ -98,11 +99,10 @@ export default function LoginPage() {
   }, [ready, authenticated, router]);
 
   const linkedAccounts = user?.linkedAccounts || [];
-
   const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
-  const linkedAndConnectedWallets = wallets.filter((w) =>
-    connectedWallets.some((cw) => cw.address === w.address),
-  );
+  const linkedAndConnectedWallets = wallets
+    .filter((w) => connectedWallets.some((cw) => cw.address === w.address))
+    .sort((a, b) => b.verifiedAt.toLocaleString().localeCompare(a.verifiedAt.toLocaleString()));
 
   useEffect(() => {
     // if no active wallet is set, set it to the first one if available

@@ -38,7 +38,9 @@ export default function LoginPage() {
   useEffect(() => {
     setConfig?.({
       ...config,
-      appearance: storedConfig.appearance ? storedConfig.appearance : defaultIndexConfig.appearance,
+      appearance: storedConfig?.appearance
+        ? storedConfig.appearance
+        : defaultIndexConfig.appearance,
       _render: isMobile ? defaultDashboardConfig._render : defaultIndexConfig._render,
     });
     // ensure that the modal is open on desktop
@@ -60,13 +62,15 @@ export default function LoginPage() {
     setConfig?.({
       ...(oauthProvider ? defaultDashboardConfig : defaultIndexConfig),
       _render: isMobileOnLoad ? defaultDashboardConfig._render : defaultIndexConfig._render,
-      appearance: storedConfig.appearance ? storedConfig.appearance : defaultIndexConfig.appearance,
+      appearance: storedConfig?.appearance
+        ? storedConfig.appearance
+        : defaultIndexConfig.appearance,
       createPrivyWalletOnLogin: storedConfig.createPrivyWalletOnLogin
         ? storedConfig.createPrivyWalletOnLogin
         : defaultIndexConfig.createPrivyWalletOnLogin,
     });
 
-    if (!isMobileOnLoad) {
+    if (!isMobileOnLoad && !authenticated) {
       login();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
