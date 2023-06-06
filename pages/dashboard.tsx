@@ -4,7 +4,7 @@
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect, useContext} from 'react';
-import {ConnectedWallet, usePrivy, useWallets} from '@privy-io/react-auth';
+import {usePrivy, useWallets, WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
 import AuthLinker from '../components/auth-linker';
@@ -34,7 +34,7 @@ import CanvasCardHeader from '../components/canvas-card-header';
 import PrivyConfigContext, {
   defaultDashboardConfig,
   defaultIndexConfig,
-  PRIVY_APPEARANCE_STORAGE_KEY,
+  PRIVY_STORAGE_KEY,
 } from '../lib/hooks/usePrivyConfig';
 import Image from 'next/image';
 import PrivyBlobIcon from '../components/icons/outline/privy-blob';
@@ -47,15 +47,17 @@ export default function LoginPage() {
   const [signSuccess, setSignSuccess] = useState(false);
   const [signError, setSignError] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [activeWallet, setActiveWallet] = useState<ConnectedWallet | null>(null);
+  const [activeWallet, setActiveWallet] = useState<WalletWithMetadata | null>(null);
 
   const {setConfig} = useContext(PrivyConfigContext);
 
   useEffect(() => {
+    const storedConfigRaw = window.localStorage.getItem(PRIVY_STORAGE_KEY);
+    const storedConfig = storedConfigRaw ? JSON.parse(storedConfigRaw) : null;
     setConfig?.({
       ...defaultDashboardConfig,
-      appearance: window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)
-        ? JSON.parse(window.localStorage.getItem(PRIVY_APPEARANCE_STORAGE_KEY)!)
+      appearance: storedConfig?.appearance
+        ? storedConfig.appearance
         : defaultIndexConfig.appearance,
     });
   }, [setConfig]);
@@ -83,9 +85,10 @@ export default function LoginPage() {
     getAccessToken,
     createWallet,
     exportWallet,
+    setActiveWallet: sdkSetActiveWallet,
   } = usePrivy();
 
-  const {wallets: allWallets} = useWallets();
+  const {wallets: connectedWallets} = useWallets();
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -96,20 +99,23 @@ export default function LoginPage() {
 
   const linkedAccounts = user?.linkedAccounts || [];
 
-  const wallets = allWallets.sort((a, b) => a.address.localeCompare(b.address));
+  const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
+  const linkedAndConnectedWallets = wallets.filter((w) =>
+    connectedWallets.some((cw) => cw.address === w.address),
+  );
 
   useEffect(() => {
     // if no active wallet is set, set it to the first one if available
-    if (!activeWallet && wallets && wallets.length > 0) {
-      setActiveWallet(wallets[0]!);
+    if (!activeWallet && linkedAndConnectedWallets.length > 0) {
+      setActiveWallet(linkedAndConnectedWallets[0]!);
     }
     // if an active wallet was removed from wallets, clear it out
-    if (!wallets.some((w) => w.address === activeWallet?.address)) {
-      setActiveWallet(wallets && wallets.length > 0 ? wallets[0]! : null);
+    if (!linkedAndConnectedWallets.some((w) => w.address === activeWallet?.address)) {
+      setActiveWallet(linkedAndConnectedWallets.length > 0 ? linkedAndConnectedWallets[0]! : null);
     }
-  }, [activeWallet, wallets]);
+  }, [activeWallet, linkedAndConnectedWallets]);
 
-  const embeddedWallet = wallets.filter((wallet) => wallet.walletClientType === 'privy')?.[0];
+  const embeddedWallet = wallets.filter((wallet) => wallet.walletClient === 'privy')?.[0];
 
   const numAccounts = linkedAccounts.length || 0;
   const canRemoveAccount = numAccounts > 1;
@@ -232,25 +238,31 @@ export default function LoginPage() {
                   Connect and link wallets to your account.
                 </div>
                 <div className="flex flex-col gap-2">
-                  {wallets.map((wallet) => (
-                    <AuthLinker
-                      isLinked
-                      wallet={wallet}
-                      isActive={
-                        wallet.address === activeWallet?.address &&
-                        wallet.connectorType === activeWallet?.connectorType &&
-                        wallet.walletClientType === activeWallet?.walletClientType
-                      }
-                      setActiveWallet={setActiveWallet}
-                      key={wallet.address}
-                      label={formatWallet(wallet.address)}
-                      canUnlink={canRemoveAccount && wallet.linked}
-                      unlinkAction={() => {
-                        wallet.unlink();
-                      }}
-                      linkAction={linkWallet}
-                    />
-                  ))}
+                  {wallets.map((wallet) => {
+                    return (
+                      <AuthLinker
+                        isLinked
+                        wallet={wallet}
+                        isActive={wallet.address === activeWallet?.address}
+                        setActiveWallet={setActiveWallet}
+                        key={wallet.address}
+                        label={formatWallet(wallet.address)}
+                        canUnlink={canRemoveAccount}
+                        unlinkAction={() => {
+                          connectedWallets
+                            .find((wallet) => wallet.address === activeWallet?.address)
+                            ?.unlink();
+                        }}
+                        walletConnectorName={
+                          connectedWallets.find((cw) => cw.address === wallet.address)
+                            ?.walletClientType
+                        }
+                        linkAction={linkWallet}
+                        isConnected={connectedWallets.some((cw) => cw.address === wallet.address)}
+                        connectAction={sdkSetActiveWallet}
+                      />
+                    );
+                  })}
                   <button className="button h-10 gap-x-1 px-4 text-sm" onClick={linkWallet}>
                     <PlusIcon className="h-4 w-4" strokeWidth={2} />
                     Link a Wallet
@@ -274,7 +286,8 @@ export default function LoginPage() {
                       setSignError(false);
                       setSignSuccess(false);
                       setSignLoading(true);
-                      activeWallet
+                      connectedWallets
+                        .find((wallet) => wallet.address === activeWallet?.address)
                         ?.sign('Signing with the active wallet in Privy: ' + activeWallet?.address)
                         .then(() => {
                           setSignSuccess(true);

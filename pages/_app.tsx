@@ -8,7 +8,7 @@ import {useCallback, useMemo, useState} from 'react';
 import PrivyConfigContext, {
   defaultIndexConfig,
   PrivyConfigContextType,
-  PRIVY_APPEARANCE_STORAGE_KEY,
+  PRIVY_STORAGE_KEY,
 } from '../lib/hooks/usePrivyConfig';
 
 function MyApp({Component, pageProps}: AppProps) {
@@ -16,10 +16,7 @@ function MyApp({Component, pageProps}: AppProps) {
 
   const setConfigWithAppearanceStorage = useCallback(
     (newConfig: PrivyConfigContextType['config']) => {
-      window.localStorage.setItem(
-        PRIVY_APPEARANCE_STORAGE_KEY,
-        JSON.stringify(newConfig.appearance),
-      );
+      window.localStorage.setItem(PRIVY_STORAGE_KEY, JSON.stringify(newConfig));
       return setConfig(newConfig);
     },
     [setConfig],
