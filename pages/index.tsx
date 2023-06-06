@@ -42,9 +42,11 @@ export default function LoginPage() {
         ? storedConfig.appearance
         : defaultIndexConfig.appearance,
       _render: isMobile ? defaultDashboardConfig._render : defaultIndexConfig._render,
+      createPrivyWalletOnLogin:
+        storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
     });
     // ensure that the modal is open on desktop
-    if (!isMobile) {
+    if (!isMobile && !authenticated) {
       login();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -65,9 +67,8 @@ export default function LoginPage() {
       appearance: storedConfig?.appearance
         ? storedConfig.appearance
         : defaultIndexConfig.appearance,
-      createPrivyWalletOnLogin: storedConfig?.createPrivyWalletOnLogin
-        ? storedConfig.createPrivyWalletOnLogin
-        : defaultIndexConfig.createPrivyWalletOnLogin,
+      createPrivyWalletOnLogin:
+        storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
     });
 
     if (!isMobileOnLoad && !authenticated) {

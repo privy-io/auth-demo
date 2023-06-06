@@ -47,7 +47,7 @@ function MyApp({Component, pageProps}: AppProps) {
               setDatadogUser(user);
             }}
             config={config}
-            createPrivyWalletOnLogin={config.createPrivyWalletOnLogin}
+            createPrivyWalletOnLogin={config.createPrivyWalletOnLogin ?? false}
           >
             <Component {...pageProps} />
           </PrivyProvider>

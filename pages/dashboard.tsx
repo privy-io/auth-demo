@@ -60,11 +60,11 @@ export default function LoginPage() {
       appearance: storedConfig?.appearance
         ? storedConfig.appearance
         : defaultIndexConfig.appearance,
-      createPrivyWalletOnLogin: storedConfig?.createPrivyWalletOnLogin
-        ? storedConfig.createPrivyWalletOnLogin
-        : defaultIndexConfig.createPrivyWalletOnLogin,
+      createPrivyWalletOnLogin:
+        storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
     });
-  }, [setConfig]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     ready,
