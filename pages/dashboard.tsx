@@ -60,6 +60,9 @@ export default function LoginPage() {
       appearance: storedConfig?.appearance
         ? storedConfig.appearance
         : defaultIndexConfig.appearance,
+      createPrivyWalletOnLogin: storedConfig?.createPrivyWalletOnLogin
+        ? storedConfig.createPrivyWalletOnLogin
+        : defaultIndexConfig.createPrivyWalletOnLogin,
     });
   }, [setConfig]);
 
