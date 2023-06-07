@@ -433,6 +433,7 @@ export default function LoginPage() {
                   />
 
                   <AuthLinker
+                    className="hidden md:flex"
                     socialIcon={
                       <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                         <Image
