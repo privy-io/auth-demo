@@ -33,9 +33,13 @@ export default function LoginPage() {
   const storedConfigRaw =
     typeof window === 'undefined' ? null : window.localStorage.getItem(PRIVY_STORAGE_KEY);
   const storedConfig = storedConfigRaw ? JSON.parse(storedConfigRaw) : null;
+  const [readyToSetTheme, setReadyToSetTheme] = useState(false);
 
   const isMobile = useMediaQuery(mobileQuery);
   useEffect(() => {
+    if (!ready || authenticated) {
+      return;
+    }
     setConfig?.({
       ...config,
       appearance: storedConfig?.appearance
@@ -46,14 +50,19 @@ export default function LoginPage() {
         storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
     });
     // ensure that the modal is open on desktop
-    if (!isMobile && !authenticated) {
+    if (!isMobile) {
       login();
     }
+    setReadyToSetTheme(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile]);
+  }, [isMobile, ready, authenticated]);
 
   useEffect(() => {
+    if (!ready || authenticated) {
+      return;
+    }
     const isMobileOnLoad = window.matchMedia(mobileQuery).matches;
+
     // there is an issue with applying the dashboard config (render as modal)
     // _after_ loading the dashboard page, where the changing from in-line to modal
     // rendering will re-trigger the oauth process (since that's an effect on the oauth
@@ -71,11 +80,12 @@ export default function LoginPage() {
         storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
     });
 
-    if (!isMobileOnLoad && !authenticated) {
+    if (!isMobileOnLoad) {
       login();
     }
+    setReadyToSetTheme(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [ready, authenticated]);
 
   if (!ready) {
     return <Loading />;
@@ -100,7 +110,7 @@ export default function LoginPage() {
           Launch Privy
         </button>
         <CanvasContainer>
-          <CanvasSidebarAuthConfig className="flex flex-col" />
+          <CanvasSidebarAuthConfig readyToSetTheme={readyToSetTheme} className="flex flex-col" />
           {/* start: canvas-panel */}
           <Canvas className="md:pl-20 md:pr-8">
             {/* start: modal-column */}

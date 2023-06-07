@@ -64,7 +64,13 @@ function StaticColorPicker({
 
 type AuthConfiguration = 'wallets' | 'socials';
 
-export default function CanvasSidebarAuthConfig({className}: {className?: string}) {
+export default function CanvasSidebarAuthConfig({
+  readyToSetTheme,
+  className,
+}: {
+  readyToSetTheme: boolean;
+  className?: string;
+}) {
   const [draggedConfig, setDraggedConfig] = useState<AuthConfiguration | null>(null);
   const {config, setConfig} = useContext(PrivyConfigContext);
   const [defaultConfigStyles, setDefaultConfigStyles] = useState<string>(
@@ -73,6 +79,9 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
   const [userLogoUrl, setUserLogoUrl] = useState<string>('');
 
   useEffect(() => {
+    if (!readyToSetTheme) {
+      return;
+    }
     setConfig?.({
       ...config,
       appearance: {
@@ -81,7 +90,7 @@ export default function CanvasSidebarAuthConfig({className}: {className?: string
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userLogoUrl]);
+  }, [userLogoUrl, readyToSetTheme]);
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>, config: AuthConfiguration) => {
     setDraggedConfig(config);
