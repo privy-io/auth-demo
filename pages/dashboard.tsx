@@ -40,7 +40,6 @@ import Image from 'next/image';
 import PrivyBlobIcon from '../components/icons/outline/privy-blob';
 import GitHubIcon from '../components/icons/social/github';
 import AppleIcon from '../components/icons/social/apple';
-import useMediaQuery from '../lib/hooks/useMediaQuery';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -51,8 +50,6 @@ export default function LoginPage() {
   const [activeWallet, setActiveWallet] = useState<WalletWithMetadata | null>(null);
 
   const {setConfig} = useContext(PrivyConfigContext);
-
-  const isMobile = useMediaQuery('(max-width: 768px)');
 
   // set initial config, first checking for stored config, then falling back to default
   useEffect(() => {
@@ -435,28 +432,27 @@ export default function LoginPage() {
                     linkAction={linkGoogle}
                   />
 
-                  {!isMobile ? (
-                    <AuthLinker
-                      socialIcon={
-                        <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                          <Image
-                            src="/social-icons/color/twitter.svg"
-                            height={20}
-                            width={20}
-                            alt="Google"
-                          />
-                        </div>
-                      }
-                      label="Twitter"
-                      linkedLabel={`${twitterUsername}`}
-                      canUnlink={canRemoveAccount}
-                      isLinked={!!twitterSubject}
-                      unlinkAction={() => {
-                        unlinkTwitter(twitterSubject as string);
-                      }}
-                      linkAction={linkTwitter}
-                    />
-                  ) : null}
+                  <AuthLinker
+                    className="hidden md:flex"
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/twitter.svg"
+                          height={20}
+                          width={20}
+                          alt="Google"
+                        />
+                      </div>
+                    }
+                    label="Twitter"
+                    linkedLabel={`${twitterUsername}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!twitterSubject}
+                    unlinkAction={() => {
+                      unlinkTwitter(twitterSubject as string);
+                    }}
+                    linkAction={linkTwitter}
+                  />
 
                   <AuthLinker
                     socialIcon={
