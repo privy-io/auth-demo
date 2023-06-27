@@ -1,18 +1,16 @@
 import type {PrivyClientConfig} from '@privy-io/react-auth';
 import {createContext} from 'react';
 
-type PrivyDemoConfig = PrivyClientConfig & {createPrivyWalletOnLogin?: boolean};
-
 export type PrivyConfigContextType = {
-  config: PrivyDemoConfig;
-  setConfig?: (config: PrivyDemoConfig) => void;
+  config: PrivyClientConfig;
+  setConfig?: (config: PrivyClientConfig) => void;
 };
 
 export const privyLogo = 'https://pub-dc971f65d0aa41d18c1839f8ab426dcb.r2.dev/privy.png';
 export const privyLogoDark = 'https://pub-dc971f65d0aa41d18c1839f8ab426dcb.r2.dev/privy-dark.png';
 export const PRIVY_STORAGE_KEY = 'privy-config';
 
-export const defaultIndexConfig: PrivyDemoConfig = {
+export const defaultIndexConfig: PrivyClientConfig = {
   appearance: {
     accentColor: '#6A6FF5',
     theme: '#FFFFFF',
@@ -20,14 +18,17 @@ export const defaultIndexConfig: PrivyDemoConfig = {
     logo: privyLogo,
   },
   loginMethods: ['email', 'wallet', 'google', 'apple', 'github', 'discord'],
+  embeddedWallets: {
+    createOnLogin: 'users-without-wallets',
+    requireUserPasswordOnCreate: false,
+  },
   _render: {
     inDialog: false,
     inParentNodeId: 'render-privy',
   },
-  createPrivyWalletOnLogin: true,
 };
 
-export const defaultDashboardConfig: PrivyDemoConfig = {
+export const defaultDashboardConfig: PrivyClientConfig = {
   _render: {
     inDialog: true,
     inParentNodeId: null,
