@@ -556,15 +556,15 @@ export default function CanvasSidebarAuthConfig({
             />
           </div>
           <div className="text-sm text-privy-color-foreground-3">
-            With Privy, you can decide when you want to{' '}
+            You can decide when you want to{' '}
             <a
               href="https://docs.privy.io/guide/frontend/embedded/creation/login#automatically--triggering-wallet-creation-upon-login"
               target="_blank"
               rel="noreferrer noopener"
             >
-              provision embedded wallets{' '}
-            </a>
-            for your users.
+              provision embedded wallets</a>{' '}
+
+            for your users. In this demo a wallet is created upon non-wallet login.
           </div>
         </div>
       </div>
