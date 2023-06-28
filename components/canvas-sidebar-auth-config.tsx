@@ -562,8 +562,8 @@ export default function CanvasSidebarAuthConfig({
               target="_blank"
               rel="noreferrer noopener"
             >
-              provision embedded wallets</a>{' '}
-
+              provision embedded wallets
+            </a>{' '}
             for your users. In this demo a wallet is created upon non-wallet login.
           </div>
         </div>
