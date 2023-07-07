@@ -533,29 +533,38 @@ export default function CanvasSidebarAuthConfig({
         <div className="flex flex-col gap-y-2 py-4 md:px-6">
           <div className="flex w-full items-center gap-4">
             <div className="w-full text-sm">
-              Create an{' '}
+              Require a password for{' '}
               <a
-                href="https://docs.privy.io/guide/frontend/embedded/overview"
+                href="https://docs.privy.io/guide/frontend/embedded/creation/login#wallet-creation-with-manual-recovery"
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                Embedded Wallet
-              </a>{' '}
-              by default
+                wallet recovery
+              </a>
             </div>
             <Toggle
-              checked={!!config.createPrivyWalletOnLogin}
+              checked={!!config.embeddedWallets!.requireUserPasswordOnCreate}
               onChange={(checked) => {
                 setConfig?.({
                   ...config,
-                  createPrivyWalletOnLogin: checked,
+                  embeddedWallets: {
+                    ...config.embeddedWallets,
+                    requireUserPasswordOnCreate: checked,
+                  },
                 });
               }}
             />
           </div>
           <div className="text-sm text-privy-color-foreground-3">
-            You decide when you want to provision embedded wallets for your users — toggle to
-            automatically create one upon Email/SMS/Social login.
+            You can decide when you want to{' '}
+            <a
+              href="https://docs.privy.io/guide/frontend/embedded/creation/login#automatically--triggering-wallet-creation-upon-login"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              provision embedded wallets
+            </a>{' '}
+            for your users. In this demo a wallet is created upon non-wallet login.
           </div>
         </div>
       </div>

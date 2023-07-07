@@ -46,8 +46,12 @@ export default function LoginPage() {
         ? storedConfig.appearance
         : defaultIndexConfig.appearance,
       _render: isMobile ? defaultDashboardConfig._render : defaultIndexConfig._render,
-      createPrivyWalletOnLogin:
-        storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
+      embeddedWallets: {
+        ...defaultIndexConfig.embeddedWallets,
+        requireUserPasswordOnCreate:
+          storedConfig?.embeddedWallets?.requireUserPasswordOnCreate ??
+          defaultIndexConfig.embeddedWallets!.requireUserPasswordOnCreate,
+      },
     });
     // ensure that the modal is open on desktop
     if (!isMobile) {
@@ -76,8 +80,12 @@ export default function LoginPage() {
       appearance: storedConfig?.appearance
         ? storedConfig.appearance
         : defaultIndexConfig.appearance,
-      createPrivyWalletOnLogin:
-        storedConfig?.createPrivyWalletOnLogin ?? defaultIndexConfig.createPrivyWalletOnLogin,
+      embeddedWallets: {
+        ...defaultIndexConfig.embeddedWallets,
+        requireUserPasswordOnCreate:
+          storedConfig?.embeddedWallets?.requireUserPasswordOnCreate ??
+          defaultIndexConfig.embeddedWallets!.requireUserPasswordOnCreate,
+      },
     });
 
     if (!isMobileOnLoad) {
@@ -159,8 +167,8 @@ export default function LoginPage() {
                   <div
                     className="button h-[1.625rem] cursor-pointer gap-x-2 pl-3 pr-2 text-sm"
                     onClick={() => {
-                      const {_render, createPrivyWalletOnLogin, ...rest} = config;
-                      const providerCode = `<PrivyProvider createPrivyWalletOnLogin={${createPrivyWalletOnLogin}} config={${JSON.stringify(
+                      const {_render, ...rest} = config;
+                      const providerCode = `<PrivyProvider config={${JSON.stringify(
                         rest,
                       )}}>{children}</PrivyProvider>`;
                       navigator.clipboard.writeText(providerCode).catch((error) => {

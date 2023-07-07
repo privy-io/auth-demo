@@ -12,7 +12,18 @@ import PrivyConfigContext, {
 } from '../lib/hooks/usePrivyConfig';
 
 function MyApp({Component, pageProps}: AppProps) {
-  const [config, setConfig] = useState<PrivyConfigContextType['config']>(defaultIndexConfig);
+  const [config, setConfig] = useState<PrivyConfigContextType['config']>(() => {
+    // Pull out the appearance from local storage if it exists
+    const storedConfigRaw =
+      typeof window === 'undefined' ? null : window.localStorage.getItem(PRIVY_STORAGE_KEY);
+    const storedConfig = storedConfigRaw ? JSON.parse(storedConfigRaw) : null;
+    return {
+      ...defaultIndexConfig,
+      appearance: storedConfig?.appearance
+        ? storedConfig.appearance
+        : defaultIndexConfig.appearance,
+    };
+  });
 
   const setConfigWithAppearanceStorage = useCallback(
     (newConfig: PrivyConfigContextType['config']) => {
@@ -47,7 +58,6 @@ function MyApp({Component, pageProps}: AppProps) {
               setDatadogUser(user);
             }}
             config={config}
-            createPrivyWalletOnLogin={config.createPrivyWalletOnLogin ?? false}
           >
             <Component {...pageProps} />
           </PrivyProvider>
