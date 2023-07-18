@@ -122,7 +122,7 @@ export default function LoginPage() {
           {/* start: canvas-panel */}
           <Canvas className="md:pl-20 md:pr-8">
             {/* start: modal-column */}
-            <div id="render-privy" className="mx-auto pt-8 md:mx-0 md:pt-0" />
+            <div id="render-privy" className="z-[2] mx-auto pt-8 md:mx-0 md:pt-0" />
             {/* end: modal-column */}
             <CanvasRow className="hidden md:flex">
               {/* start: cta */}
