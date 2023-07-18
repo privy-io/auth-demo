@@ -113,7 +113,7 @@ export default function LoginPage() {
           onClick={() => {
             login();
           }}
-          className="button button-primary fixed bottom-4 right-4 left-4 z-10 items-center gap-x-2 rounded-[13px] px-3 py-3 text-[14px] text-white md:hidden md:py-0"
+          className="button button-primary fixed bottom-4 right-4 left-4 z-[1] items-center gap-x-2 rounded-[13px] px-3 py-3 text-[14px] text-white md:hidden md:py-0"
         >
           Launch Privy
         </button>
@@ -122,7 +122,7 @@ export default function LoginPage() {
           {/* start: canvas-panel */}
           <Canvas className="md:pl-20 md:pr-8">
             {/* start: modal-column */}
-            <div id="render-privy" className="mx-auto pt-8 md:mx-0 md:pt-0" />
+            <div id="render-privy" className="z-[2] mx-auto pt-8 md:mx-0 md:pt-0" />
             {/* end: modal-column */}
             <CanvasRow className="hidden md:flex">
               {/* start: cta */}
