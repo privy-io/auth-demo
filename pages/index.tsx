@@ -113,7 +113,7 @@ export default function LoginPage() {
           onClick={() => {
             login();
           }}
-          className="button button-primary fixed bottom-4 right-4 left-4 z-10 items-center gap-x-2 rounded-[13px] px-3 py-3 text-[14px] text-white md:hidden md:py-0"
+          className="button button-primary fixed bottom-4 right-4 left-4 z-[1] items-center gap-x-2 rounded-[13px] px-3 py-3 text-[14px] text-white md:hidden md:py-0"
         >
           Launch Privy
         </button>
