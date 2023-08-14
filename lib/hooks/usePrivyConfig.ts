@@ -29,6 +29,10 @@ export const defaultIndexConfig: PrivyClientConfig = {
 };
 
 export const defaultDashboardConfig: PrivyClientConfig = {
+  embeddedWallets: {
+    createOnLogin: 'users-without-wallets',
+    requireUserPasswordOnCreate: false,
+  },
   _render: {
     inDialog: true,
     inParentNodeId: null,
