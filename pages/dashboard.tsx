@@ -41,7 +41,7 @@ import PrivyBlobIcon from '../components/icons/outline/privy-blob';
 import GitHubIcon from '../components/icons/social/github';
 import AppleIcon from '../components/icons/social/apple';
 
-export default function LoginPage() {
+export default function DashboardPage() {
   const router = useRouter();
   const [signLoading, setSignLoading] = useState(false);
   const [signSuccess, setSignSuccess] = useState(false);
