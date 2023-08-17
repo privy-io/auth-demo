@@ -40,6 +40,7 @@ import Image from 'next/image';
 import PrivyBlobIcon from '../components/icons/outline/privy-blob';
 import GitHubIcon from '../components/icons/social/github';
 import AppleIcon from '../components/icons/social/apple';
+import TiktokIcon from '../components/icons/social/tiktok';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -86,6 +87,10 @@ export default function DashboardPage() {
     unlinkTwitter,
     linkDiscord,
     unlinkDiscord,
+    linkInstagram,
+    unlinkInstagram,
+    linkTiktok,
+    unlinkTiktok,
     linkGithub,
     unlinkGithub,
     linkApple,
@@ -139,6 +144,12 @@ export default function DashboardPage() {
 
   const discordSubject = user?.discord?.subject;
   const discordUsername = user?.discord?.username;
+
+  const instagramSubject = user?.instagram?.subject;
+  const instagramUsername = user?.instagram?.username;
+
+  const tiktokSubject = user?.tiktok?.subject;
+  const tiktokUsername = user?.tiktok?.username;
 
   const githubSubject = user?.github?.subject;
   const githubUsername = user?.github?.username;
@@ -465,7 +476,7 @@ export default function DashboardPage() {
                           src="/social-icons/color/discord.svg"
                           height={20}
                           width={20}
-                          alt="Google"
+                          alt="Discord"
                         />
                       </div>
                     }
@@ -477,6 +488,43 @@ export default function DashboardPage() {
                       unlinkDiscord(discordSubject as string);
                     }}
                     linkAction={linkDiscord}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/instagram.svg"
+                          height={20}
+                          width={20}
+                          alt="Instagram"
+                        />
+                      </div>
+                    }
+                    label="Instagram"
+                    linkedLabel={`${instagramUsername}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!instagramSubject}
+                    unlinkAction={() => {
+                      unlinkInstagram(instagramSubject as string);
+                    }}
+                    linkAction={linkInstagram}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <TiktokIcon height={20} width={20} />
+                      </div>
+                    }
+                    label="Tiktok"
+                    linkedLabel={`${tiktokUsername}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!tiktokSubject}
+                    unlinkAction={() => {
+                      unlinkTiktok(tiktokSubject as string);
+                    }}
+                    linkAction={linkTiktok}
                   />
 
                   <AuthLinker
