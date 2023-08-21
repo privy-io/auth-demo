@@ -522,7 +522,7 @@ export default function DashboardPage() {
                     canUnlink={canRemoveAccount}
                     isLinked={!!tiktokSubject}
                     unlinkAction={() => {
-                      unlinlTiktok(tiktokSubject as string);
+                      unlinkTiktok(tiktokSubject as string);
                     }}
                     linkAction={linkTiktok}
                   />
