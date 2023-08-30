@@ -87,6 +87,8 @@ export default function DashboardPage() {
     unlinkTwitter,
     linkDiscord,
     unlinkDiscord,
+    linkLinkedin,
+    unlinkLinkedin,
     linkInstagram,
     unlinkInstagram,
     linkTiktok,
@@ -144,6 +146,9 @@ export default function DashboardPage() {
 
   const discordSubject = user?.discord?.subject;
   const discordUsername = user?.discord?.username;
+
+  const linkedinSubject = user?.linkedin?.subject;
+  const linkedinName = user?.linkedin?.name;
 
   const instagramSubject = user?.instagram?.subject;
   const instagramUsername = user?.instagram?.username;
@@ -488,6 +493,27 @@ export default function DashboardPage() {
                       unlinkDiscord(discordSubject as string);
                     }}
                     linkAction={linkDiscord}
+                  />
+
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/linkedin.svg"
+                          height={20}
+                          width={20}
+                          alt="Linkedin"
+                        />
+                      </div>
+                    }
+                    label="LinkedIn"
+                    linkedLabel={`${linkedinName}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!linkedinSubject}
+                    unlinkAction={() => {
+                      unlinkLinkedin(linkedinSubject as string);
+                    }}
+                    linkAction={linkLinkedin}
                   />
 
                   <AuthLinker
