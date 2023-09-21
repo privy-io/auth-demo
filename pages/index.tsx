@@ -45,6 +45,8 @@ export default function LoginPage() {
       appearance: storedConfig?.appearance
         ? storedConfig.appearance
         : defaultIndexConfig.appearance,
+
+      // @ts-expect-error internal api
       _render: isMobile ? defaultDashboardConfig._render : defaultIndexConfig._render,
       embeddedWallets: {
         ...defaultIndexConfig.embeddedWallets,
@@ -76,6 +78,7 @@ export default function LoginPage() {
     const oauthProvider = currentUrl.searchParams.get('privy_oauth_provider');
     setConfig?.({
       ...(oauthProvider ? defaultDashboardConfig : defaultIndexConfig),
+      // @ts-expect-error internal api
       _render: isMobileOnLoad ? defaultDashboardConfig._render : defaultIndexConfig._render,
       appearance: storedConfig?.appearance
         ? storedConfig.appearance
@@ -167,7 +170,12 @@ export default function LoginPage() {
                   <div
                     className="button h-[1.625rem] cursor-pointer gap-x-2 pl-3 pr-2 text-sm"
                     onClick={() => {
-                      const {_render, ...rest} = config;
+                      const {
+                        // @ts-expect-error internal api
+                        _render,
+                        ...rest
+                      } = config;
+
                       const providerCode = `<PrivyProvider config={${JSON.stringify(
                         rest,
                       )}}>{children}</PrivyProvider>`;

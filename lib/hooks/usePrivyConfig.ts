@@ -22,6 +22,7 @@ export const defaultIndexConfig: PrivyClientConfig = {
     createOnLogin: 'users-without-wallets',
     requireUserPasswordOnCreate: false,
   },
+  // @ts-expect-error internal api
   _render: {
     inDialog: false,
     inParentNodeId: 'render-privy',
@@ -33,6 +34,7 @@ export const defaultDashboardConfig: PrivyClientConfig = {
     createOnLogin: 'users-without-wallets',
     requireUserPasswordOnCreate: false,
   },
+  // @ts-expect-error internal api
   _render: {
     inDialog: true,
     inParentNodeId: null,
