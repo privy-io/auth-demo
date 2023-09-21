@@ -27,6 +27,7 @@ import {
   PlusIcon,
   UserCircleIcon,
   WalletIcon,
+  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
@@ -94,6 +95,7 @@ export default function DashboardPage() {
     createWallet,
     exportWallet,
     unlinkWallet,
+    setWalletPassword,
     setActiveWallet: sdkSetActiveWallet,
   } = usePrivy();
 
@@ -108,6 +110,10 @@ export default function DashboardPage() {
 
   const linkedAccounts = user?.linkedAccounts || [];
   const wallets = linkedAccounts.filter((a) => a.type === 'wallet') as WalletWithMetadata[];
+  const hasSetPassword = wallets.some(
+    (w) => w.walletClientType === 'privy' && w.recoveryMethod === 'user-passcode',
+  );
+
   const linkedAndConnectedWallets = wallets
     .filter((w) => connectedWallets.some((cw) => cw.address === w.address))
     .sort((a, b) => b.verifiedAt.toLocaleString().localeCompare(a.verifiedAt.toLocaleString()));
@@ -323,7 +329,6 @@ export default function DashboardPage() {
                   {signLoading && <DismissableInfo message="Waiting for signature" />}
                 </div>
               </CanvasCard>
-              {/* If they don't have an Embedded Wallet */}
               {embeddedWallet ? (
                 <CanvasCard>
                   <CanvasCardHeader>
@@ -337,19 +342,28 @@ export default function DashboardPage() {
                     A user&apos;s embedded wallet is theirs to keep, and even take with them.
                   </div>
                   <div className="flex flex-col gap-2 pt-4">
+                    {!hasSetPassword && (
+                      <button
+                        className="button h-10 gap-x-1 px-4 text-sm"
+                        disabled={!(ready && authenticated)}
+                        onClick={setWalletPassword}
+                      >
+                        <ShieldCheckIcon className="h-4 w-4" strokeWidth={2} />
+                        Set a recovery password
+                      </button>
+                    )}
                     <button
                       className="button h-10 gap-x-1 px-4 text-sm"
                       disabled={!(ready && authenticated)}
-                      onClick={() => {
-                        exportWallet();
-                      }}
+                      onClick={exportWallet}
                     >
                       <ArrowUpOnSquareIcon className="h-4 w-4" strokeWidth={2} />
-                      Export your Embedded wallet
+                      Export Embedded wallet
                     </button>
                   </div>
                 </CanvasCard>
               ) : (
+                // If they don't have an Embedded Wallet
                 <CanvasCard>
                   <CanvasCardHeader>
                     <PrivyBlobIcon className="h-5 w-5 shrink-0 grow-0" strokeWidth={2} />
