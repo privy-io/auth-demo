@@ -57,10 +57,9 @@ function MyApp({Component, pageProps, router}: AppProps) {
         <PrivyConfigContext.Provider value={{config, setConfig: setConfigWithAppearanceStorage}}>
           <PrivyProvider
             appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
+            // @ts-expect-error internal api
             apiUrl={process.env.NEXT_PUBLIC_PRIVY_AUTH_URL}
-            onSuccess={(user) => {
-              setDatadogUser(user);
-            }}
+            onSuccess={setDatadogUser}
             config={config}
           >
             <Component {...pageProps} />
