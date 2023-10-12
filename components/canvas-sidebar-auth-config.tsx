@@ -20,6 +20,7 @@ import {isValidUrl} from '@datadog/browser-core';
 import Image from 'next/image';
 import AppleIcon from './icons/social/apple';
 import GitHubIcon from './icons/social/github';
+import TiktokIcon from './icons/social/tiktok';
 
 function getLogo(hex: `#${string}`, userLogoUrl: string) {
   return isValidUrl(userLogoUrl) ? userLogoUrl : isDark(hex) ? privyLogoDark : privyLogo;
@@ -499,7 +500,7 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </WalletButton>
               </div>
-              <div className="flex gap-x-4 pr-4">
+              <div className="flex gap-x-4">
                 <WalletButton
                   className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
                   icon={
@@ -521,6 +522,64 @@ export default function CanvasSidebarAuthConfig({
                         loginMethods: e.target.checked
                           ? [...(config.loginMethods ?? []), 'github']
                           : (config.loginMethods ?? []).filter((m) => m !== 'github'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+                <WalletButton
+                  className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/instagram.svg"
+                        height={18}
+                        width={18}
+                        alt="Instagram"
+                      />
+                    </div>
+                  }
+                  label="Instagram"
+                >
+                  <input
+                    className="shrink-0 grow-0"
+                    type="checkbox"
+                    name="wallet"
+                    disabled={!hasSocials}
+                    checked={config?.loginMethods?.includes('instagram') ?? false}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'instagram']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'instagram'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+              </div>
+
+              <div className="flex gap-x-4 pr-4">
+                <WalletButton
+                  className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <TiktokIcon width={18} height={18} />
+                    </div>
+                  }
+                  label="Tiktok"
+                >
+                  <input
+                    className="shrink-0 grow-0"
+                    type="checkbox"
+                    name="wallet"
+                    disabled={!hasSocials}
+                    checked={config?.loginMethods?.includes('tiktok') ?? false}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'tiktok']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'tiktok'),
                       });
                     }}
                   />
