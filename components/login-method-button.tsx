@@ -1,4 +1,4 @@
-export default function WalletButton({
+export default function LoginMethodButton({
   icon,
   label,
   className,

@@ -4,9 +4,9 @@ import {
   LockClosedIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useMemo, useState} from 'react';
 import Toggle from './toggle';
-import WalletButton from './wallet-button';
+import LoginMethodButton from './login-method-button';
 import {WalletIcon} from '@heroicons/react/24/outline';
 import CanvasSidebarHeader from './canvas-sidebar-header';
 import PrivyConfigContext, {
@@ -137,7 +137,17 @@ export default function CanvasSidebarAuthConfig({
     setDraggedConfig(null);
   };
 
-  const hasSocials = config.loginMethods?.some((m) => ['sms', 'email'].includes(m));
+  const loginMethods = useMemo(() => config.loginMethods ?? [], [config.loginMethods]);
+  const hasSocials = loginMethods.some((m) => ['sms', 'email'].includes(m));
+  const reachedMaxLogins =
+    loginMethods.filter((m) => !['wallet', 'sms', 'email'].includes(m)).length >= 5;
+  const disableSocials = !hasSocials || reachedMaxLogins;
+
+  function socialLoginMethodSelected(
+    loginMethod: 'google' | 'twitter' | 'discord' | 'github' | 'linkedin' | 'tiktok' | 'apple',
+  ) {
+    return !loginMethods.includes(loginMethod) ?? false;
+  }
 
   return (
     <div
@@ -283,11 +293,11 @@ export default function CanvasSidebarAuthConfig({
                 disabled={!hasSocials}
               />
             </div>
-            <WalletButton
+            <LoginMethodButton
               className="cursor-auto"
               icon={<WalletIcon className="h-4 w-4 text-privy-color-accent" strokeWidth={2} />}
               label="External Wallets"
-            ></WalletButton>
+            ></LoginMethodButton>
           </div>
           <div
             draggable
@@ -317,7 +327,7 @@ export default function CanvasSidebarAuthConfig({
               />
             </div>
             <div className="flex gap-x-4">
-              <WalletButton
+              <LoginMethodButton
                 className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                 icon={
                   <WalletIcon
@@ -346,8 +356,8 @@ export default function CanvasSidebarAuthConfig({
                     });
                   }}
                 />
-              </WalletButton>
-              <WalletButton
+              </LoginMethodButton>
+              <LoginMethodButton
                 className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                 icon={
                   <DevicePhoneMobileIcon
@@ -376,13 +386,16 @@ export default function CanvasSidebarAuthConfig({
                     });
                   }}
                 />
-              </WalletButton>
+              </LoginMethodButton>
             </div>
             <div className="my-2 h-[1px] w-full shrink-0 grow-0 bg-privy-color-foreground-4"></div>
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-4">
-                <WalletButton
-                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
+                <LoginMethodButton
+                  className={classNames(
+                    'w-full',
+                    disableSocials && socialLoginMethodSelected('google') ? 'opacity-50' : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -399,8 +412,8 @@ export default function CanvasSidebarAuthConfig({
                     className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
-                    disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('google') ?? false}
+                    disabled={disableSocials && socialLoginMethodSelected('google')}
+                    checked={!socialLoginMethodSelected('google')}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -410,9 +423,12 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
-                <WalletButton
-                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
+                </LoginMethodButton>
+                <LoginMethodButton
+                  className={classNames(
+                    'w-full',
+                    disableSocials && socialLoginMethodSelected('apple') ? 'opacity-50' : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
                       <AppleIcon height={18} width={18} />
@@ -424,8 +440,8 @@ export default function CanvasSidebarAuthConfig({
                     className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
-                    disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('apple') ?? false}
+                    disabled={disableSocials && socialLoginMethodSelected('apple')}
+                    checked={!socialLoginMethodSelected('apple')}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -435,29 +451,27 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
+                </LoginMethodButton>
               </div>
               <div className="flex gap-x-4">
-                <WalletButton
-                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
+                <LoginMethodButton
+                  className={classNames(
+                    'w-full',
+                    disableSocials && socialLoginMethodSelected('twitter') ? 'opacity-50' : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                      <Image
-                        src="/social-icons/color/twitter.svg"
-                        height={18}
-                        width={18}
-                        alt="Twitter"
-                      />
+                      <Image src="/social-icons/color/x.svg" height={18} width={18} alt="Twitter" />
                     </div>
                   }
-                  label="Twitter"
+                  label="Twitter" // Keeping as Twitter for now as X (formerly Twitter) does not seem ideal
                 >
                   <input
                     className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
-                    disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('twitter') ?? false}
+                    disabled={disableSocials && socialLoginMethodSelected('twitter')}
+                    checked={!socialLoginMethodSelected('twitter')}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -467,9 +481,12 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
-                <WalletButton
-                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
+                </LoginMethodButton>
+                <LoginMethodButton
+                  className={classNames(
+                    'w-full',
+                    disableSocials && socialLoginMethodSelected('discord') ? 'opacity-50' : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -486,8 +503,8 @@ export default function CanvasSidebarAuthConfig({
                     className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
-                    disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('discord') ?? false}
+                    disabled={disableSocials && socialLoginMethodSelected('discord')}
+                    checked={!socialLoginMethodSelected('discord')}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -497,11 +514,14 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
+                </LoginMethodButton>
               </div>
-              <div className="flex gap-x-4 pr-4">
-                <WalletButton
-                  className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
+              <div className="flex gap-x-4">
+                <LoginMethodButton
+                  className={classNames(
+                    'w-full',
+                    disableSocials && socialLoginMethodSelected('github') ? 'opacity-50' : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <GitHubIcon height={18} width={18} />
@@ -513,8 +533,8 @@ export default function CanvasSidebarAuthConfig({
                     className="shrink-0 grow-0"
                     type="checkbox"
                     name="wallet"
-                    disabled={!hasSocials}
-                    checked={config?.loginMethods?.includes('github') ?? false}
+                    disabled={disableSocials && socialLoginMethodSelected('github')}
+                    checked={!socialLoginMethodSelected('github')}
                     onChange={(e) => {
                       setConfig?.({
                         ...config,
@@ -524,9 +544,82 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
+                </LoginMethodButton>
+                <LoginMethodButton
+                  className={classNames(
+                    'w-full',
+                    disableSocials && socialLoginMethodSelected('linkedin') ? 'opacity-50' : '',
+                  )}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/linkedin.svg"
+                        height={18}
+                        width={18}
+                        alt="LinkedIn"
+                      />
+                    </div>
+                  }
+                  label="LinkedIn"
+                >
+                  <input
+                    className="shrink-0 grow-0"
+                    type="checkbox"
+                    name="wallet"
+                    disabled={disableSocials && socialLoginMethodSelected('linkedin')}
+                    checked={!socialLoginMethodSelected('linkedin')}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'linkedin']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'linkedin'),
+                      });
+                    }}
+                  />
+                </LoginMethodButton>
+              </div>
+              <div className="flex gap-x-4 pr-4">
+                <LoginMethodButton
+                  className={classNames(
+                    'w-1/2',
+                    disableSocials && socialLoginMethodSelected('tiktok') ? 'opacity-50' : '',
+                  )}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/tiktok.svg"
+                        height={18}
+                        width={18}
+                        alt="TikTok"
+                      />
+                    </div>
+                  }
+                  label="TikTok"
+                >
+                  <input
+                    className="shrink-0 grow-0"
+                    type="checkbox"
+                    name="wallet"
+                    disabled={disableSocials && socialLoginMethodSelected('tiktok')}
+                    checked={!socialLoginMethodSelected('tiktok')}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'tiktok']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'tiktok'),
+                      });
+                    }}
+                  />
+                </LoginMethodButton>
               </div>
             </div>
+            {reachedMaxLogins && (
+              <div className="col-span-2 text-sm text-gray-600">
+                You can only enable up to 5 social login methods.
+              </div>
+            )}
           </div>
         </div>
         {/* end: auth-ordering-section */}
