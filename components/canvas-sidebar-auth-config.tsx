@@ -443,14 +443,14 @@ export default function CanvasSidebarAuthConfig({
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
-                        src="/social-icons/color/twitter.svg"
+                        src="/social-icons/color/x.svg"
                         height={18}
                         width={18}
                         alt="Twitter"
                       />
                     </div>
                   }
-                  label="Twitter"
+                  label="Twitter" // Keeping as Twitter for now as X (formerly Twitter) does not seem ideal
                 >
                   <input
                     className="shrink-0 grow-0"
@@ -499,9 +499,9 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </WalletButton>
               </div>
-              <div className="flex gap-x-4 pr-4">
+              <div className="flex gap-x-4">
                 <WalletButton
-                  className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <GitHubIcon height={18} width={18} />
@@ -521,6 +521,36 @@ export default function CanvasSidebarAuthConfig({
                         loginMethods: e.target.checked
                           ? [...(config.loginMethods ?? []), 'github']
                           : (config.loginMethods ?? []).filter((m) => m !== 'github'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+                <WalletButton
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/linkedin.svg"
+                        height={18}
+                        width={18}
+                        alt="LinkedIn"
+                      />
+                    </div>
+                  }
+                  label="LinkedIn"
+                >
+                  <input
+                    className="shrink-0 grow-0"
+                    type="checkbox"
+                    name="wallet"
+                    disabled={!hasSocials}
+                    checked={config?.loginMethods?.includes('linkedin') ?? false}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'linkedin']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'linkedin'),
                       });
                     }}
                   />
