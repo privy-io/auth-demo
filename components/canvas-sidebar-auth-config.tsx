@@ -139,7 +139,8 @@ export default function CanvasSidebarAuthConfig({
 
   const loginMethods = useMemo(() => config.loginMethods ?? [], [config.loginMethods]);
   const hasSocials = loginMethods.some((m) => ['sms', 'email'].includes(m));
-  const reachedMaxLogins = loginMethods.filter((m) => !['wallet', 'sms', 'email'].includes(m)).length >= 5;
+  const reachedMaxLogins =
+    loginMethods.filter((m) => !['wallet', 'sms', 'email'].includes(m)).length >= 5;
   const disableSocials = !hasSocials || reachedMaxLogins;
 
   return (
