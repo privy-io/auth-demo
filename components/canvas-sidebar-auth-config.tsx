@@ -136,12 +136,11 @@ export default function CanvasSidebarAuthConfig({
     });
     setDraggedConfig(null);
   };
-  
-  const loginMethods = useMemo(() => config.loginMethods ?? [], [config.loginMethods])
-  const hasSocials = loginMethods.some((m) => ['sms', 'email'].includes(m));
-  const maxLogins =  loginMethods.filter((m) => !['wallet', 'sms', 'email'].includes(m)).length >= 5;
-  const disableSocials = !hasSocials || maxLogins
 
+  const loginMethods = useMemo(() => config.loginMethods ?? [], [config.loginMethods]);
+  const hasSocials = loginMethods.some((m) => ['sms', 'email'].includes(m));
+  const maxLogins = loginMethods.filter((m) => !['wallet', 'sms', 'email'].includes(m)).length >= 5;
+  const disableSocials = !hasSocials || maxLogins;
 
   return (
     <div
@@ -386,7 +385,12 @@ export default function CanvasSidebarAuthConfig({
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-4">
                 <WalletButton
-                  className={classNames('w-full', disableSocials && (!loginMethods.includes('google') ?? false) ? 'opacity-50' : '')}
+                  className={classNames(
+                    'w-full',
+                    disableSocials && (!loginMethods.includes('google') ?? false)
+                      ? 'opacity-50'
+                      : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -416,7 +420,12 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </WalletButton>
                 <WalletButton
-                  className={classNames('w-full', disableSocials && (!loginMethods.includes('apple') ?? false) ? 'opacity-50' : '')}
+                  className={classNames(
+                    'w-full',
+                    disableSocials && (!loginMethods.includes('apple') ?? false)
+                      ? 'opacity-50'
+                      : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
                       <AppleIcon height={18} width={18} />
@@ -443,7 +452,12 @@ export default function CanvasSidebarAuthConfig({
               </div>
               <div className="flex gap-x-4">
                 <WalletButton
-                  className={classNames('w-full', disableSocials && (!loginMethods.includes('twitter') ?? false) ? 'opacity-50' : '')}
+                  className={classNames(
+                    'w-full',
+                    disableSocials && (!loginMethods.includes('twitter') ?? false)
+                      ? 'opacity-50'
+                      : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image src="/social-icons/color/x.svg" height={18} width={18} alt="Twitter" />
@@ -468,7 +482,12 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </WalletButton>
                 <WalletButton
-                  className={classNames('w-full', disableSocials && (!loginMethods.includes('discord') ?? false) ? 'opacity-50' : '')}
+                  className={classNames(
+                    'w-full',
+                    disableSocials && (!loginMethods.includes('discord') ?? false)
+                      ? 'opacity-50'
+                      : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -500,7 +519,12 @@ export default function CanvasSidebarAuthConfig({
               </div>
               <div className="flex gap-x-4">
                 <WalletButton
-                  className={classNames('w-full', disableSocials && (!loginMethods.includes('github') ?? false) ? 'opacity-50' : '')}
+                  className={classNames(
+                    'w-full',
+                    disableSocials && (!loginMethods.includes('github') ?? false)
+                      ? 'opacity-50'
+                      : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <GitHubIcon height={18} width={18} />
@@ -525,7 +549,12 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </WalletButton>
                 <WalletButton
-                  className={classNames('w-full', disableSocials && (!loginMethods.includes('linkedin') ?? false) ? 'opacity-50' : '')}
+                  className={classNames(
+                    'w-full',
+                    disableSocials && (!loginMethods.includes('linkedin') ?? false)
+                      ? 'opacity-50'
+                      : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -557,7 +586,12 @@ export default function CanvasSidebarAuthConfig({
               </div>
               <div className="flex gap-x-4 pr-4">
                 <WalletButton
-                  className={classNames('w-1/2', disableSocials && (!loginMethods.includes('tiktok') ?? false) ? 'opacity-50' : '')}
+                  className={classNames(
+                    'w-1/2',
+                    disableSocials && (!loginMethods.includes('tiktok') ?? false)
+                      ? 'opacity-50'
+                      : '',
+                  )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -589,10 +623,10 @@ export default function CanvasSidebarAuthConfig({
               </div>
             </div>
             {maxLogins && (
-                <div className="text-sm col-span-2 text-gray-600">
-                  You can only enable up to 5 social login methods.
-                </div>
-              )}
+              <div className="col-span-2 text-sm text-gray-600">
+                You can only enable up to 5 social login methods.
+              </div>
+            )}
           </div>
         </div>
         {/* end: auth-ordering-section */}
