@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import {useContext, useEffect, useMemo, useState} from 'react';
 import Toggle from './toggle';
-import WalletButton from './wallet-button';
+import LoginMethodButton from './login-method-button';
 import {WalletIcon} from '@heroicons/react/24/outline';
 import CanvasSidebarHeader from './canvas-sidebar-header';
 import PrivyConfigContext, {
@@ -287,11 +287,11 @@ export default function CanvasSidebarAuthConfig({
                 disabled={!hasSocials}
               />
             </div>
-            <WalletButton
+            <LoginMethodButton
               className="cursor-auto"
               icon={<WalletIcon className="h-4 w-4 text-privy-color-accent" strokeWidth={2} />}
               label="External Wallets"
-            ></WalletButton>
+            ></LoginMethodButton>
           </div>
           <div
             draggable
@@ -321,7 +321,7 @@ export default function CanvasSidebarAuthConfig({
               />
             </div>
             <div className="flex gap-x-4">
-              <WalletButton
+              <LoginMethodButton
                 className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                 icon={
                   <WalletIcon
@@ -350,8 +350,8 @@ export default function CanvasSidebarAuthConfig({
                     });
                   }}
                 />
-              </WalletButton>
-              <WalletButton
+              </LoginMethodButton>
+              <LoginMethodButton
                 className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                 icon={
                   <DevicePhoneMobileIcon
@@ -380,12 +380,12 @@ export default function CanvasSidebarAuthConfig({
                     });
                   }}
                 />
-              </WalletButton>
+              </LoginMethodButton>
             </div>
             <div className="my-2 h-[1px] w-full shrink-0 grow-0 bg-privy-color-foreground-4"></div>
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-4">
-                <WalletButton
+                <LoginMethodButton
                   className={classNames(
                     'w-full',
                     disableSocials && (!loginMethods.includes('google') ?? false)
@@ -419,8 +419,8 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
-                <WalletButton
+                </LoginMethodButton>
+                <LoginMethodButton
                   className={classNames(
                     'w-full',
                     disableSocials && (!loginMethods.includes('apple') ?? false)
@@ -449,10 +449,10 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
+                </LoginMethodButton>
               </div>
               <div className="flex gap-x-4">
-                <WalletButton
+                <LoginMethodButton
                   className={classNames(
                     'w-full',
                     disableSocials && (!loginMethods.includes('twitter') ?? false)
@@ -481,8 +481,8 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
-                <WalletButton
+                </LoginMethodButton>
+                <LoginMethodButton
                   className={classNames(
                     'w-full',
                     disableSocials && (!loginMethods.includes('discord') ?? false)
@@ -516,10 +516,10 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
+                </LoginMethodButton>
               </div>
               <div className="flex gap-x-4">
-                <WalletButton
+                <LoginMethodButton
                   className={classNames(
                     'w-full',
                     disableSocials && (!loginMethods.includes('github') ?? false)
@@ -548,8 +548,8 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
-                <WalletButton
+                </LoginMethodButton>
+                <LoginMethodButton
                   className={classNames(
                     'w-full',
                     disableSocials && (!loginMethods.includes('linkedin') ?? false)
@@ -583,10 +583,10 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
+                </LoginMethodButton>
               </div>
               <div className="flex gap-x-4 pr-4">
-                <WalletButton
+                <LoginMethodButton
                   className={classNames(
                     'w-1/2',
                     disableSocials && (!loginMethods.includes('tiktok') ?? false)
@@ -620,7 +620,7 @@ export default function CanvasSidebarAuthConfig({
                       });
                     }}
                   />
-                </WalletButton>
+                </LoginMethodButton>
               </div>
             </div>
             {reachedMaxLogins && (
