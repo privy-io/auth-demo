@@ -139,8 +139,8 @@ export default function CanvasSidebarAuthConfig({
 
   const loginMethods = useMemo(() => config.loginMethods ?? [], [config.loginMethods]);
   const hasSocials = loginMethods.some((m) => ['sms', 'email'].includes(m));
-  const maxLogins = loginMethods.filter((m) => !['wallet', 'sms', 'email'].includes(m)).length >= 5;
-  const disableSocials = !hasSocials || maxLogins;
+  const reachedMaxLogins = loginMethods.filter((m) => !['wallet', 'sms', 'email'].includes(m)).length >= 5;
+  const disableSocials = !hasSocials || reachedMaxLogins;
 
   return (
     <div
@@ -622,7 +622,7 @@ export default function CanvasSidebarAuthConfig({
                 </WalletButton>
               </div>
             </div>
-            {maxLogins && (
+            {reachedMaxLogins && (
               <div className="col-span-2 text-sm text-gray-600">
                 You can only enable up to 5 social login methods.
               </div>
