@@ -1,16 +1,7 @@
-<svg
-      xmlns="http://www.w3.org/2000/svg"
-      fillRule="evenodd"
-      clipRule="evenodd"
-      imageRendering="optimizeQuality"
-      shapeRendering="geometricPrecision"
-      textRendering="geometricPrecision"
-      viewBox="0 0 293768 333327"
-      width={24}
-      height={24}
-      {...props}
-    >
-      <path
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 293768 333327"
+      width="24px"
+      height="24px">
+<path
         fill="#26f4ee"
         d="M204958 0c5369 45832 32829 78170 77253 81022v43471l-287 27V87593c-44424-2850-69965-30183-75333-76015l-47060-1v192819c6791 86790-60835 89368-86703 56462 30342 18977 79608 6642 73766-68039V0h58365zM78515 319644c-26591-5471-50770-21358-64969-44588-34496-56437-3401-148418 96651-157884v54345l-164 27v-40773C17274 145544 7961 245185 33650 286633c9906 15984 26169 27227 44864 33011z"
       />
