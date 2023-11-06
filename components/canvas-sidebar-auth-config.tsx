@@ -556,6 +556,38 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </WalletButton>
               </div>
+              <div className="flex gap-x-4 pr-4">
+                <WalletButton
+                  className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <Image
+                        src="/social-icons/color/tiktok.svg"
+                        height={18}
+                        width={18}
+                        alt="TikTok"
+                      />
+                    </div>
+                  }
+                  label="TikTok"
+                >
+                  <input
+                    className="shrink-0 grow-0"
+                    type="checkbox"
+                    name="wallet"
+                    disabled={!hasSocials}
+                    checked={config?.loginMethods?.includes('tiktok') ?? false}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'tiktok']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'tiktok'),
+                      });
+                    }}
+                  />
+                </WalletButton>
+              </div>
             </div>
           </div>
         </div>
