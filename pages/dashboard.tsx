@@ -41,6 +41,8 @@ import Image from 'next/image';
 import PrivyBlobIcon from '../components/icons/outline/privy-blob';
 import GitHubIcon from '../components/icons/social/github';
 import AppleIcon from '../components/icons/social/apple';
+import TikTokIcon from '../components/icons/social/tiktok';
+import TwitterXIcon from '../components/icons/social/twitter-x';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -91,6 +93,10 @@ export default function DashboardPage() {
     unlinkGithub,
     linkApple,
     unlinkApple,
+    linkLinkedIn,
+    unlinkLinkedIn,
+    linkTiktok,
+    unlinkTiktok,
     getAccessToken,
     createWallet,
     exportWallet,
@@ -149,8 +155,14 @@ export default function DashboardPage() {
   const githubSubject = user?.github?.subject;
   const githubUsername = user?.github?.username;
 
+  const linkedinSubject = user?.linkedin?.subject;
+  const linkedinName = user?.linkedin?.name;
+
   const appleSubject = user?.apple?.subject;
   const appleEmail = user?.apple?.email;
+
+  const tiktokSubject = user?.tiktok?.subject;
+  const tiktokUsername = user?.tiktok?.username;
 
   if (!ready || !authenticated || !user) {
     return <Loading />;
@@ -454,12 +466,7 @@ export default function DashboardPage() {
                     className="hidden md:flex"
                     socialIcon={
                       <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                        <Image
-                          src="/social-icons/color/twitter.svg"
-                          height={20}
-                          width={20}
-                          alt="Google"
-                        />
+                        <TwitterXIcon height={18} width={18} />
                       </div>
                     }
                     label="Twitter"
@@ -479,7 +486,7 @@ export default function DashboardPage() {
                           src="/social-icons/color/discord.svg"
                           height={20}
                           width={20}
-                          alt="Google"
+                          alt="Discord"
                         />
                       </div>
                     }
@@ -496,7 +503,7 @@ export default function DashboardPage() {
                   <AuthLinker
                     socialIcon={
                       <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                        <GitHubIcon height={20} width={20} />
+                        <GitHubIcon height={18} width={18} />
                       </div>
                     }
                     label="Github"
@@ -512,7 +519,7 @@ export default function DashboardPage() {
                   <AuthLinker
                     socialIcon={
                       <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
-                        <AppleIcon height={20} width={20} />
+                        <AppleIcon height={18} width={18} />
                       </div>
                     }
                     label="Apple"
@@ -523,6 +530,41 @@ export default function DashboardPage() {
                       unlinkApple(appleSubject as string);
                     }}
                     linkAction={linkApple}
+                  />
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                        <Image
+                          src="/social-icons/color/linkedin.svg"
+                          height={20}
+                          width={20}
+                          alt="LinkedIn"
+                        />
+                      </div>
+                    }
+                    label="LinkedIn"
+                    linkedLabel={`${linkedinName}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!linkedinSubject}
+                    unlinkAction={() => {
+                      unlinkLinkedIn(linkedinSubject as string);
+                    }}
+                    linkAction={linkLinkedIn}
+                  />
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
+                        <TikTokIcon height={18} width={18} />
+                      </div>
+                    }
+                    label="TikTok"
+                    linkedLabel={`${tiktokUsername}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!tiktokSubject}
+                    unlinkAction={() => {
+                      unlinkTiktok(tiktokSubject as string);
+                    }}
+                    linkAction={linkTiktok}
                   />
                 </div>
               </CanvasCard>
