@@ -20,6 +20,8 @@ import {isValidUrl} from '@datadog/browser-core';
 import Image from 'next/image';
 import AppleIcon from './icons/social/apple';
 import GitHubIcon from './icons/social/github';
+import TikTokIcon from './icons/social/tiktok';
+import TwitterXIcon from './icons/social/twitter-x';
 
 function getLogo(hex: `#${string}`, userLogoUrl: string) {
   return isValidUrl(userLogoUrl) ? userLogoUrl : isDark(hex) ? privyLogoDark : privyLogo;
@@ -461,7 +463,7 @@ export default function CanvasSidebarAuthConfig({
                   )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                      <Image src="/social-icons/color/x.svg" height={18} width={18} alt="Twitter" />
+                      <TwitterXIcon height={18} width={18} />
                     </div>
                   }
                   label="Twitter" // Keeping as Twitter for now as X (formerly Twitter) does not seem ideal
@@ -587,12 +589,7 @@ export default function CanvasSidebarAuthConfig({
                   )}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
-                      <Image
-                        src="/social-icons/color/tiktok.svg"
-                        height={18}
-                        width={18}
-                        alt="TikTok"
-                      />
+                      <TikTokIcon height={18} width={18} />
                     </div>
                   }
                   label="TikTok"
