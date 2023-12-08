@@ -16,7 +16,7 @@
     "@datadog/browser-rum": "^4.32.1",
     "@headlessui/react": "^1.7.3",
     "@heroicons/react": "^2.0.12",
-    "@privy-io/react-auth": "^1.49.0-beta-20231127215818",
+    "@privy-io/react-auth": "1.49.0-beta-20231127215818",
     "@privy-io/server-auth": "1.5.1",
     "@tailwindcss/forms": "^0.5.3",
     "@types/tinycolor2": "^1.4.3",
