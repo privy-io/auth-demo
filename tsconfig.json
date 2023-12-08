@@ -13,8 +13,10 @@
     "jsx": "preserve",
     "incremental": true,
     "noImplicitReturns": false,
+    "skipLibCheck": true,
     "noPropertyAccessFromIndexSignature": false,
-    "exactOptionalPropertyTypes": false
+    "exactOptionalPropertyTypes": false,
+    "ignoreDeprecations": "5.0"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
   "exclude": ["node_modules"]
