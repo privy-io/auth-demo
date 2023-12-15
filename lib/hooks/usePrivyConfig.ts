@@ -22,6 +22,9 @@ export const defaultIndexConfig: PrivyClientConfig = {
     createOnLogin: 'users-without-wallets',
     requireUserPasswordOnCreate: false,
   },
+  mfa: {
+    noPromptOnMfaRequired: false,
+  },
   // @ts-expect-error internal api
   _render: {
     inDialog: false,
@@ -33,6 +36,9 @@ export const defaultDashboardConfig: PrivyClientConfig = {
   embeddedWallets: {
     createOnLogin: 'users-without-wallets',
     requireUserPasswordOnCreate: false,
+  },
+  mfa: {
+    noPromptOnMfaRequired: false,
   },
   // @ts-expect-error internal api
   _render: {
