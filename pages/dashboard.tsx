@@ -4,7 +4,7 @@
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect, useContext} from 'react';
-import {usePrivy, useWallets, WalletWithMetadata} from '@privy-io/react-auth';
+import {useMfaEnrollment, usePrivy, useWallets, WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
 import AuthLinker from '../components/auth-linker';
@@ -28,6 +28,7 @@ import {
   UserCircleIcon,
   WalletIcon,
   ShieldCheckIcon,
+  LockClosedIcon,
 } from '@heroicons/react/24/outline';
 import Canvas from '../components/canvas';
 import CanvasRow from '../components/canvas-row';
@@ -53,6 +54,7 @@ export default function DashboardPage() {
   const [activeWallet, setActiveWallet] = useState<WalletWithMetadata | null>(null);
 
   const {setConfig} = useContext(PrivyConfigContext);
+  const {showMfaEnrollmentModal} = useMfaEnrollment();
 
   // set initial config, first checking for stored config, then falling back to default
   useEffect(() => {
@@ -106,6 +108,7 @@ export default function DashboardPage() {
   } = usePrivy();
 
   const {wallets: connectedWallets} = useWallets();
+  const mfaEnabled = user?.mfaMethods.length ?? 0 > 0;
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -566,6 +569,37 @@ export default function DashboardPage() {
                     }}
                     linkAction={linkTiktok}
                   />
+                </div>
+              </CanvasCard>
+              <CanvasCard>
+                <CanvasCardHeader>
+                  <LockClosedIcon className="h-5 w-5" strokeWidth={2} />
+                  <div className="w-full">Transaction MFA</div>
+                  <div className="flex shrink-0 grow-0 flex-row items-center justify-end gap-x-1 text-privy-color-foreground-3">
+                    {mfaEnabled ? 'Enabled' : 'Disabled'}
+                  </div>
+                </CanvasCardHeader>
+                <div className="text-sm text-privy-color-foreground-3">
+                  Add a second factor to sensitive embedded wallet actions to protect your account.
+                </div>
+                <div className="flex flex-col gap-2 pt-4">
+                  <button
+                    className="button h-10 gap-x-1 px-4 text-sm"
+                    disabled={!(ready && authenticated)}
+                    onClick={showMfaEnrollmentModal}
+                  >
+                    {!mfaEnabled ? (
+                      <>
+                        <PlusIcon className="h-4 w-4" strokeWidth={2} />
+                        Add MFA
+                      </>
+                    ) : (
+                      <>
+                        <PencilIcon className="h-4 w-4" strokeWidth={2} />
+                        Manage MFA
+                      </>
+                    )}
+                  </button>
                 </div>
               </CanvasCard>
             </CanvasRow>
