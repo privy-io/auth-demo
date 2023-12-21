@@ -581,6 +581,7 @@ export default function DashboardPage() {
                 </CanvasCardHeader>
                 <div className="text-sm text-privy-color-foreground-3">
                   Add a second factor to sensitive embedded wallet actions to protect your account.
+                  Verification lasts for 15 minutes.
                 </div>
                 <div className="flex flex-col gap-2 pt-4">
                   <button
