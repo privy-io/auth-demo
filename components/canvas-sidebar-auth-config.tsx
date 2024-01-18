@@ -313,7 +313,21 @@ export default function CanvasSidebarAuthConfig({
               </div>
               <div className="w-full text-sm">Email / SMS / Socials</div>
               <Toggle
-                checked={!!config.loginMethods?.some((m) => ['email', 'sms'].includes(m))}
+                checked={
+                  !!config.loginMethods?.some((m) =>
+                    [
+                      'email',
+                      'sms',
+                      'google',
+                      'twitter',
+                      'discord',
+                      'github',
+                      'linkedin',
+                      'apple',
+                      'tiktok',
+                    ].includes(m),
+                  )
+                }
                 onChange={(checked) => {
                   setConfig?.({
                     ...config,
