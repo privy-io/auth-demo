@@ -14,7 +14,7 @@ export const defaultIndexConfig: PrivyClientConfig = {
   appearance: {
     accentColor: '#6A6FF5',
     theme: '#FFFFFF',
-    showWalletLoginFirst: true,
+    showWalletLoginFirst: false,
     logo: privyLogo,
   },
   loginMethods: ['email', 'wallet', 'google', 'apple', 'github', 'discord'],

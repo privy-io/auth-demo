@@ -140,7 +140,19 @@ export default function CanvasSidebarAuthConfig({
   };
 
   const loginMethods = useMemo(() => config.loginMethods ?? [], [config.loginMethods]);
-  const hasSocials = loginMethods.some((m) => ['sms', 'email'].includes(m));
+  const hasSocials = loginMethods.some((m) =>
+    [
+      'sms',
+      'email',
+      'google',
+      'twitter',
+      'discord',
+      'github',
+      'linkedin',
+      'apple',
+      'tiktok',
+    ].includes(m),
+  );
 
   function socialLoginMethodSelected(
     loginMethod: 'google' | 'twitter' | 'discord' | 'github' | 'linkedin' | 'tiktok' | 'apple',
@@ -313,7 +325,7 @@ export default function CanvasSidebarAuthConfig({
               </div>
               <div className="w-full text-sm">Email / SMS / Socials</div>
               <Toggle
-                checked={!!config.loginMethods?.some((m) => ['email', 'sms'].includes(m))}
+                checked={!!hasSocials}
                 onChange={(checked) => {
                   setConfig?.({
                     ...config,
@@ -391,7 +403,7 @@ export default function CanvasSidebarAuthConfig({
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-4">
                 <LoginMethodButton
-                  className={classNames('w-full')}
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -420,7 +432,7 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </LoginMethodButton>
                 <LoginMethodButton
-                  className={classNames('w-full')}
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
                       <AppleIcon height={18} width={18} />
@@ -446,7 +458,7 @@ export default function CanvasSidebarAuthConfig({
               </div>
               <div className="flex gap-x-4">
                 <LoginMethodButton
-                  className={classNames('w-full')}
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <TwitterXIcon height={18} width={18} />
@@ -470,7 +482,7 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </LoginMethodButton>
                 <LoginMethodButton
-                  className={classNames('w-full')}
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -501,7 +513,7 @@ export default function CanvasSidebarAuthConfig({
               </div>
               <div className="flex gap-x-4">
                 <LoginMethodButton
-                  className={classNames('w-full')}
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <GitHubIcon height={18} width={18} />
@@ -525,7 +537,7 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </LoginMethodButton>
                 <LoginMethodButton
-                  className={classNames('w-full')}
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <Image
@@ -556,7 +568,7 @@ export default function CanvasSidebarAuthConfig({
               </div>
               <div className="flex gap-x-4 pr-4">
                 <LoginMethodButton
-                  className={classNames('w-1/2')}
+                  className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <TikTokIcon height={18} width={18} />
