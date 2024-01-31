@@ -13,7 +13,7 @@ export const PRIVY_STORAGE_KEY = 'privy-config';
 export const defaultIndexConfig: PrivyClientConfig = {
   appearance: {
     accentColor: '#6A6FF5',
-    theme: '#FFFFFF',
+    theme: 'dark',
     showWalletLoginFirst: false,
     logo: privyLogo,
   },

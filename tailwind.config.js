@@ -46,6 +46,9 @@ module.exports = {
       backgroundImage: {
         'conic-gradient': "url('/images/conic-gradient.jpg')",
       },
+      dropShadow: {
+        'fc-glow': '0 5px 20px rgba(138, 99, 210, 0.25)',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],

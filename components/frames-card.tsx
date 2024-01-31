@@ -2,17 +2,66 @@ import Image from 'next/image';
 import {Transition} from '@headlessui/react';
 import CanvasCard from './canvas-card';
 import CanvasCardHeader from './canvas-card-header';
-import {ArrowUpOnSquareIcon} from '@heroicons/react/24/outline';
-import {usePrivy} from '@privy-io/react-auth';
+import {FarcasterWithMetadata, usePrivy} from '@privy-io/react-auth';
+import {createPublicClient, getContract, http} from 'viem';
+import {optimismSepolia} from 'viem/chains';
+import {useEffect, useState} from 'react';
+
+const NFT_CONTRACT_ADDRESS = '0x5805cf7bfCFd222fe232a1B89dF7D65A37749d6f';
+const FARCASTER_DOCS_URL = 'https://docs.privy.io/guide/guides/farcaster-login';
 
 export default function FramesCard() {
-  const {ready, authenticated, exportWallet} = usePrivy();
+  const {user} = usePrivy();
+  const [hasFramesNft, setHasFramesNft] = useState(false);
+
+  const embeddedWallet = user?.linkedAccounts.find(
+    (account) => account.type === 'wallet' && account.walletClientType === 'privy',
+  );
+
+  const farcasterAccount = user?.linkedAccounts.find(
+    (account) => account.type === 'farcaster',
+  ) as FarcasterWithMetadata;
+
+  const getFramesNftOwnership = async (address: string) => {
+    let count = 0;
+    try {
+      const publicClient = createPublicClient({
+        chain: optimismSepolia,
+        transport: http(),
+      });
+      const nft = getContract({
+        address: NFT_CONTRACT_ADDRESS as `0x${string}`,
+        abi: [
+          {
+            inputs: [{internalType: 'address', name: 'owner', type: 'address'}],
+            name: 'balanceOf',
+            outputs: [{internalType: 'uint256', name: '', type: 'uint256'}],
+            stateMutability: 'view',
+            type: 'function',
+          },
+        ],
+        client: publicClient,
+      });
+      count = Number(await nft.read.balanceOf([address as `0x${string}`]));
+    } catch {
+      count = 0;
+    }
+    setHasFramesNft(count > 0);
+  };
+
+  useEffect(() => {
+    if (!farcasterAccount || !embeddedWallet) return;
+    // TODO: Change to embedded wallet address
+    getFramesNftOwnership(farcasterAccount.ownerAddress);
+  }, [farcasterAccount, embeddedWallet]);
+
+  if (!farcasterAccount || !hasFramesNft) return null;
 
   return (
     <Transition
       appear={true}
       show={true}
-      enter="transition-opacity duration-[2000ms]"
+      enter="transition-opacity duration-[2000ms] md:duration-[4000ms]"
       enterFrom="opacity-0"
       enterTo="opacity-100"
       leave="transition-opacity duration-150"
@@ -22,18 +71,18 @@ export default function FramesCard() {
       <CanvasCard>
         <CanvasCardHeader>
           <span className="h-5 w-5">🖼️</span>
-          <div className="w-full">Celebrating Frames</div>
+          <div className="w-full">Farcaster Frames</div>
         </CanvasCardHeader>
         <div className="text-sm text-privy-color-foreground-3">
-          Collect the NFT you minted on Warpcast below by exporting your wallet to take it
-          elsewhere.
+          Celebrating the magic of cross-app experiences – a small token of appreciation for
+          interacting with Privy on Warpcast.
         </div>
-        <div className="flex items-center justify-center py-6">
-          <div className="relative overflow-hidden rounded-sm drop-shadow-2xl">
-            <div className="h-48 w-48">
+        <div className="flex items-center justify-center pt-4 pb-4">
+          <div className="relative overflow-hidden rounded-sm drop-shadow-fc-glow">
+            <div className="h-48 w-64">
               <Image
-                src="/images/nft-asset.webp"
-                alt="Your Warpcast NFT"
+                src="/images/nft-asset.svg"
+                alt="Your Frames NFT"
                 layout="fill"
                 objectFit="cover"
                 className="rounded-lg"
@@ -42,14 +91,13 @@ export default function FramesCard() {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <button
-            className="button h-10 w-full gap-x-1 text-sm"
-            disabled={!(ready && authenticated)}
-            onClick={exportWallet}
-          >
-            <ArrowUpOnSquareIcon className="h-4 w-4" strokeWidth={2} />
-            Export Embedded wallet
-          </button>
+          <p className="text-center text-xs text-privy-color-foreground-3">
+            Learn about{' '}
+            <a href={FARCASTER_DOCS_URL} target="_blank">
+              enabling Farcaster login
+            </a>
+            .
+          </p>
         </div>
       </CanvasCard>
     </Transition>

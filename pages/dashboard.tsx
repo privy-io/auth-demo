@@ -50,13 +50,7 @@ import GitHubIcon from '../components/icons/social/github';
 import AppleIcon from '../components/icons/social/apple';
 import TikTokIcon from '../components/icons/social/tiktok';
 import TwitterXIcon from '../components/icons/social/twitter-x';
-import {createPublicClient, getContract, http} from 'viem';
-import {goerli, optimism} from 'viem/chains';
 import FramesCard from '../components/frames-card';
-
-const NFT_CONTRACT_ADDRESS = '0x8d2f64cf96b895af6a6b2272c2c246a18ba37633';
-const NFT_IMAGE_URL =
-  'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafybeicto6doldfjy7nrqxn7jiduw47xs7cmzppjd6mm3mrao4z46asiwq&w=1920&q=75';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -179,38 +173,6 @@ export default function DashboardPage() {
 
   const tiktokSubject = user?.tiktok?.subject;
   const tiktokUsername = user?.tiktok?.username;
-
-  const farcasterAccount = user?.linkedAccounts.find(
-    (account) => account.type === 'farcaster',
-  ) as FarcasterAccountWithMetadata;
-
-  const getNftBalanceForAddress = async (address: string) => {
-    const publicClient = createPublicClient({
-      chain: goerli,
-      transport: http(),
-    });
-    const nft = getContract({
-      address: NFT_CONTRACT_ADDRESS as `0x${string}`,
-      abi: [
-        {
-          inputs: [{internalType: 'address', name: 'owner', type: 'address'}],
-          name: 'balanceOf',
-          outputs: [{internalType: 'uint256', name: '', type: 'uint256'}],
-          stateMutability: 'view',
-          type: 'function',
-        },
-      ],
-      client: publicClient,
-    });
-    // const count = Number(await nft.read.balanceOf([address as `0x${string}`]));
-    const count = Number(await nft.read.balanceOf(['0x59D3eB21Dd06A211C89d1caBE252676e2F3F2218']));
-    console.log(count);
-  };
-
-  useEffect(() => {
-    if (!farcasterAccount) return;
-    getNftBalanceForAddress(farcasterAccount.ownerAddress);
-  }, [farcasterAccount]);
 
   if (!ready || !authenticated || !user) {
     return <Loading />;
