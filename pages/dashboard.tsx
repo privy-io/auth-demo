@@ -5,7 +5,6 @@ import axios from 'axios';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect, useContext} from 'react';
 import {
-  FarcasterAccountWithMetadata,
   useMfaEnrollment,
   usePrivy,
   useWallets,
