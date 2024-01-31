@@ -13,11 +13,11 @@ export const PRIVY_STORAGE_KEY = 'privy-config';
 export const defaultIndexConfig: PrivyClientConfig = {
   appearance: {
     accentColor: '#6A6FF5',
-    theme: 'dark',
+    theme: '#FFFFFF',
     showWalletLoginFirst: false,
     logo: privyLogo,
   },
-  loginMethods: ['email', 'wallet', 'google', 'apple', 'github', 'discord', 'farcaster'],
+  loginMethods: ['email', 'wallet', 'google', 'apple', 'github', 'discord'],
   embeddedWallets: {
     createOnLogin: 'users-without-wallets',
     requireUserPasswordOnCreate: false,
