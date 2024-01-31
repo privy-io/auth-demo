@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@datadog/browser-rum": "^4.32.1",
-    "@headlessui/react": "^1.7.3",
+    "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.0.12",
-    "@privy-io/react-auth": "1.53.1-beta-20240117204453",
+    "@privy-io/react-auth": "^1.55.0",
     "@privy-io/server-auth": "1.5.1",
     "@tailwindcss/forms": "^0.5.3",
     "@types/tinycolor2": "^1.4.3",
@@ -24,7 +24,8 @@
     "next-plausible": "^3.12.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tinycolor2": "^1.6.0"
+    "tinycolor2": "^1.6.0",
+    "viem": "^2.6.1"
   },
   "devDependencies": {
     "@tsconfig/node16-strictest-esm": "^1.0.3",
