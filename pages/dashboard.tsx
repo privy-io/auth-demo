@@ -4,12 +4,7 @@
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import React, {useState, useEffect, useContext} from 'react';
-import {
-  useMfaEnrollment,
-  usePrivy,
-  useWallets,
-  WalletWithMetadata,
-} from '@privy-io/react-auth';
+import {useMfaEnrollment, usePrivy, useWallets, WalletWithMetadata} from '@privy-io/react-auth';
 import Head from 'next/head';
 import Loading from '../components/loading';
 import AuthLinker from '../components/auth-linker';
