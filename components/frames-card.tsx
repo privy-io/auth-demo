@@ -6,6 +6,7 @@ import {FarcasterWithMetadata, usePrivy} from '@privy-io/react-auth';
 import {createPublicClient, getContract, http} from 'viem';
 import {optimismSepolia} from 'viem/chains';
 import {useEffect, useState} from 'react';
+import FarcasterIcon from './icons/social/farcaster';
 
 const NFT_CONTRACT_ADDRESS = '0x5805cf7bfCFd222fe232a1B89dF7D65A37749d6f';
 const FARCASTER_DOCS_URL = 'https://docs.privy.io/guide/guides/farcaster-login';
@@ -70,7 +71,7 @@ export default function FramesCard() {
     >
       <CanvasCard>
         <CanvasCardHeader>
-          <span className="h-5 w-5">🖼️</span>
+          <FarcasterIcon height={18} width={18} />
           <div className="w-full">Farcaster Frames</div>
         </CanvasCardHeader>
         <div className="text-sm text-privy-color-foreground-3">
