@@ -22,6 +22,7 @@ import AppleIcon from './icons/social/apple';
 import GitHubIcon from './icons/social/github';
 import TikTokIcon from './icons/social/tiktok';
 import TwitterXIcon from './icons/social/twitter-x';
+import FarcasterIcon from './icons/social/farcaster';
 
 function getLogo(hex: `#${string}`, userLogoUrl: string) {
   return isValidUrl(userLogoUrl) ? userLogoUrl : isDark(hex) ? privyLogoDark : privyLogo;
@@ -151,11 +152,20 @@ export default function CanvasSidebarAuthConfig({
       'linkedin',
       'apple',
       'tiktok',
+      'farcaster',
     ].includes(m),
   );
 
   function socialLoginMethodSelected(
-    loginMethod: 'google' | 'twitter' | 'discord' | 'github' | 'linkedin' | 'tiktok' | 'apple',
+    loginMethod:
+      | 'google'
+      | 'twitter'
+      | 'discord'
+      | 'github'
+      | 'linkedin'
+      | 'tiktok'
+      | 'apple'
+      | 'farcaster',
   ) {
     return !loginMethods.includes(loginMethod) ?? false;
   }
@@ -566,9 +576,9 @@ export default function CanvasSidebarAuthConfig({
                   />
                 </LoginMethodButton>
               </div>
-              <div className="flex gap-x-4 pr-4">
+              <div className="flex gap-x-4">
                 <LoginMethodButton
-                  className={classNames('w-1/2', !hasSocials ? 'opacity-50' : '')}
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
                   icon={
                     <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
                       <TikTokIcon height={18} width={18} />
@@ -587,6 +597,31 @@ export default function CanvasSidebarAuthConfig({
                         loginMethods: e.target.checked
                           ? [...(config.loginMethods ?? []), 'tiktok']
                           : (config.loginMethods ?? []).filter((m) => m !== 'tiktok'),
+                      });
+                    }}
+                  />
+                </LoginMethodButton>
+
+                <LoginMethodButton
+                  className={classNames('w-full', !hasSocials ? 'opacity-50' : '')}
+                  icon={
+                    <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0">
+                      <FarcasterIcon height={18} width={18} />
+                    </div>
+                  }
+                  label="Farcaster"
+                >
+                  <input
+                    className="shrink-0 grow-0"
+                    type="checkbox"
+                    name="wallet"
+                    checked={!socialLoginMethodSelected('farcaster')}
+                    onChange={(e) => {
+                      setConfig?.({
+                        ...config,
+                        loginMethods: e.target.checked
+                          ? [...(config.loginMethods ?? []), 'farcaster']
+                          : (config.loginMethods ?? []).filter((m) => m !== 'farcaster'),
                       });
                     }}
                   />
