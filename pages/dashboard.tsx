@@ -44,6 +44,7 @@ import GitHubIcon from '../components/icons/social/github';
 import AppleIcon from '../components/icons/social/apple';
 import TikTokIcon from '../components/icons/social/tiktok';
 import TwitterXIcon from '../components/icons/social/twitter-x';
+import FarcasterIcon from '../components/icons/social/farcaster';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -99,6 +100,8 @@ export default function DashboardPage() {
     unlinkLinkedIn,
     linkTiktok,
     unlinkTiktok,
+    linkFarcaster,
+    unlinkFarcaster,
     getAccessToken,
     createWallet,
     exportWallet,
@@ -166,6 +169,9 @@ export default function DashboardPage() {
 
   const tiktokSubject = user?.tiktok?.subject;
   const tiktokUsername = user?.tiktok?.username;
+
+  const farcasterSubject = user?.farcaster?.fid;
+  const farcasterName = user?.farcaster?.username;
 
   if (!ready || !authenticated || !user) {
     return <Loading />;
@@ -568,6 +574,21 @@ export default function DashboardPage() {
                       unlinkTiktok(tiktokSubject as string);
                     }}
                     linkAction={linkTiktok}
+                  />
+                  <AuthLinker
+                    socialIcon={
+                      <div className="h-[1.125rem] w-[1.125rem] shrink-0 grow-0 text-privy-color-foreground">
+                        <FarcasterIcon height={18} width={18} />
+                      </div>
+                    }
+                    label="Farcaster"
+                    linkedLabel={`${farcasterName}`}
+                    canUnlink={canRemoveAccount}
+                    isLinked={!!farcasterSubject}
+                    unlinkAction={() => {
+                      unlinkFarcaster(farcasterSubject as number);
+                    }}
+                    linkAction={linkFarcaster}
                   />
                 </div>
               </CanvasCard>
