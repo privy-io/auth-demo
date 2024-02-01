@@ -50,14 +50,10 @@ export default function FramesCard() {
     setHasFramesNft(count > 0);
   };
 
-  useEffect(() => {
-    if (!farcasterAccount || !embeddedWallet) return;
-    getFramesNftOwnership(embeddedWallet.address);
-  }, [farcasterAccount, embeddedWallet]);
-
-  // Only show the component if the user has a Farcaster account and an associated
-  // embedded wallet with the correct NFT
-  if (!farcasterAccount || !embeddedWallet || !hasFramesNft) return null;
+  // useEffect(() => {
+  //   if (!farcasterAccount || !embeddedWallet) return;
+  //   getFramesNftOwnership(embeddedWallet.address);
+  // }, [farcasterAccount, embeddedWallet]);
 
   return (
     <Transition
@@ -73,10 +69,11 @@ export default function FramesCard() {
       <CanvasCard>
         <CanvasCardHeader>
           <FarcasterIcon height={18} width={18} />
-          <div className="w-full">Farcaster Frames</div>
+          <div className="w-full">Certified Frames Enthusiast</div>
         </CanvasCardHeader>
         <div className="text-sm text-privy-color-foreground-3">
-          You're a certified Frames enthusiast! 💜
+          Celebrating the magic of cross-app experiences - a small token of appreciation for
+          interacting with Privy on Warpcast.
         </div>
         <div className="flex items-center justify-center pt-4 pb-4">
           <div className="relative overflow-hidden rounded-sm drop-shadow-fc-glow">
