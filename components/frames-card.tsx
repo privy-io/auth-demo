@@ -50,10 +50,10 @@ export default function FramesCard() {
     setHasFramesNft(count > 0);
   };
 
-  // useEffect(() => {
-  //   if (!farcasterAccount || !embeddedWallet) return;
-  //   getFramesNftOwnership(embeddedWallet.address);
-  // }, [farcasterAccount, embeddedWallet]);
+  useEffect(() => {
+    if (!farcasterAccount || !embeddedWallet) return;
+    getFramesNftOwnership(embeddedWallet.address);
+  }, [farcasterAccount, embeddedWallet]);
 
   return (
     <Transition
