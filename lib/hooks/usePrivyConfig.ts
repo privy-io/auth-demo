@@ -34,7 +34,7 @@ export const defaultIndexConfig: PrivyClientConfig = {
 
 export const defaultDashboardConfig: PrivyClientConfig = {
   embeddedWallets: {
-    createOnLogin: 'users-without-wallets',
+    createOnLogin: 'all-users',
     requireUserPasswordOnCreate: false,
   },
   mfa: {
