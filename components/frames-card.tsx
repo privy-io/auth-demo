@@ -55,6 +55,8 @@ export default function FramesCard() {
     getFramesNftOwnership(embeddedWallet.address);
   }, [farcasterAccount, embeddedWallet]);
 
+  if (!farcasterAccount || !embeddedWallet || !hasFramesNft) return null;
+
   return (
     <Transition
       appear={true}
