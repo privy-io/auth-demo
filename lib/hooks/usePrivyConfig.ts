@@ -19,7 +19,7 @@ export const defaultIndexConfig: PrivyClientConfig = {
   },
   loginMethods: ['email', 'wallet', 'google', 'apple', 'github', 'discord'],
   embeddedWallets: {
-    createOnLogin: 'all-users',
+    createOnLogin: 'users-without-wallets',
     requireUserPasswordOnCreate: false,
   },
   mfa: {
@@ -34,7 +34,7 @@ export const defaultIndexConfig: PrivyClientConfig = {
 
 export const defaultDashboardConfig: PrivyClientConfig = {
   embeddedWallets: {
-    createOnLogin: 'all-users',
+    createOnLogin: 'users-without-wallets',
     requireUserPasswordOnCreate: false,
   },
   mfa: {
