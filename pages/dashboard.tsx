@@ -46,6 +46,7 @@ import TikTokIcon from '../components/icons/social/tiktok';
 import TwitterXIcon from '../components/icons/social/twitter-x';
 import FramesCard from '../components/frames-card';
 import FarcasterIcon from '../components/icons/social/farcaster';
+import {isMobile} from 'react-device-detect';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -265,6 +266,7 @@ export default function DashboardPage() {
           </CanvasSidebar>
           <Canvas className="gap-x-8">
             <CanvasRow>
+              {isMobile && <FramesCard />}
               <CanvasCard>
                 <CanvasCardHeader>
                   <WalletIcon className="h-5 w-5" strokeWidth={2} />
@@ -626,9 +628,11 @@ export default function DashboardPage() {
                 </div>
               </CanvasCard>
             </CanvasRow>
-            <CanvasRow>
-              <FramesCard />
-            </CanvasRow>
+            {!isMobile && (
+              <CanvasRow>
+                <FramesCard />
+              </CanvasRow>
+            )}
           </Canvas>
         </CanvasContainer>
       </div>

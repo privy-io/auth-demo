@@ -2,7 +2,7 @@ import Image from 'next/image';
 import {Transition} from '@headlessui/react';
 import CanvasCard from './canvas-card';
 import CanvasCardHeader from './canvas-card-header';
-import {FarcasterWithMetadata, usePrivy} from '@privy-io/react-auth';
+import {FarcasterWithMetadata, WalletWithMetadata, usePrivy} from '@privy-io/react-auth';
 import {createPublicClient, getContract, http} from 'viem';
 import {optimismSepolia} from 'viem/chains';
 import {useEffect, useState} from 'react';
@@ -17,7 +17,7 @@ export default function FramesCard() {
 
   const embeddedWallet = user?.linkedAccounts.find(
     (account) => account.type === 'wallet' && account.walletClientType === 'privy',
-  );
+  ) as WalletWithMetadata | undefined;
 
   const farcasterAccount = user?.linkedAccounts.find(
     (account) => account.type === 'farcaster',
@@ -52,11 +52,12 @@ export default function FramesCard() {
 
   useEffect(() => {
     if (!farcasterAccount || !embeddedWallet) return;
-    // TODO: Change to embedded wallet address
-    getFramesNftOwnership(farcasterAccount.ownerAddress);
+    getFramesNftOwnership(embeddedWallet.address);
   }, [farcasterAccount, embeddedWallet]);
 
-  if (!farcasterAccount || !hasFramesNft) return null;
+  // Only show the component if the user has a Farcaster account and an associated
+  // embedded wallet with the correct NFT
+  if (!farcasterAccount || !embeddedWallet || !hasFramesNft) return null;
 
   return (
     <Transition
@@ -81,13 +82,18 @@ export default function FramesCard() {
         <div className="flex items-center justify-center pt-4 pb-4">
           <div className="relative overflow-hidden rounded-sm drop-shadow-fc-glow">
             <div className="h-48 w-64">
-              <Image
-                src="/images/nft-asset.svg"
-                alt="Your Frames NFT"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
-              />
+              <a
+                href={`https://optimism-sepolia.blockscout.com/address/${embeddedWallet.address}?tab=token_transfers`}
+                target="_blank"
+              >
+                <Image
+                  src="/images/nft-asset.svg"
+                  alt="Your Frames NFT"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-lg"
+                />
+              </a>
             </div>
           </div>
         </div>
