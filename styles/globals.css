@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@tailwind keyframes;
 
 @layer base {
   html,
@@ -59,21 +58,4 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
   }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.opacity-0 {
-  opacity: 0;
-}
-
-.opacity-100 {
-  opacity: 1;
 }
