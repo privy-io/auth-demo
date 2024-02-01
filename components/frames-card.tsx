@@ -87,7 +87,7 @@ export default function FramesCard() {
                 target="_blank"
               >
                 <Image
-                  src="/images/nft-asset.svg"
+                  src="/images/nft-asset.png"
                   alt="Your Frames NFT"
                   layout="fill"
                   objectFit="cover"
