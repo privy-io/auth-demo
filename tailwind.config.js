@@ -47,6 +47,7 @@ module.exports = {
         'conic-gradient': "url('/images/conic-gradient.jpg')",
       },
       dropShadow: {
+        // Farcaster Purple
         'fc-glow': '0 5px 20px rgba(138, 99, 210, 0.25)',
       },
     },
