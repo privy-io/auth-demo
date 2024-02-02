@@ -73,7 +73,7 @@ export default function FramesCard() {
           <div className="w-full">Farcaster Fan</div>
         </CanvasCardHeader>
         <div className="text-sm text-privy-color-foreground-3">
-          Congrats! You've unlocked this token by interacting with Privy with Farcaster Frames.
+          Congrats! You&apos;ve unlocked this token by interacting with Privy with Farcaster Frames.
         </div>
         <div className="flex items-center justify-center pt-4 pb-4">
           <div className="relative overflow-hidden rounded-sm drop-shadow-fc-glow">
