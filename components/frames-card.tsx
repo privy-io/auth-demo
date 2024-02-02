@@ -70,11 +70,10 @@ export default function FramesCard() {
       <CanvasCard>
         <CanvasCardHeader>
           <FarcasterIcon height={18} width={18} />
-          <div className="w-full">Certified Frames Enthusiast</div>
+          <div className="w-full">Farcaster Fan</div>
         </CanvasCardHeader>
         <div className="text-sm text-privy-color-foreground-3">
-          Celebrating the magic of cross-app experiences - a small token of appreciation for
-          interacting with Privy on Warpcast.
+          Congrats! You've unlocked this token by interacting with Privy with Farcaster Frames.
         </div>
         <div className="flex items-center justify-center pt-4 pb-4">
           <div className="relative overflow-hidden rounded-sm drop-shadow-fc-glow">
