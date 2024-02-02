@@ -17,7 +17,7 @@ export const defaultIndexConfig: PrivyClientConfig = {
     showWalletLoginFirst: false,
     logo: privyLogo,
   },
-  loginMethods: ['email', 'wallet', 'google', 'apple', 'github', 'discord'],
+  loginMethods: ['email', 'wallet', 'google', 'apple', 'github', 'discord', 'farcaster'],
   embeddedWallets: {
     createOnLogin: 'users-without-wallets',
     requireUserPasswordOnCreate: false,
