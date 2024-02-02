@@ -24,7 +24,6 @@ export default function FramesCard() {
   ) as FarcasterWithMetadata;
 
   const getFramesNftOwnership = async (address: string) => {
-    let count = 0;
     try {
       const publicClient = createPublicClient({
         chain: optimismSepolia,
@@ -43,11 +42,11 @@ export default function FramesCard() {
         ],
         client: publicClient,
       });
-      count = Number(await nft.read.balanceOf([address as `0x${string}`]));
+      const count = Number(await nft.read.balanceOf([address as `0x${string}`]));
+      setHasFramesNft(count > 0);
     } catch {
-      count = 0;
+      setHasFramesNft(false);
     }
-    setHasFramesNft(count > 0);
   };
 
   useEffect(() => {
