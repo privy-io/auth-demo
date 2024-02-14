@@ -203,7 +203,7 @@ export default function LoginPage() {
                   Whitelabel Privy
                 </CanvasCardHeader>
                 <div className="pb-2 text-sm text-privy-color-foreground-3">
-                  This demo uses Privy's out-of-the-box UIs.{' '}
+                  This demo uses Privy&apos;s out-of-the-box UIs.{' '}
                   <span className="text-privy-color-foreground-1">
                     Privy also supports full whitelabel.
                   </span>
