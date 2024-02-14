@@ -9,6 +9,7 @@ import {
   ArrowDownOnSquareIcon,
   ArrowRightIcon,
   ClipboardDocumentIcon,
+  PaintBrushIcon,
 } from '@heroicons/react/24/outline';
 import CanvasCardHeader from '../components/canvas-card-header';
 import CanvasCard from '../components/canvas-card';
@@ -194,6 +195,27 @@ export default function LoginPage() {
                     <ClipboardDocumentIcon className="h-4 w-4" strokeWidth={2} />
                     {copied ? 'Copied!' : 'Copy to Clipboard'}
                   </div>
+                </div>
+              </CanvasCard>
+              <CanvasCard>
+                <CanvasCardHeader>
+                  <PaintBrushIcon className="h-5 w-5" strokeWidth={2} />
+                  Whitelabel Privy
+                </CanvasCardHeader>
+                <div className="pb-2 text-sm text-privy-color-foreground-3">
+                  This demo uses Privy's out-of-the-box UIs.{' '}
+                  <span className="text-privy-color-foreground-1">
+                    Privy also supports full whitelabel.
+                  </span>
+                </div>
+                <div className="flex gap-x-2 pt-2">
+                  <a
+                    href="mailto:sales@privy.io"
+                    className="button h-[1.625rem] gap-x-2 pl-3 pr-2 text-sm"
+                  >
+                    Talk to sales
+                    <ArrowRightIcon className="h-4 w-4" strokeWidth={2} />
+                  </a>
                 </div>
               </CanvasCard>
             </CanvasRow>
